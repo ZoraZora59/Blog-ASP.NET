@@ -10,107 +10,107 @@ using Blog_ASP.NET.Models;
 
 namespace Blog_ASP.NET.Controllers
 {
-    public class UserLoginsController : Controller
+    public class CommitListsController : Controller
     {
         private Blog_ASPNETContext db = new Blog_ASPNETContext();
 
-        // GET: UserLogins
+        // GET: CommitLists
         public ActionResult Index()
         {
-            return View(db.UserLogins.ToList());
+            return View(db.CommitLists.ToList());
         }
 
-        // GET: UserLogins/Details/5
+        // GET: CommitLists/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserLogin userLogin = db.UserLogins.Find(id);
-            if (userLogin == null)
+            CommitList commitList = db.CommitLists.Find(id);
+            if (commitList == null)
             {
                 return HttpNotFound();
             }
-            return View(userLogin);
+            return View(commitList);
         }
 
-        // GET: UserLogins/Create
+        // GET: CommitLists/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UserLogins/Create
+        // POST: CommitLists/Create
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Account")] UserLogin userLogin)
+        public ActionResult Create([Bind(Include = "CommitID,TextID,Account,CommitText,CommitChangeDate")] CommitList commitList)
         {
             if (ModelState.IsValid)
             {
-                db.UserLogins.Add(userLogin);
+                db.CommitLists.Add(commitList);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(userLogin);
+            return View(commitList);
         }
 
-        // GET: UserLogins/Edit/5
+        // GET: CommitLists/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserLogin userLogin = db.UserLogins.Find(id);
-            if (userLogin == null)
+            CommitList commitList = db.CommitLists.Find(id);
+            if (commitList == null)
             {
                 return HttpNotFound();
             }
-            return View(userLogin);
+            return View(commitList);
         }
 
-        // POST: UserLogins/Edit/5
+        // POST: CommitLists/Edit/5
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Account")] UserLogin userLogin)
+        public ActionResult Edit([Bind(Include = "CommitID,TextID,Account,CommitText,CommitChangeDate")] CommitList commitList)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(userLogin).State = EntityState.Modified;
+                db.Entry(commitList).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(userLogin);
+            return View(commitList);
         }
 
-        // GET: UserLogins/Delete/5
+        // GET: CommitLists/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserLogin userLogin = db.UserLogins.Find(id);
-            if (userLogin == null)
+            CommitList commitList = db.CommitLists.Find(id);
+            if (commitList == null)
             {
                 return HttpNotFound();
             }
-            return View(userLogin);
+            return View(commitList);
         }
 
-        // POST: UserLogins/Delete/5
+        // POST: CommitLists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserLogin userLogin = db.UserLogins.Find(id);
-            db.UserLogins.Remove(userLogin);
+            CommitList commitList = db.CommitLists.Find(id);
+            db.CommitLists.Remove(commitList);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

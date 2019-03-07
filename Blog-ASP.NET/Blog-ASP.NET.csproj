@@ -110,14 +110,18 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CalculatorController.cs" />
+    <Compile Include="Controllers\CommitListsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UserLoginsController.cs" />
+    <Compile Include="Controllers\TextListsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Blog_ASPNETContext.cs" />
     <Compile Include="Models\Calculator.cs" />
-    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\CommitList.cs" />
+    <Compile Include="Models\TextList.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,11 +135,21 @@
     <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Calculator\Calculator.cshtml" />
-    <Content Include="Views\UserLogins\Create.cshtml" />
-    <Content Include="Views\UserLogins\Delete.cshtml" />
-    <Content Include="Views\UserLogins\Details.cshtml" />
-    <Content Include="Views\UserLogins\Edit.cshtml" />
-    <Content Include="Views\UserLogins\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\TextLists\Create.cshtml" />
+    <Content Include="Views\TextLists\Delete.cshtml" />
+    <Content Include="Views\TextLists\Details.cshtml" />
+    <Content Include="Views\TextLists\Edit.cshtml" />
+    <Content Include="Views\TextLists\Index.cshtml" />
+    <Content Include="Views\CommitLists\Create.cshtml" />
+    <Content Include="Views\CommitLists\Delete.cshtml" />
+    <Content Include="Views\CommitLists\Details.cshtml" />
+    <Content Include="Views\CommitLists\Edit.cshtml" />
+    <Content Include="Views\CommitLists\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -145,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

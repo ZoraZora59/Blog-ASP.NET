@@ -1,4 +1,4 @@
-create table UserLogin
+create table User
 (
   Account varchar(8) primary key ,
   Password varchar(11) not null

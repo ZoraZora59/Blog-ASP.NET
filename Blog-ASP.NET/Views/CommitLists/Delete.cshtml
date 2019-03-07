@@ -1,4 +1,4 @@
-﻿@model Blog_ASP.NET.Models.UserLogin
+﻿@model Blog_ASP.NET.Models.CommitList
 
 @{
     ViewBag.Title = "Delete";
@@ -8,15 +8,39 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>UserLogin</h4>
+    <h4>CommitList</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TextID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextID)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Account)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Account)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommitText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommitText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommitChangeDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommitChangeDate)
         </dd>
 
     </dl>

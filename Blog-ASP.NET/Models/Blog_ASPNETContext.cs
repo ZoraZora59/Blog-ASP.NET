@@ -19,6 +19,10 @@ namespace Blog_ASP.NET.Models
         {
         }
 
-        public System.Data.Entity.DbSet<Blog_ASP.NET.Models.UserLogin> UserLogins { get; set; }
+        public System.Data.Entity.DbSet<Blog_ASP.NET.Models.User> Users { get; set; }
+
+        public System.Data.Entity.DbSet<Blog_ASP.NET.Models.TextList> TextLists { get; set; }
+
+        public System.Data.Entity.DbSet<Blog_ASP.NET.Models.CommitList> CommitLists { get; set; }
     }
 }

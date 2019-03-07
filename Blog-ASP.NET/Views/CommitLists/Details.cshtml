@@ -1,0 +1,50 @@
+﻿@model Blog_ASP.NET.Models.CommitList
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CommitList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TextID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommitText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommitText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommitChangeDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommitChangeDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CommitID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
