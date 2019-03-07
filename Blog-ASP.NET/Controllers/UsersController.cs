@@ -46,15 +46,13 @@ namespace Blog_ASP.NET.Controllers
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string Account,string Password,string CheckPassword)
+        public ActionResult Create(string Account,string Password,string CheckPassword)//可直接通过与View页面同名字段进行数据获取
         {
             User user = new User();
             if (CheckPassword == Password)
-                ModelState.AddModelError("PwdRepeatError","成功");
-            else
-                ModelState.AddModelError("PwdRepeatError", "NO");
-            /*if (CheckPassword != user.Password)//不管用
-                ModelState.AddModelError("PwdRepeatError", "确认密码不正确"); ;(*/
+                ModelState.AddModelError("PwdRepeatError","成功");//TODO:修改跳转与内部逻辑
+            /*else
+                ModelState.AddModelError("PwdRepeatError", "NO");*/
             if (ModelState.IsValid)
             {
                 try
