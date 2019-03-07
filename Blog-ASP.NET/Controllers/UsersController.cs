@@ -13,13 +13,13 @@ namespace Blog_ASP.NET.Controllers
     public class UsersController : Controller
     {
         private Blog_ASPNETContext db = new Blog_ASPNETContext();
-
+        /*
         // GET: Users
         public ActionResult Index()
         {
             return View(db.Users.ToList());
         }
-
+        
         // GET: Users/Details/5
         public ActionResult Details(string id)
         {
@@ -33,7 +33,7 @@ namespace Blog_ASP.NET.Controllers
                 return HttpNotFound();
             }
             return View(user);
-        }
+        }*/
 
         // GET: Users/Create
         public ActionResult Create()
@@ -52,12 +52,11 @@ namespace Blog_ASP.NET.Controllers
             {
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");//TODO:修改返回位置 
             }
-
             return View(user);
         }
-
+        /*
         // GET: Users/Edit/5
         public ActionResult Edit(string id)
         {
@@ -113,7 +112,7 @@ namespace Blog_ASP.NET.Controllers
             db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {

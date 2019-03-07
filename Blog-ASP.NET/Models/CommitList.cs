@@ -14,6 +14,7 @@ namespace Blog_ASP.NET.Models
         [Required]
         public int TextID { get; set; }
         [Required]
+        [MaxLength(8)]
         public string Account { get; set; }
 
         [Required]

@@ -20,8 +20,7 @@ namespace Blog_ASP.NET.Models
         [MaxLength(12)]
         public string Tag { get; set; }
         [Required]
-        [MinLength(2)]
-        [MaxLength(12)]
+        [MaxLength(8)]
         public string Account { get; set; }
         [Required]
         [MaxLength(4000)]

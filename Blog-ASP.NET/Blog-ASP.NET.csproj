@@ -125,6 +125,14 @@
     <Compile Include="Migrations\201903070551146_InitialCreate1.Designer.cs">
       <DependentUpon>201903070551146_InitialCreate1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903070820526_InitialCreate2.cs" />
+    <Compile Include="Migrations\201903070820526_InitialCreate2.Designer.cs">
+      <DependentUpon>201903070820526_InitialCreate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903070823231_InitialCreate3.cs" />
+    <Compile Include="Migrations\201903070823231_InitialCreate3.Designer.cs">
+      <DependentUpon>201903070823231_InitialCreate3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Blog_ASPNETContext.cs" />
     <Compile Include="Models\Calculator.cs" />
@@ -176,10 +184,19 @@
     <EmbeddedResource Include="Migrations\201903070551146_InitialCreate1.resx">
       <DependentUpon>201903070551146_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903070820526_InitialCreate2.resx">
+      <DependentUpon>201903070820526_InitialCreate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903070823231_InitialCreate3.resx">
+      <DependentUpon>201903070823231_InitialCreate3.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
