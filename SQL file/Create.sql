@@ -10,7 +10,6 @@ create table TextList
   Tag varchar(12) not null,
   Account varchar(8) not null foreign key references UserLogin(Account),
   Text nvarchar(4000) not null,
-  Hot int not null default 0,
   TextChangeDate datetime not null default getdate()
 )
 create table CommitList
