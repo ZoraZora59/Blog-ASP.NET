@@ -52,11 +52,7 @@ namespace BlogWebMVC.Controllers
 
         //
         // GET: /Manage/Index
-<<<<<<< HEAD
         public async Task<ActionResult> Index(ManageMessageId? message)
-=======
-        /*public async Task<ActionResult> Index(ManageMessageId? message)
->>>>>>> parent of ba58737... 清理解决方案
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "已更改你的密码。"
@@ -77,11 +73,7 @@ namespace BlogWebMVC.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
-<<<<<<< HEAD
         }
-=======
-        }*/
->>>>>>> parent of ba58737... 清理解决方案
 
         //
         // POST: /Manage/RemoveLogin
@@ -109,7 +101,6 @@ namespace BlogWebMVC.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-<<<<<<< HEAD
         public ActionResult AddPhoneNumber()
         {
             return View();
@@ -117,16 +108,6 @@ namespace BlogWebMVC.Controllers
 
         //
         // POST: /Manage/AddPhoneNumber
-=======
-        /*public ActionResult AddPhoneNumber()
-        {
-            return View();
-        }*/
-
-        //
-        // POST: /Manage/AddPhoneNumber
-        /*
->>>>>>> parent of ba58737... 清理解决方案
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
@@ -147,18 +128,10 @@ namespace BlogWebMVC.Controllers
                 await UserManager.SmsService.SendAsync(message);
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
-<<<<<<< HEAD
         }
 
         //
         // POST: /Manage/EnableTwoFactorAuthentication
-=======
-        }*/
-
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
-        /*
->>>>>>> parent of ba58737... 清理解决方案
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
@@ -170,13 +143,8 @@ namespace BlogWebMVC.Controllers
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
-<<<<<<< HEAD
         }
 
-=======
-        }*/
-        /*
->>>>>>> parent of ba58737... 清理解决方案
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
@@ -191,12 +159,7 @@ namespace BlogWebMVC.Controllers
             }
             return RedirectToAction("Index", "Manage");
         }
-<<<<<<< HEAD
 
-=======
-        */
-        /*
->>>>>>> parent of ba58737... 清理解决方案
         //
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
@@ -205,16 +168,9 @@ namespace BlogWebMVC.Controllers
             // 通过 SMS 提供程序发送短信以验证电话号码
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
-<<<<<<< HEAD
 
         //
         // POST: /Manage/VerifyPhoneNumber
-=======
-        */
-        //
-        // POST: /Manage/VerifyPhoneNumber
-        /*
->>>>>>> parent of ba58737... 清理解决方案
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
@@ -236,18 +192,10 @@ namespace BlogWebMVC.Controllers
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             ModelState.AddModelError("", "无法验证电话号码");
             return View(model);
-<<<<<<< HEAD
         }
 
         //
         // POST: /Manage/RemovePhoneNumber
-=======
-        }*/
-
-        //
-        // POST: /Manage/RemovePhoneNumber
-        /*
->>>>>>> parent of ba58737... 清理解决方案
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemovePhoneNumber()
@@ -263,11 +211,7 @@ namespace BlogWebMVC.Controllers
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
-<<<<<<< HEAD
         }
-=======
-        }*/
->>>>>>> parent of ba58737... 清理解决方案
 
         //
         // GET: /Manage/ChangePassword
@@ -275,19 +219,7 @@ namespace BlogWebMVC.Controllers
         {
             return View();
         }
-<<<<<<< HEAD
 
-=======
-        //TODO:博文管理与评论管理跳转
-        public ActionResult ManageBlogText()//博文管理跳转
-        {
-            return RedirectToAction("About", "Home");
-        }
-        public ActionResult ManageCommit()//评论管理跳转
-        {
-            return RedirectToAction("About", "Home");
-        }
->>>>>>> parent of ba58737... 清理解决方案
         //
         // POST: /Manage/ChangePassword
         [HttpPost]

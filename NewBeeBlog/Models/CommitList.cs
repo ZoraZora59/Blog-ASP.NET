@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace Blog_ASP.NET.Models
+namespace NewBeeBlog.Models
 {
     public class CommitList
     {
