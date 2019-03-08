@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpiredProject1", "Blog-ASP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpiredProject2", "BlogWebMVC\ExpiredProject2.csproj", "{3A5410C7-6C1A-4BEF-AFC1-AAE1138D4B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewBeeBlog", "NewBeeBlog\DemoBlog\NewBeeBlog.csproj", "{7D10F6A4-C6A4-44B6-8DB6-D864D92EA338}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewBeeBlog", "NewBeeBlog\NewBeeBlog.csproj", "{7D10F6A4-C6A4-44B6-8DB6-D864D92EA338}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
