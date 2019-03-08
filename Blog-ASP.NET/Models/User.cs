@@ -21,7 +21,7 @@ namespace Blog_ASP.NET.Models
         [MinLength(6)]
         [MaxLength(11)]
         //TODO:解决验证问题
-        [Compare("Password", ErrorMessage = "密码不一致")]
+        //[Compare("Password", ErrorMessage = "密码不一致")]
         public string CheckPassword { get; set; }
 
         public ICollection<TextList> Textlists { get; set; }
