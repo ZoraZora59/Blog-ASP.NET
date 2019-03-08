@@ -25,5 +25,6 @@ namespace NewBeeBlog.Models
         public DateTime CommitChangeDate { get; set; }//更新日期
 
         public ICollection<TextList> Textlists { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }
