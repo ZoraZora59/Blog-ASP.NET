@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog-ASP.NET", "Blog-ASP.NET\Blog-ASP.NET.csproj", "{312F4DAF-4245-4BDA-9C32-0E172271659C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpiredProject1", "Blog-ASP.NET\ExpiredProject1.csproj", "{312F4DAF-4245-4BDA-9C32-0E172271659C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogWebMVC", "BlogWebMVC\BlogWebMVC.csproj", "{3A5410C7-6C1A-4BEF-AFC1-AAE1138D4B9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpiredProject2", "BlogWebMVC\ExpiredProject2.csproj", "{3A5410C7-6C1A-4BEF-AFC1-AAE1138D4B9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
