@@ -52,7 +52,7 @@ namespace BlogWebMVC.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        /*public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "已更改你的密码。"
@@ -73,7 +73,7 @@ namespace BlogWebMVC.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
-        }
+        }*/
 
         //
         // POST: /Manage/RemoveLogin
@@ -101,13 +101,14 @@ namespace BlogWebMVC.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public ActionResult AddPhoneNumber()
+        /*public ActionResult AddPhoneNumber()
         {
             return View();
-        }
+        }*/
 
         //
         // POST: /Manage/AddPhoneNumber
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
@@ -128,10 +129,11 @@ namespace BlogWebMVC.Controllers
                 await UserManager.SmsService.SendAsync(message);
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
-        }
+        }*/
 
         //
         // POST: /Manage/EnableTwoFactorAuthentication
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
@@ -143,8 +145,8 @@ namespace BlogWebMVC.Controllers
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", "Manage");
-        }
-
+        }*/
+        /*
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
@@ -159,7 +161,8 @@ namespace BlogWebMVC.Controllers
             }
             return RedirectToAction("Index", "Manage");
         }
-
+        */
+        /*
         //
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
@@ -168,9 +171,10 @@ namespace BlogWebMVC.Controllers
             // 通过 SMS 提供程序发送短信以验证电话号码
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
-
+        */
         //
         // POST: /Manage/VerifyPhoneNumber
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
@@ -192,10 +196,11 @@ namespace BlogWebMVC.Controllers
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             ModelState.AddModelError("", "无法验证电话号码");
             return View(model);
-        }
+        }*/
 
         //
         // POST: /Manage/RemovePhoneNumber
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemovePhoneNumber()
@@ -211,7 +216,7 @@ namespace BlogWebMVC.Controllers
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
-        }
+        }*/
 
         //
         // GET: /Manage/ChangePassword
@@ -219,7 +224,15 @@ namespace BlogWebMVC.Controllers
         {
             return View();
         }
-
+        //TODO:博文管理与评论管理跳转
+        public ActionResult ManageBlogText()//博文管理跳转
+        {
+            return RedirectToAction("About", "Home");
+        }
+        public ActionResult ManageCommit()//评论管理跳转
+        {
+            return RedirectToAction("About", "Home");
+        }
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
