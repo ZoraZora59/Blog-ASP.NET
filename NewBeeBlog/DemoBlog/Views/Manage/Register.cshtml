@@ -1,0 +1,90 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="~/front/css/login2.css" rel="stylesheet" />
+    
+    <title>注册</title>
+</head>
+
+<body>
+    <h1><font color="#0081c1">个人博客注册</font></h1>
+
+    <div class="login" style="margin-top:50px;">
+
+        <div class="header">
+            <div class="switch" id="switch">
+                
+                <a class="switch_btn" id="switch_login" tabindex="8">快速注册</a><div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
+            </div>
+        </div>
+
+        <!--注册-->
+        
+
+            <div class="web_login">
+                <form name="form2" id="regUser" accept-charset="utf-8" action="" method="post">
+                    <input type="hidden" name="to" value="reg" />
+                    <input type="hidden" name="did" value="0" />
+                    <ul class="reg_form" id="reg-ul">
+                        <div id="userCue" class="cue">注册请注意格式</div>
+                        <li>
+
+                            <label for="user" class="input-tips2">用户名：</label>
+                            <div class="inputOuter2">
+                                <input type="text" id="user" name="user" maxlength="16" class="inputstyle2" />
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <label for="passwd" class="input-tips2">密码：</label>
+                            <div class="inputOuter2">
+                                <input type="password" id="passwd" name="passwd" maxlength="16" class="inputstyle2" />
+                            </div>
+
+                        </li>
+                        <li>
+                            <label for="passwd2" class="input-tips2">确认密码：</label>
+                            <div class="inputOuter2">
+                                <input type="password" id="passwd2" name="" maxlength="16" class="inputstyle2" />
+                            </div>
+
+                        </li>
+                        <li>
+                            <label for="passwd2" class="input-tips2">验证码：</label>
+                            <div class="inputOuter3">
+                                <input type="password" id="passwd2" name="" maxlength="16" class="inputstyle3" />
+                            </div>
+
+                        </li>
+
+
+                        <li>
+                            <div class="inputArea">
+                                <input type="button" id="reg" style="margin-top:10px;margin-left:120px;width:150px;height:40px;" class="button_blue" value="注    册" />
+
+                            </div>
+                        </li>
+                        <div class="cl"></div>
+                    </ul>
+                </form>
+
+
+            
+
+
+        </div>
+        <!--注册end-->
+    </div>
+    <div class="jianyi">*推荐使用ie8或以上版本ie浏览器或Chrome内核浏览器访问本站</div>
+</body>
+</html>
+
