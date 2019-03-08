@@ -13,5 +13,11 @@ namespace DemoBlog.Models
             int b = 6;
             return a + b;
         }
+        public int TestMethod2()
+        {
+            int x = 1;
+            int y = 2;
+            return x - y;
+        }
     }
 }
