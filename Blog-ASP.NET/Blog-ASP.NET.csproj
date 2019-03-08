@@ -126,7 +126,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <Content Include="ClassDiagram1.cd" />
+    <Content Include="3.8类图.cd" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -152,38 +152,6 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903060532347_InitialCreate.cs" />
-    <Compile Include="Migrations\201903060532347_InitialCreate.Designer.cs">
-      <DependentUpon>201903060532347_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903070551146_InitialCreate1.cs" />
-    <Compile Include="Migrations\201903070551146_InitialCreate1.Designer.cs">
-      <DependentUpon>201903070551146_InitialCreate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903070820526_InitialCreate2.cs" />
-    <Compile Include="Migrations\201903070820526_InitialCreate2.Designer.cs">
-      <DependentUpon>201903070820526_InitialCreate2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903070823231_InitialCreate3.cs" />
-    <Compile Include="Migrations\201903070823231_InitialCreate3.Designer.cs">
-      <DependentUpon>201903070823231_InitialCreate3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903070859592_InitialCreate4.cs" />
-    <Compile Include="Migrations\201903070859592_InitialCreate4.Designer.cs">
-      <DependentUpon>201903070859592_InitialCreate4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903070902318_InitialCreate5.cs" />
-    <Compile Include="Migrations\201903070902318_InitialCreate5.Designer.cs">
-      <DependentUpon>201903070902318_InitialCreate5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903070909549_InitialCreate6.cs" />
-    <Compile Include="Migrations\201903070909549_InitialCreate6.Designer.cs">
-      <DependentUpon>201903070909549_InitialCreate6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903070929274_InitialCreate7.cs" />
-    <Compile Include="Migrations\201903070929274_InitialCreate7.Designer.cs">
-      <DependentUpon>201903070929274_InitialCreate7.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201903070937225_InitialCreate8.cs" />
     <Compile Include="Migrations\201903070937225_InitialCreate8.Designer.cs">
@@ -241,30 +209,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903060532347_InitialCreate.resx">
-      <DependentUpon>201903060532347_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903070551146_InitialCreate1.resx">
-      <DependentUpon>201903070551146_InitialCreate1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903070820526_InitialCreate2.resx">
-      <DependentUpon>201903070820526_InitialCreate2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903070823231_InitialCreate3.resx">
-      <DependentUpon>201903070823231_InitialCreate3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903070859592_InitialCreate4.resx">
-      <DependentUpon>201903070859592_InitialCreate4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903070902318_InitialCreate5.resx">
-      <DependentUpon>201903070902318_InitialCreate5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903070909549_InitialCreate6.resx">
-      <DependentUpon>201903070909549_InitialCreate6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903070929274_InitialCreate7.resx">
-      <DependentUpon>201903070929274_InitialCreate7.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903070937225_InitialCreate8.resx">
       <DependentUpon>201903070937225_InitialCreate8.cs</DependentUpon>
     </EmbeddedResource>

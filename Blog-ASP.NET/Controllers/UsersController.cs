@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Blog_ASP.NET.Models;
+using System.Data.SqlClient;
 
 namespace Blog_ASP.NET.Controllers
 {
@@ -50,9 +51,17 @@ namespace Blog_ASP.NET.Controllers
         {
             User user = new User();
             if (CheckPassword == Password)
-                ModelState.AddModelError("PwdRepeatError","成功");//TODO:修改跳转与内部逻辑
-            /*else
-                ModelState.AddModelError("PwdRepeatError", "NO");*/
+            {
+                ModelState.AddModelError("PwdRepeatError", "成功");//TODO:修改跳转与内部逻辑
+            }
+            else
+            {
+                ModelState.AddModelError("PwdRepeatError", "两次输入密码不一致");
+            }
+            /*if(IsAccountExist(Account))
+            {
+                Console.WriteLine("AccountExist");
+            }*/
             if (ModelState.IsValid)
             {
                 try
@@ -62,6 +71,7 @@ namespace Blog_ASP.NET.Controllers
                 }
                 catch (Exception)
                 {
+                    ModelState.AddModelError("DBInputError","数据库写入异常");
                     return View(user);
                     throw;
                 }
@@ -128,6 +138,14 @@ namespace Blog_ASP.NET.Controllers
             return RedirectToAction("Index");
         }*/
 
+        /*public bool IsAccountExist(string Ac)
+        {
+            int count = Convert.ToInt32(cmd.ExecuteScalar());
+            if (count > 0)
+                return true;
+            return false;
+        }*/
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
