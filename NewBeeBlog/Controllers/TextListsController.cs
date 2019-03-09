@@ -10,107 +10,107 @@ using NewBeeBlog.Models;
 
 namespace NewBeeBlog.Controllers
 {
-    public class UsersController : Controller
+    public class TextListsController : Controller
     {
         private NewBeeBlogContext db = new NewBeeBlogContext();
 
-        // GET: Users
+        // GET: TextLists
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            return View(db.TextLists.ToList());
         }
 
-        // GET: Users/Details/5
-        public ActionResult Details(string id)
+        // GET: TextLists/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            TextList textList = db.TextLists.Find(id);
+            if (textList == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(textList);
         }
 
-        // GET: Users/Create
+        // GET: TextLists/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: TextLists/Create
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Account,Password")] User user)
+        public ActionResult Create([Bind(Include = "TextID,TextTitle,Text,Hot,Attachment,CategoryName,Account,TextChangeDate")] TextList textList)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.TextLists.Add(textList);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(textList);
         }
 
-        // GET: Users/Edit/5
-        public ActionResult Edit(string id)
+        // GET: TextLists/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            TextList textList = db.TextLists.Find(id);
+            if (textList == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(textList);
         }
 
-        // POST: Users/Edit/5
+        // POST: TextLists/Edit/5
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Account,Password")] User user)
+        public ActionResult Edit([Bind(Include = "TextID,TextTitle,Text,Hot,Attachment,CategoryName,Account,TextChangeDate")] TextList textList)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(textList).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(textList);
         }
 
-        // GET: Users/Delete/5
-        public ActionResult Delete(string id)
+        // GET: TextLists/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            TextList textList = db.TextLists.Find(id);
+            if (textList == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(textList);
         }
 
-        // POST: Users/Delete/5
+        // POST: TextLists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            TextList textList = db.TextLists.Find(id);
+            db.TextLists.Remove(textList);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
