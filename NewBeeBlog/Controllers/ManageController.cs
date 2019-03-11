@@ -37,10 +37,11 @@ namespace NewBeeBlog.Controllers
                 {
                     return Content("验证码输入错误");
                 }
-                var user = new User();
-                user.Account = model.Account;
-                user.Password = md5tool.GetMD5(model.Password);//需要md5加密否则是明文传输
-                int res = 0;
+                var user = new User
+                {
+                    Account = model.Account,
+                    Password = md5tool.GetMD5(model.Password)//需要md5加密否则是明文传输
+                };
                 try
                 {
                     using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
@@ -49,13 +50,24 @@ namespace NewBeeBlog.Controllers
                         dbContent.Users.Add(user);
                         dbContent.SaveChanges();
                         //保存数据库
-                        //SaveChanges返回的是一个int，大于0则正确直接调转到首页
                     }
-
+                }
+                catch(System.Data.Entity.Infrastructure.DbUpdateException)
+                {
+                    return Content("数据库更新出错");
+                }
+                catch(System.ObjectDisposedException)
+                {
+                    return Content("数据上下文连接已过期");
+                }
+                catch(System.InvalidOperationException)
+                {
+                    return Content("数据实体处理异常");
                 }
                 catch (Exception)
                 {
-                    return Redirect("数据库异常");
+                    //TODO:异常报告
+                    return Content("数据库异常");
                     throw;
                 }           
             }
@@ -77,10 +89,11 @@ namespace NewBeeBlog.Controllers
                 {
                     return Content("验证码输入错误");
                 }
-                var user = new User();
-                user.Account = model.Account;
-                user.Password = md5tool.GetMD5(model.Password);
-                int res = 0;
+                var user = new User
+                {
+                    Account = model.Account,
+                    Password = md5tool.GetMD5(model.Password)
+                };
                 //根据用户名查找实体
                 using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
                 {

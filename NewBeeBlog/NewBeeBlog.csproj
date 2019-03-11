@@ -883,7 +883,6 @@
     <Content Include="Views\TextLists\Edit.cshtml" />
     <Content Include="Views\TextLists\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
