@@ -142,17 +142,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\LoginUser.cs" />
+    <Compile Include="ViewModels\RegisterUser.cs" />
+    <Compile Include="App_Code\md5tool.cs" />
+    <Compile Include="App_Code\ValidateCode.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TextListsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CommitList.cs" />
     <Compile Include="Models\LikeOrDis.cs" />
     <Compile Include="Models\NewBeeBlogContext.cs" />
@@ -161,6 +163,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\NewBeeBlogContext-20190308161037.mdf" />
+    <Content Include="App_Data\NewBeeBlogContext-20190308161037_log.ldf">
+      <DependentUpon>NewBeeBlogContext-20190308161037.mdf</DependentUpon>
+    </Content>
     <Content Include="bin\LitJSON.dll" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -877,9 +883,7 @@
     <Content Include="Views\TextLists\Edit.cshtml" />
     <Content Include="Views\TextLists\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

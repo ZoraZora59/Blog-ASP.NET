@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemoBlog.App_Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -29,6 +30,14 @@ namespace NewBeeBlog.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+        public FileResult ValidateCode()
+        {
+            ValidateCode vc = new ValidateCode();
+            string code = vc.CreateValidateCode(4);
+            Session["validatecode"] = code;//把数字保存在session中
+            byte[] bytes = vc.CreateValidateGraphic(code);//根据数字转成二进制图片
+            return File(bytes, @"image/jpeg");//返回一个图片jpg
         }
     }
 }
