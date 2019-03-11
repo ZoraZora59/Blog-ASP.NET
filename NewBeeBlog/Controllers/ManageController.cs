@@ -41,32 +41,25 @@ namespace NewBeeBlog.Controllers
                 user.Account = model.Account;
                 user.Password = md5tool.GetMD5(model.Password);//需要md5加密否则是明文传输
                 int res = 0;
-                using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
-                //防止并发错误
+                try
+                {
+                    using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
+                    //防止并发错误
+                    {
+                        dbContent.Users.Add(user);
+                        dbContent.SaveChanges();
+                        //保存数据库
+                        //SaveChanges返回的是一个int，大于0则正确直接调转到首页
+                    }
 
-                {
-                    dbContent.Users.Add(user);
-                    res = dbContent.SaveChanges();
-                    //保存数据库
-                    //SaveChanges返回的是一个int，大于0则正确直接调转到首页
                 }
-                if (res > 0)
+                catch (Exception)
                 {
-                    return Redirect("/");
-                }
-                else
-                {
-                    return Content("注册失败");
-                }
-                               
+                    return Redirect("数据库异常");
+                    throw;
+                }           
             }
-            else
-            {
-                return Content("验证失败");
-            }
-        
-
-
+            return Redirect("/");
         }
         // GET: Manage
         [HttpGet]

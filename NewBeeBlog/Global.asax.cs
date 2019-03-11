@@ -16,6 +16,10 @@ namespace NewBeeBlog
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
+            using (var blogDbContext = new Models.NewBeeBlogContext())
+            {
+               blogDbContext.Database.CreateIfNotExists();
+            }
         }
     }
 }

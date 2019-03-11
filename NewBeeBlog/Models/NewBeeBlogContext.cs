@@ -20,5 +20,7 @@ namespace NewBeeBlog.Models
         }
 
         public System.Data.Entity.DbSet<NewBeeBlog.Models.TextList> TextLists { get; set; }
+
+        public System.Data.Entity.DbSet<NewBeeBlog.Models.User> Users { get; set; }
     }
 }
