@@ -149,6 +149,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\LoginUser.cs" />
     <Compile Include="ViewModels\ManageMain.cs" />
+    <Compile Include="ViewModels\ManageText.cs" />
     <Compile Include="ViewModels\RegisterUser.cs" />
     <Compile Include="App_Code\md5tool.cs" />
     <Compile Include="App_Code\ValidateCode.cs" />
@@ -889,6 +890,8 @@
     <Content Include="Views\TextLists\Edit.cshtml" />
     <Content Include="Views\TextLists\Index.cshtml" />
     <Content Include="Views\Shared\_SlidebarManage.cshtml" />
+    <Content Include="Views\Manage\Update.cshtml" />
+    <Content Include="Views\Manage\TextList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

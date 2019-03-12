@@ -15,6 +15,7 @@ namespace NewBeeBlog.Controllers
 
         public NewBeeBlogContext db = new NewBeeBlogContext();
         // GET: Manage
+        // Post:Index
         public ActionResult Index()//生成页面时加载Model数据
         {
             ManageMain model = new ManageMain();
@@ -22,6 +23,20 @@ namespace NewBeeBlog.Controllers
             model.TextCount = db.TextLists.Count();
             model.CommitCount = db.CommitLists.Count();
             return View(model);
+        }
+        [HttpGet]
+        public ActionResult Update()//创建新文章
+        {
+            ViewBag.Title = "创建文章";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Update(int TextID)//修改文章
+        {
+            ViewBag.Title = "修改文章";
+            TextList TextLists = new TextList();
+            TextLists = db.TextLists.Find(TextID);
+            return View(TextLists);
         }
         // GET: Register
         [HttpGet]
