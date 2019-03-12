@@ -882,6 +882,7 @@
     <Content Include="Views\TextLists\Details.cshtml" />
     <Content Include="Views\TextLists\Edit.cshtml" />
     <Content Include="Views\TextLists\Index.cshtml" />
+    <Content Include="Views\Shared\_SlidebarManage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

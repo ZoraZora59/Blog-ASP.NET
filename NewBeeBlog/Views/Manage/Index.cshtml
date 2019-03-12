@@ -1,28 +1,40 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <script src="~/front/EasyUi/jquery.min.js"></script>
-    <script src="~/front/EasyUi/jquery.easyui.min.js"></script>
-    <!--先引用jquery.min再引用jquery-->>
-    <script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
-    <link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
-    <link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
-</head>
+<h2>欢迎，管理员</h2>
 
-<body class="easyui-layout">
-    <div data-options="region:'north',border:false" style="height:60px;background:#222222;padding:10px"><font color="white" size="5">XXX的博客后台管理</font></div>
-    <div data-options="region:'west',split:true,title:'导航'" style="width:150px;padding:10px;">content</div>
-    
-    <div data-options="region:'south',border:false" style="height:20px;background:#d8d8d8;padding:2px;">XXX的个人博客 @DateTime.Now.Year </div>
-    <div data-options="region:'center',title:'Center'"></div>
-</body>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-</html>
+    <div class="form-horizontal">
+        <h4>TextList</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
 
+        </div>
+
+        <div class="form-group">
+
+        </div>
+
+        <div class="form-group">
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<!--
+    <div>
+    @Html.ActionLink("Back to List", "Index")
+    </div>
+-->
