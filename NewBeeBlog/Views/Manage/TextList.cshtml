@@ -1,8 +1,58 @@
-﻿@model NewBeeBlog.ViewModels.ManageText
+﻿@model IEnumerable<NewBeeBlog.ViewModels.ManageText>
 @{
     ViewBag.Title = "博文管理";
     Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
+<meta name=”viewport” content=”width = device-width, initial-scale=1″ />
+<table id="dg" title="@ViewBag.Title" class="easyui-datagrid" style="height:inherit"
+       rownumbers="true" fitColumns="true" singleSelect="true">
+    <thead>
+        <tr>
+            <th field="TextTitle" width="400">@Html.DisplayNameFor(model => model.TextTitle)</th>
+            <th field="Category" width="100">@Html.DisplayNameFor(model => model.CategoryName)</th>
+            <th field="Hot" width="50">@Html.DisplayNameFor(model => model.Hot)</th>
+            <th field="ChangeTime" width="100">@Html.DisplayNameFor(model => model.TextChangeDate)</th>
+            <th field="Button" width="100"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th field="TextTitle">
+                    @Html.DisplayFor(modelItem => item.TextTitle)
+                </th>
+                <th field="Category">
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </th>
+                <th field="Hot">
+                    @Html.DisplayFor(modelItem => item.Hot)
+                </th>
+                <th field="ChangeTime">
+                    @Html.DisplayFor(modelItem => item.TextChangeDate)
+                </th>
+                <th field="Button">
+                    <a><!--TODO:处理连接跳转以及删除确认对话框-->
+                        @Html.ActionLink("编辑","Update", new { TextID = item.TextID })|
+                    </a>
 
-<h2>文章清单</h2>
-
+                    <a>
+                        @Html.ActionLink("详情", "Details",  new { TextID = item.TextID })|
+                    </a>
+                    <a href="#" plain="true" onclick="destroyText(id = item.TextID)">删除</a>
+                </th>
+            </tr>
+        }
+    </thead>
+</table>
+<script>
+    function destroyText(TextID) {
+        var row = TextID;
+        if (row) {
+            $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
+                if (r) {
+                    return true;
+                }
+            });
+        }
+        return false;
+    }
+</script>

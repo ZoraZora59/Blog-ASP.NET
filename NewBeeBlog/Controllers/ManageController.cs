@@ -24,12 +24,14 @@ namespace NewBeeBlog.Controllers
             model.CommitCount = db.CommitLists.Count();
             return View(model);
         }
+        //Get:Update
         [HttpGet]
         public ActionResult Update()//创建新文章
         {
             ViewBag.Title = "创建文章";
             return View();
         }
+        //Post:Update
         [HttpPost]
         public ActionResult Update(int TextID)//修改文章
         {
@@ -38,13 +40,30 @@ namespace NewBeeBlog.Controllers
             TextLists = db.TextLists.Find(TextID);
             return View(TextLists);
         }
+        // Get:Update
+        [HttpGet]
+        public ActionResult TextList()//博文管理的列表页
+        {
+            List<ManageText> ManageTexts = new List<ManageText>();
+            ManageText temp=new ManageText();
+            List<TextList> trans = db.TextLists.ToList();
+            foreach (var t in trans)
+            {
+                temp.TextID = t.TextID;
+                temp.TextTitle = t.TextTitle;
+                temp.CategoryName = t.CategoryName;
+                temp.Hot = t.Hot;
+                temp.TextChangeDate = t.TextChangeDate;
+                ManageTexts.Add(temp);
+            }
+            return View(ManageTexts);
+        }
         // GET: Register
         [HttpGet]
         public ActionResult Register()
         {
             return View();
         }
-
         // Post: Register
         [HttpPost]
         public ActionResult Register(RegisterUser model)

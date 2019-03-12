@@ -132,9 +132,9 @@ namespace NewBeeBlog.Controllers
             }
             base.Dispose(disposing);
         }
-
+        //
         //以下均为KindEditor控制类
-
+        //
         [HttpPost]
         public ActionResult UploadImage()
         {
