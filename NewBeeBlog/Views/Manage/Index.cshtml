@@ -17,19 +17,24 @@
     </div>
     <br />
     <div class="form-group">
-        用户数量为&emsp;
-        @Html.Encode(Model.UserCount)
-    </div>
-    <br />
-
-    <div class="form-group">
-        文章数量为&emsp;
-        @Html.Encode(Model.TextCount)
+        <span>
+            用户数量为&emsp;
+            @Html.Encode(Model.UserCount)
+        </span>
     </div>
     <br />
     <div class="form-group">
-        评论数量为&emsp;
-        @Html.Encode(Model.CommitCount)
+        <span>
+            文章数量为&emsp;
+            @Html.Encode(Model.TextCount)
+        </span>
+    </div>
+    <br />
+    <div class="form-group">
+        <span>
+            评论数量为&emsp;
+            @Html.Encode(Model.CommitCount)
+        </span>
     </div>
     <br />
     @*<hr />
