@@ -3,20 +3,19 @@
     ViewBag.Title = "博文管理";
     Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
+@*尝试做确认对话框，但是又又又又又失败了*@
 <script>
     function destroyText() {
-        int row;
-        if (row) {
+        var s=$(".h").val();
             $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
                 if (r) {
-                    return true;
+                    window.location.href='@Url.Action("Index", "Manage")';
                 }
             });
-        }
-        return false;
+
     }
 </script>
-<meta name=”viewport” content=”width = device-width, initial-scale=1″ />
+<meta name=”viewport” content=”width =device-width, initial-scale=1″ />
 <table id="dg" title="@ViewBag.Title" class="easyui-datagrid" style="height:inherit"
        rownumbers="true" fitColumns="true" singleSelect="true">
     <thead>
@@ -30,7 +29,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th field="TextTitle">
+                <th field="TextTitle" class="h">
                     @Html.DisplayFor(modelItem => item.TextTitle)
                 </th>
                 <th field="Category">

@@ -24,6 +24,26 @@ namespace NewBeeBlog.Controllers
             model.CommitCount = db.CommitLists.Count();
             return View(model);
         }
+        //Get:ManageUser
+        [HttpGet]
+        public ActionResult ManageUser()
+        {
+            List<ManageUser> manageUsers = new List<ManageUser>();
+            List<User> trans = db.Users.ToList();
+            ManageUser temp = new ManageUser();
+            foreach (var item in trans)
+            {
+                temp.Account = item.Account;
+                temp.CommitCount = 0;
+                var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
+                foreach(var cmt in cmtlist)
+                {
+                    temp.CommitCount++;
+                }
+                manageUsers.Add(temp);
+            }
+            return View(manageUsers);
+        }
         //Get:Update
         [HttpGet]
         public ActionResult Update()//创建新文章

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<NewBeeBlog.ViewModels.ManageUser>
+@{
+    ViewBag.Title = "ManageUser";
+    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
+}
+<meta name=”viewport” content=”width =device-width, initial-scale=1″ />
+<table id="dg" title="@ViewBag.Title" class="easyui-datagrid" style="height:inherit"
+       rownumbers="true" fitColumns="true" singleSelect="true">
+    <thead>
+        <tr>
+            <th field="Account" width="400">@Html.DisplayNameFor(model => model.Account)</th>
+            <th field="CommitCount" width="100">@Html.DisplayNameFor(model => model.CommitCount)</th>
+            <th field="Button" width="100"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th field="TextTitle">
+                    @Html.DisplayFor(modelItem => item.Account)
+                </th>
+                <th field="Category">
+                    @Html.DisplayFor(modelItem => item.CommitCount)
+                </th>
+                <th field="Button">
+                    <!--TODO:处理连接跳转以及删除确认对话框-->
+                    <a href="#" class="easyui-linkbutton" plain="true">编辑</a>
+                    |<a href="#" class="easyui-linkbutton" plain="true">详情</a>
+                    |<a href="#" class="easyui-linkbutton" plain="true" onclick="destroyText()">删除</a>
+                </th>
+            </tr>
+        }
+    </thead>
+</table>
