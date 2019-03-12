@@ -17,11 +17,11 @@
 </head>
 
 <body class="easyui-layout">
-    <div data-options="region:'north',border:false" style="height:60px;background:#222222;padding:10px"><font color="white" size="5">XXX的博客后台管理</font></div>
+    <div data-options="region:'north',border:false" style="height:60px;background:#222222;padding:10px"><font color="white" size="5">NewBee后台管理</font></div>
     <div data-options="region:'west',split:true,title:'导航'" style="width:150px;padding:10px;">@Html.Partial("~/Views/Shared/_SlidebarManage.cshtml")</div>
 
-    <div data-options="region:'south',border:false" style="height:20px;background:#d8d8d8;padding:2px;">XXX的个人博客 @DateTime.Now.Year </div>
-    <div data-options="region:'center',title:'Center'">@RenderBody()</div>
+    <div data-options="region:'south',border:false" style="height:25px;background:#d8d8d8;padding:2px;">NewBee个人博客 @DateTime.Now.Year </div>
+    <div data-options="region:'center',title:'详情'">@RenderBody()</div>
 </body>
 
 </html>

@@ -18,9 +18,9 @@ namespace NewBeeBlog.Models
         public NewBeeBlogContext() : base("name=NewBeeBlogContext")
         {
         }
-
-        public System.Data.Entity.DbSet<NewBeeBlog.Models.TextList> TextLists { get; set; }
-
-        public System.Data.Entity.DbSet<NewBeeBlog.Models.User> Users { get; set; }
+        
+        public DbSet<TextList> TextLists { get; set; }
+        public DbSet<CommitList> CommitLists { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

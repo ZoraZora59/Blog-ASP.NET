@@ -16,7 +16,12 @@ namespace NewBeeBlog.Controllers
         // GET: Manage
         public ActionResult Index()
         {
-            return View();
+            ManageMain model = new ManageMain();
+            NewBeeBlogContext db = new NewBeeBlogContext();
+            model.UserCount = db.Users.Count();
+            model.TextCount = db.TextLists.Count();
+            model.CommitCount = db.CommitLists.Count();
+            return View(model);
         }
         // GET: Register
         [HttpGet]
