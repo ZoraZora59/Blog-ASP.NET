@@ -12,12 +12,12 @@ namespace NewBeeBlog.Controllers
 {
     public class ManageController : Controller
     {
-        
+
+        public NewBeeBlogContext db = new NewBeeBlogContext();
         // GET: Manage
-        public ActionResult Index()
+        public ActionResult Index()//生成页面时加载Model数据
         {
             ManageMain model = new ManageMain();
-            NewBeeBlogContext db = new NewBeeBlogContext();
             model.UserCount = db.Users.Count();
             model.TextCount = db.TextLists.Count();
             model.CommitCount = db.CommitLists.Count();
@@ -125,5 +125,14 @@ namespace NewBeeBlog.Controllers
             }
             return View();
         }
+        protected override void Dispose(bool disposing)//数据连接释放
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
+
 }
