@@ -195,14 +195,12 @@ namespace NewBeeBlog.Controllers
                     {
                         if (user.Password == nameUser.Password)
                         {
-                            Session["loginuser"] = nameUser;//在session中保存用户实体
-                            //Response.Write("<script>alert('登录成功!')</script>");
+                            Session["loginuser"] = nameUser;
                             return Redirect("/");
                         }
                         else
                         {
-                            //Response.Write("<script>alert('登录成功!')</script>");
-                            return Content("用户名密码错误");
+                            return Content("账号或密码不正确");
                         }
                     }
               
@@ -211,16 +209,6 @@ namespace NewBeeBlog.Controllers
             }
             return View();
         }
-        [HttpGet]
-        public ActionResult Config()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Config(BlogConfig model)
-        {
-            new SerializeTool().Serialize<BlogConfig>(model);
-            return View();
         protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
