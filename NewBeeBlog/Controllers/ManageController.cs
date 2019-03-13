@@ -60,29 +60,20 @@ namespace NewBeeBlog.Controllers
             TextLists = db.TextLists.Find(TextID);
             return View(TextLists);
         }
-        [HttpGet]
-        public JavaScriptResult GetUserData()
+        [HttpPost]
+        public JsonResult GetUserData()
         {
-            List<ManageUser> manageUsers = new List<ManageUser>();
             List<User> trans = db.Users.ToList();
-            ManageUser temp = new ManageUser();
-            foreach (var item in trans)
-            {
-                temp.Account = item.Account;
-                temp.CommitCount = 0;
-                var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
-                foreach (var cmt in cmtlist)
-                {
-                    temp.CommitCount++;
-                }
-                manageUsers.Add(temp);
-            }
             var json = new
             {
-                total = manageUsers.Count;
-            rows =
-            }
-            return Json(json,JsonRequestBehavior.AllowGet);
+                total = trans.Count,
+                rows = (from r in trans
+                        select new User()
+                        {
+                            Account = r.Account,
+                        }).ToArray()
+            };
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult DeleteText(int TextID)//文章删除
@@ -135,7 +126,6 @@ namespace NewBeeBlog.Controllers
                 {
                     return Content("验证码输入错误");
                 }
-
                 var user = new User
                 {
                     Account = model.Account,
@@ -162,14 +152,13 @@ namespace NewBeeBlog.Controllers
                 catch(System.InvalidOperationException)
                 {
                     return Content("数据实体处理异常");
-
                 }
                 catch (Exception)
                 {
                     //TODO:异常报告
                     return Content("数据库异常");
                     throw;
-                }
+                }           
             }
             return Redirect("/");
         }
