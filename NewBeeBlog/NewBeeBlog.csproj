@@ -175,6 +175,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="front\css\side.css" />
     <Content Include="front\css\login2.css" />
     <Content Include="front\EasyUi\jquery.easyui.min.js" />
     <Content Include="front\EasyUi\jquery.min.js" />
