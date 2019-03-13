@@ -135,6 +135,7 @@ namespace NewBeeBlog.Controllers
                 {
                     return Content("验证码输入错误");
                 }
+
                 var user = new User
                 {
                     Account = model.Account,
@@ -161,13 +162,14 @@ namespace NewBeeBlog.Controllers
                 catch(System.InvalidOperationException)
                 {
                     return Content("数据实体处理异常");
+
                 }
                 catch (Exception)
                 {
                     //TODO:异常报告
                     return Content("数据库异常");
                     throw;
-                }           
+                }
             }
             return Redirect("/");
         }
@@ -204,12 +206,14 @@ namespace NewBeeBlog.Controllers
                     {
                         if (user.Password == nameUser.Password)
                         {
-                            Session["loginuser"] = nameUser;
+                            Session["loginuser"] = nameUser;//在session中保存用户实体
+                            //Response.Write("<script>alert('登录成功!')</script>");
                             return Redirect("/");
                         }
                         else
                         {
-                            return Content("账号或密码不正确");
+                            //Response.Write("<script>alert('登录成功!')</script>");
+                            return Content("用户名密码错误");
                         }
                     }
               
@@ -218,6 +222,16 @@ namespace NewBeeBlog.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public ActionResult Config()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Config(BlogConfig model)
+        {
+            new SerializeTool().Serialize<BlogConfig>(model);
+            return View();
         protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
