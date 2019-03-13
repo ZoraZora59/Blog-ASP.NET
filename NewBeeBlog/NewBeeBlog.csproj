@@ -142,11 +142,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201903120302302_InitialCreate.cs" />
-    <Compile Include="Migrations\201903120302302_InitialCreate.Designer.cs">
-      <DependentUpon>201903120302302_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="App_Code\SerializeTool.cs" />
+    <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\LoginUser.cs" />
     <Compile Include="ViewModels\ManageMain.cs" />
     <Compile Include="ViewModels\ManageText.cs" />
@@ -171,10 +168,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\NewBeeBlogContext-20190308161037.mdf" />
-    <Content Include="App_Data\NewBeeBlogContext-20190308161037_log.ldf">
-      <DependentUpon>NewBeeBlogContext-20190308161037.mdf</DependentUpon>
-    </Content>
     <Content Include="bin\LitJSON.dll" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -894,6 +887,8 @@
     <Content Include="Views\Manage\Update.cshtml" />
     <Content Include="Views\Manage\TextList.cshtml" />
     <Content Include="Views\Manage\ManageUser.cshtml" />
+    <Content Include="Views\Manage\Config.cshtml" />
+    <Content Include="Views\Manage\managehome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -911,9 +906,7 @@
     <Content Include="front\Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903120302302_InitialCreate.resx">
-      <DependentUpon>201903120302302_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

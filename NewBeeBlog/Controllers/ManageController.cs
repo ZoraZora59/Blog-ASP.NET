@@ -209,6 +209,18 @@ namespace NewBeeBlog.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public ActionResult Config()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Config(BlogConfig model)
+        {
+            new SerializeTool().Serialize<BlogConfig>(model);
+            return View();
+        }
+
         protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
