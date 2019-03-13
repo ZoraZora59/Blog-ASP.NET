@@ -1,6 +1,7 @@
 ﻿@{ 
     var currentUser = ViewBag.currentLoginInfo as NewBeeBlog.Models.User;
     var name = currentUser == null ? string.Empty : currentUser.Account;
+    var confuginfo = ViewBag.Config as NewBeeBlog.ViewModels.BlogConfig;
 }
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -9,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="origin">
-    <title>XXX的个人博客园</title>
+    <title>@confuginfo.Name 的个人博客</title>
 
     <link href="~/front/index_files/blog-common.css" rel="stylesheet" />
     <link href="~/front/index_files/bundle-CodingLife.css" rel="stylesheet" />
@@ -35,8 +36,8 @@
  
 
                 <!--done-->
-                <h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/jackchensir/">@name</a></h1>
-                <h2>study hard and make progress every day!</h2>
+                <h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/jackchensir/">@confuginfo.Name</a></h1>
+                <h2>@confuginfo.Sign</h2>
             </div><!--end: blogTitle 博客的标题和副标题 -->
             <div id="navigator">
 
@@ -80,7 +81,7 @@
         <div class="clear"></div>
         <div id="footer">
             <!--done-->
-            Copyright ©2019 jackchensir
+            Copyright ©2019 NewBeeBlog
         </div><!--end: footer -->
     </div><!--end: home 自定义的最大容器 -->
 
