@@ -9,7 +9,7 @@ namespace NewBeeBlog.ViewModels
     public class LoginUser
     {
         [Required]
-        [StringLength(maximumLength: 16, MinimumLength = 6, ErrorMessage = "用户名必须在6~16位数之间")]
+        [StringLength(maximumLength: 16, ErrorMessage = "用户名必须在16位以内")]
         public string Account { set; get; }
 
         [Required]
