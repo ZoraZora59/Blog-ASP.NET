@@ -14,10 +14,7 @@
     <script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
     <link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
     <link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
-    <link href="~/front/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/front/css/index.css" rel="stylesheet" />
-    <script src="~/front/js/jquery.min.js"></script>
-    <script src="~/front/js/index.js"></script>
     <script type="text/javascript">
         function AddTab(title, link) {
             //alert('asd');
@@ -52,7 +49,7 @@
                 <li class="first">
                     <div class="d-firstNav s-firstNav">
                         <i class="fa fa-bars"></i>
-                        <span><font color="white">一级菜单</font></span>
+                        <a href="#" onclick="AddTab('博客配置', '/Manage/Config');">博客配置</a>
                         <i class="fa fa-caret-right fr"></i>
                     </div>
                     <ul class="d-firstDrop s-firstDrop">
