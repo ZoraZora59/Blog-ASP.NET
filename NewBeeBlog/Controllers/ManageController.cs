@@ -60,6 +60,45 @@ namespace NewBeeBlog.Controllers
             TextLists = db.TextLists.Find(TextID);
             return View(TextLists);
         }
+        [HttpGet]
+        public JavaScriptResult GetUserData()
+        {
+            List<ManageUser> manageUsers = new List<ManageUser>();
+            List<User> trans = db.Users.ToList();
+            ManageUser temp = new ManageUser();
+            foreach (var item in trans)
+            {
+                temp.Account = item.Account;
+                temp.CommitCount = 0;
+                var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
+                foreach (var cmt in cmtlist)
+                {
+                    temp.CommitCount++;
+                }
+                manageUsers.Add(temp);
+            }
+            var json = new
+            {
+                total = manageUsers.Count;
+            rows =
+            }
+            return Json(json,JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult DeleteText(int TextID)//文章删除
+        {
+            try
+            {
+                TextList target = db.TextLists.Find(TextID);
+                db.TextLists.Remove(target);
+                db.SaveChanges();
+                return Content(target.TextTitle);
+            }
+            catch (Exception)
+            {
+                return Content("服务器错误，博文删除失败。可能该文章已经被删除，请刷新页面。");
+            }
+        }
         // Get:Update
         [HttpGet]
         public ActionResult TextList()//博文管理的列表页

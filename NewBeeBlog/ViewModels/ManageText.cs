@@ -10,6 +10,7 @@ namespace NewBeeBlog.ViewModels
     public class ManageText
     {
         [Key]
+        [DisplayName("索引号")]
         public int TextID { get; set; }
         [DisplayName("文章标题")]
         public string TextTitle { get; set; }
