@@ -15,14 +15,7 @@ namespace NewBeeBlog.Models
         [Required]
         [MaxLength(64)]
         public string Password { get; set; }
-
-        [NotMapped]
-        [MinLength(6)]
-        [MaxLength(11)]
-        //TODO:解决验证问题
-        //[Compare("Password", ErrorMessage = "密码不一致")]
-        public string CheckPassword { get; set; }
-
+        
         public ICollection<TextList> Textlists { get; set; }
     }
 }

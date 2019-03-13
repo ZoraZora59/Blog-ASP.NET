@@ -1,5 +1,4 @@
 ﻿using DemoBlog.App_Code;
-using NewBeeBlog.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +11,6 @@ namespace NewBeeBlog.Controllers
     {
         public ActionResult Index()
         {
-            var currentLoginInfo = Session["loginuser"] == null ? null: (User)Session["loginuser"];
-            
-            ViewBag.currentLoginInfo = currentLoginInfo;
-            //Viewbag保存用户实体
             return View();
         }
         public ActionResult Blog()

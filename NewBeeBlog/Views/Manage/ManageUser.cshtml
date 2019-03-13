@@ -3,8 +3,29 @@
     ViewBag.Title = "ManageUser";
     Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
-<meta name=”viewport” content=”width =device-width, initial-scale=1″ />
-<table id="dg" title="@ViewBag.Title" class="easyui-datagrid" style="height:inherit"
+<script type="text/javascript">
+    $(function () {
+        $('#List').datagrid({
+            url: '/SysSample/GetList',
+            width: $(window).width() - 10,
+            methord: 'post',
+            height: $(window).height() - 35,
+            //fitColumns: true,
+            //sortName: 'Id',
+            //sortOrder: 'desc',
+            //idField: 'Id',
+            striped: true, //奇偶行是否区分
+            //singleSelect: true,//单选模式
+            //rownumbers: true,//行号
+            columns: [[
+                { field: 'Account', title: @Html.DisplayNameFor(model => model.Account), width: 40% },
+                { field: 'CommitCount', title: @Html.DisplayNameFor(model => model.CommitCount), width: 30% },
+                { field: 'Button', title:'', width: 30%},
+            ]]
+        });
+    });
+</script>
+<table id="List" title="@ViewBag.Title" class="easyui-datagrid" 
        rownumbers="true" fitColumns="true" singleSelect="true">
     <thead>
         <tr>
@@ -12,22 +33,5 @@
             <th field="CommitCount" width="100">@Html.DisplayNameFor(model => model.CommitCount)</th>
             <th field="Button" width="100"></th>
         </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <th field="TextTitle">
-                    @Html.DisplayFor(modelItem => item.Account)
-                </th>
-                <th field="Category">
-                    @Html.DisplayFor(modelItem => item.CommitCount)
-                </th>
-                <th field="Button">
-                    <!--TODO:处理连接跳转以及删除确认对话框-->
-                    <a href="#" class="easyui-linkbutton" plain="true">编辑</a>
-                    |<a href="#" class="easyui-linkbutton" plain="true">详情</a>
-                    |<a href="#" class="easyui-linkbutton" plain="true" onclick="destroyText()">删除</a>
-                </th>
-            </tr>
-        }
     </thead>
 </table>
