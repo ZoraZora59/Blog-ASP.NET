@@ -18,11 +18,21 @@ namespace NewBeeBlog.Controllers
         // Post:Index
         public ActionResult Index()//生成页面时加载Model数据
         {
-            ManageMain model = new ManageMain();
-            model.UserCount = db.Users.Count();
-            model.TextCount = db.TextLists.Count();
-            model.CommitCount = db.CommitLists.Count();
-            return View(model);
+            try
+            {
+                ManageMain model = new ManageMain();
+                model.UserCount = db.Users.Count();
+                model.TextCount = db.TextLists.Count();
+                model.CommitCount = db.CommitLists.Count();
+                return View(model);
+            }
+            catch (Exception)
+            {
+                //TODO:异常判断
+                throw;
+            }
+            
+            
         }
         //Get:ManageUser
         [HttpGet]
