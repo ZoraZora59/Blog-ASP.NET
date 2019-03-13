@@ -888,7 +888,6 @@
     <Content Include="Views\Manage\TextList.cshtml" />
     <Content Include="Views\Manage\ManageUser.cshtml" />
     <Content Include="Views\Manage\Config.cshtml" />
-    <Content Include="Views\Manage\managehome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
