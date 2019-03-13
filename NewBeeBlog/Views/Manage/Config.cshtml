@@ -1,0 +1,44 @@
+﻿@model NewBeeBlog.ViewModels.BlogConfig
+@{
+    ViewBag.Title = "Config";
+    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
+}
+<script src="~/front/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/front/Scripts/jquery.validate.min.js"></script>
+<script src="~/front/Scripts/jquery.validate.unobtrusive.js"></script>
+@using (Html.BeginForm("Config", "Manage", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>博客名称：</td>
+            <td>
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </td>
+           
+        </tr>
+        <tr>
+            <td>博客签名：</td>
+            <td>
+                @Html.TextBoxFor(m => m.Sign)
+                @Html.ValidationMessageFor(m => m.Sign)
+            </td>
+            
+        </tr>
+        <tr>
+            <td>博客公告：</td>
+            <td>
+                @Html.TextAreaFor(m => m.Note)
+                @Html.ValidationMessageFor(m => m.Note)
+            </td>
+            
+              
+            
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="确定" style="width:150px;" class="button_blue" /></td>
+        </tr>
+    </table>
+}
+

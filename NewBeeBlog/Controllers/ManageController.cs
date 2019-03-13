@@ -41,25 +41,32 @@ namespace NewBeeBlog.Controllers
                 user.Account = model.Account;
                 user.Password = md5tool.GetMD5(model.Password);//需要md5加密否则是明文传输
                 int res = 0;
-                try
-                {
-                    using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
-                    //防止并发错误
-                    {
-                        dbContent.Users.Add(user);
-                        dbContent.SaveChanges();
-                        //保存数据库
-                        //SaveChanges返回的是一个int，大于0则正确直接调转到首页
-                    }
+                using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
+                //防止并发错误
 
-                }
-                catch (Exception)
                 {
-                    return Redirect("数据库异常");
-                    throw;
-                }           
+                    dbContent.Users.Add(user);
+                    res = dbContent.SaveChanges();
+                    //保存数据库
+                    //SaveChanges返回的是一个int，大于0则正确直接调转到首页
+                }
+                if (res > 0)
+                {
+                    return Redirect("/");
+                }
+                else
+                {
+                    return Content("注册失败");
+                }
+                               
             }
-            return Redirect("/");
+            else
+            {
+                return Content("验证失败");
+            }
+        
+
+
         }
         // GET: Manage
         [HttpGet]
@@ -93,18 +100,32 @@ namespace NewBeeBlog.Controllers
                     {
                         if (user.Password == nameUser.Password)
                         {
-                            Session["loginuser"] = nameUser;
+                            Session["loginuser"] = nameUser;//在session中保存用户实体
+                            //Response.Write("<script>alert('登录成功!')</script>");
                             return Redirect("/");
                         }
                         else
                         {
-                            return Content("账号或密码不正确");
+                            //Response.Write("<script>alert('登录成功!')</script>");
+                            return Content("用户名密码错误");
                         }
                     }
               
                     
                 }
             }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Config()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Config(BlogConfig model)
+        {
+            new SerializeTool().Serialize<BlogConfig>(model);
             return View();
         }
     }

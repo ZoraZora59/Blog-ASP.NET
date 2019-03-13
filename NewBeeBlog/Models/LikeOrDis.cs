@@ -10,10 +10,8 @@ namespace NewBeeBlog.Models
     public class LikeOrDis
     {
         //文章ID和用户名共同用于标识唯一的赞或踩
-        [Key, Column(Order = 1)]
         [Required]
         public int TextID { get; set; }
-        [Key, Column(Order = 2)]
         [MinLength(4)]
         [MaxLength(8)]
         public string Account { get; set; }
