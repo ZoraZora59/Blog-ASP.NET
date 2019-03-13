@@ -1,4 +1,6 @@
 ﻿using DemoBlog.App_Code;
+using NewBeeBlog.App_Code;
+using NewBeeBlog.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,15 @@ namespace NewBeeBlog.Controllers
 {
     public class HomeController : Controller
     {
+
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+            var model = new SerializeTool().DeSerialize<BlogConfig>();
+            ViewBag.Config = model;
+        }
+
         public ActionResult Index()
         {
             return View();
