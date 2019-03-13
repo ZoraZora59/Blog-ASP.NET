@@ -12,11 +12,71 @@ namespace NewBeeBlog.Controllers
 {
     public class ManageController : Controller
     {
-        
+
+        public NewBeeBlogContext db = new NewBeeBlogContext();
         // GET: Manage
-        public ActionResult Index()
+        // Post:Index
+        public ActionResult Index()//生成页面时加载Model数据
         {
+            ManageMain model = new ManageMain();
+            model.UserCount = db.Users.Count();
+            model.TextCount = db.TextLists.Count();
+            model.CommitCount = db.CommitLists.Count();
+            return View(model);
+        }
+        //Get:ManageUser
+        [HttpGet]
+        public ActionResult ManageUser()
+        {
+            List<ManageUser> manageUsers = new List<ManageUser>();
+            List<User> trans = db.Users.ToList();
+            ManageUser temp = new ManageUser();
+            foreach (var item in trans)
+            {
+                temp.Account = item.Account;
+                temp.CommitCount = 0;
+                var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
+                foreach(var cmt in cmtlist)
+                {
+                    temp.CommitCount++;
+                }
+                manageUsers.Add(temp);
+            }
+            return View(manageUsers);
+        }
+        //Get:Update
+        [HttpGet]
+        public ActionResult Update()//创建新文章
+        {
+            ViewBag.Title = "创建文章";
             return View();
+        }
+        //Post:Update
+        [HttpPost]
+        public ActionResult Update(int TextID)//修改文章
+        {
+            ViewBag.Title = "修改文章";
+            TextList TextLists = new TextList();
+            TextLists = db.TextLists.Find(TextID);
+            return View(TextLists);
+        }
+        // Get:Update
+        [HttpGet]
+        public ActionResult TextList()//博文管理的列表页
+        {
+            List<ManageText> ManageTexts = new List<ManageText>();
+            ManageText temp=new ManageText();
+            List<TextList> trans = db.TextLists.ToList();
+            foreach (var t in trans)
+            {
+                temp.TextID = t.TextID;
+                temp.TextTitle = t.TextTitle;
+                temp.CategoryName = t.CategoryName;
+                temp.Hot = t.Hot;
+                temp.TextChangeDate = t.TextChangeDate;
+                ManageTexts.Add(temp);
+            }
+            return View(ManageTexts);
         }
         // GET: Register
         [HttpGet]
@@ -24,7 +84,6 @@ namespace NewBeeBlog.Controllers
         {
             return View();
         }
-
         // Post: Register
         [HttpPost]
         public ActionResult Register(RegisterUser model)
@@ -37,36 +96,43 @@ namespace NewBeeBlog.Controllers
                 {
                     return Content("验证码输入错误");
                 }
-                var user = new User();
-                user.Account = model.Account;
-                user.Password = md5tool.GetMD5(model.Password);//需要md5加密否则是明文传输
-                int res = 0;
-                using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
-                //防止并发错误
 
+                var user = new User
                 {
-                    dbContent.Users.Add(user);
-                    res = dbContent.SaveChanges();
-                    //保存数据库
-                    //SaveChanges返回的是一个int，大于0则正确直接调转到首页
-                }
-                if (res > 0)
+                    Account = model.Account,
+                    Password = md5tool.GetMD5(model.Password)//需要md5加密否则是明文传输
+                };
+                try
                 {
-                    return Redirect("/");
+                    using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
+                    //防止并发错误
+                    {
+                        dbContent.Users.Add(user);
+                        dbContent.SaveChanges();
+                        //保存数据库
+                    }
                 }
-                else
+                catch(System.Data.Entity.Infrastructure.DbUpdateException)
                 {
-                    return Content("注册失败");
+                    return Content("数据库更新出错");
                 }
-                               
+                catch(System.ObjectDisposedException)
+                {
+                    return Content("数据上下文连接已过期");
+                }
+                catch(System.InvalidOperationException)
+                {
+                    return Content("数据实体处理异常");
+
+                }
+                catch (Exception)
+                {
+                    //TODO:异常报告
+                    return Content("数据库异常");
+                    throw;
+                }
             }
-            else
-            {
-                return Content("验证失败");
-            }
-        
-
-
+            return Redirect("/");
         }
         // GET: Manage
         [HttpGet]
@@ -84,10 +150,11 @@ namespace NewBeeBlog.Controllers
                 {
                     return Content("验证码输入错误");
                 }
-                var user = new User();
-                user.Account = model.Account;
-                user.Password = md5tool.GetMD5(model.Password);
-                int res = 0;
+                var user = new User
+                {
+                    Account = model.Account,
+                    Password = md5tool.GetMD5(model.Password)
+                };
                 //根据用户名查找实体
                 using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
                 {
@@ -116,7 +183,6 @@ namespace NewBeeBlog.Controllers
             }
             return View();
         }
-
         [HttpGet]
         public ActionResult Config()
         {
@@ -127,6 +193,14 @@ namespace NewBeeBlog.Controllers
         {
             new SerializeTool().Serialize<BlogConfig>(model);
             return View();
+        protected override void Dispose(bool disposing)//数据连接释放
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
+
 }

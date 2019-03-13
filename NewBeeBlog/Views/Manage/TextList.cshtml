@@ -1,0 +1,54 @@
+﻿@model IEnumerable<NewBeeBlog.ViewModels.ManageText>
+@{
+    ViewBag.Title = "博文管理";
+    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
+}
+@*尝试做确认对话框，但是又又又又又失败了*@
+<script>
+    function destroyText() {
+        var s=$(".h").val();
+            $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
+                if (r) {
+                    window.location.href='@Url.Action("Index", "Manage")';
+                }
+            });
+
+    }
+</script>
+<meta name=”viewport” content=”width =device-width, initial-scale=1″ />
+<table id="dg" title="@ViewBag.Title" class="easyui-datagrid" style="height:inherit"
+       rownumbers="true" fitColumns="true" singleSelect="true">
+    <thead>
+        <tr>
+            <th field="TextTitle" width="400">@Html.DisplayNameFor(model => model.TextTitle)</th>
+            <th field="Category" width="100">@Html.DisplayNameFor(model => model.CategoryName)</th>
+            <th field="Hot" width="50">@Html.DisplayNameFor(model => model.Hot)</th>
+            <th field="ChangeTime" width="100">@Html.DisplayNameFor(model => model.TextChangeDate)</th>
+            <th field="Button" width="100"></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th field="TextTitle" class="h">
+                    @Html.DisplayFor(modelItem => item.TextTitle)
+                </th>
+                <th field="Category">
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </th>
+                <th field="Hot">
+                    @Html.DisplayFor(modelItem => item.Hot)
+                </th>
+                <th field="ChangeTime">
+                    @Html.DisplayFor(modelItem => item.TextChangeDate)
+                </th>
+                <th field="Button">
+                    <!--TODO:处理连接跳转以及删除确认对话框-->
+                    <a href="#" class="easyui-linkbutton" plain="true">编辑</a>
+                    |<a href="#" class="easyui-linkbutton" plain="true">详情</a>
+                    |<a href="#" class="easyui-linkbutton" plain="true" onclick="destroyText()">删除</a>
+                </th>
+            </tr>
+        }
+    </thead>
+</table>
+

@@ -10,6 +10,7 @@ namespace NewBeeBlog.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            ContextKey = "NewBeeBlog.Models.NewBeeBlogContext";
         }
 
         protected override void Seed(NewBeeBlog.Models.NewBeeBlogContext context)
