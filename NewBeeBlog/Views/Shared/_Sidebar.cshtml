@@ -1,4 +1,7 @@
-﻿
+﻿@{
+   var configinfo = ViewBag.Config as NewBeeBlog.ViewModels.BlogConfig;
+}
+
 <div id="sideBar">
     <div id="sideBarMain">
 
@@ -7,11 +10,9 @@
             <h3 class="catListTitle">公告</h3>
             <div id="blog-news">
                 <div id="profile_block">
-                    昵称：<a href="https://home.cnblogs.com/u/jackchensir/">jackchensir</a><br>园龄：<a href="https://home.cnblogs.com/u/jackchensir/" title="入园时间：2017-08-10">1年6个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/jackchensir/followers/">4</a><br>关注：<a href="https://home.cnblogs.com/u/jackchensir/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('3ff15543-f10c-4db9-6b2d-08d49c352df3')">+加关注</a></div>
-                    <script>getFollowStatus('3ff15543-f10c-4db9-6b2d-08d49c352df3')</script>
+                    @configinfo.Note
                 </div>
             </div>
-            <script type="text/javascript">loadBlogNews();</script>
         </div>
 
         <div id="blog-calendar" style="">

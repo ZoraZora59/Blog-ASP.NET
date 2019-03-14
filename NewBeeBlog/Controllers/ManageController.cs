@@ -13,7 +13,7 @@ namespace NewBeeBlog.Controllers
     public class ManageController : Controller
     {
 
-        public NewBeeBlogContext db = new NewBeeBlogContext();
+        private NewBeeBlogContext db = new NewBeeBlogContext();
         // GET: Manage
         // Post:Index
         public ActionResult Index()//生成页面时加载Model数据
@@ -215,7 +215,8 @@ namespace NewBeeBlog.Controllers
         [HttpGet]
         public ActionResult Config()
         {
-            return View();
+            var model = new SerializeTool().DeSerialize<BlogConfig>();
+            return View(model);
         }
         [HttpPost]
         public ActionResult Config(BlogConfig model)
