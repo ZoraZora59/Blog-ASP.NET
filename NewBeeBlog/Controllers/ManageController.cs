@@ -61,54 +61,52 @@ namespace NewBeeBlog.Controllers
             ViewBag.Title = "创建文章";
             return View();
         }
+        public void GetValue()
+        {
+            //Request属性可用来获取querystring,form表单以及cookie中的值
+            var querystring = Request["method"];
+        }
         //Post:Update
         [HttpPost]
         public ActionResult Update(int TextID)//修改文章
         {
+
             ViewBag.Title = "修改文章";
             TextList TextLists = new TextList();
             TextLists = db.TextLists.Find(TextID);
             return View(TextLists);
         }
         [HttpPost]
-        public JsonResult GetUserData()
-        {
-            List<User> trans = db.Users.ToList();
-            var json = new
-            {
-                total = trans.Count,
-                rows = (from r in trans
-                        select new User()
-                        {
-                            Account = r.Account,
-                        }).ToArray()
-            };
-            return Json(json, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
-        public ActionResult DeleteText(int TextID)//文章删除
+        public JsonResult DeleteText()//文章删除
         {
             try
             {
+
+                string tID = Request["TextID"].ToString();
+                int TextID = int.Parse(tID);
                 TextList target = db.TextLists.Find(TextID);
                 db.TextLists.Remove(target);
                 db.SaveChanges();
-                return Content(target.TextTitle);
+            }
+            catch (System.ArgumentNullException)
+            {
+                throw;
             }
             catch (Exception)
             {
-                return Content("服务器错误，博文删除失败。可能该文章已经被删除，请刷新页面。");
+                throw;
             }
+            return Json("success");
         }
         // Get:Update
         [HttpGet]
         public ActionResult TextList()//博文管理的列表页
         {
             List<ManageText> ManageTexts = new List<ManageText>();
-            ManageText temp=new ManageText();
             List<TextList> trans = db.TextLists.ToList();
             foreach (var t in trans)
             {
+                ManageText temp = new ManageText();
                 temp.TextID = t.TextID;
                 temp.TextTitle = t.TextTitle;
                 temp.CategoryName = t.CategoryName;
