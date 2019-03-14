@@ -143,7 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\LoginUser.cs" />
@@ -170,6 +169,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\NewBeeBlogContext.mdf" />
+    <Content Include="App_Data\NewBeeBlogContext_log.ldf">
+      <DependentUpon>NewBeeBlogContext.mdf</DependentUpon>
+    </Content>
     <Content Include="bin\LitJSON.dll" />
     <Content Include="config\blogconfig.xml" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -909,9 +912,7 @@
     <Content Include="front\Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="front\Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

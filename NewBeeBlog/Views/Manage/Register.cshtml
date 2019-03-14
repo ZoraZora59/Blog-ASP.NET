@@ -37,55 +37,66 @@
 
             @using (Html.BeginForm("Register", "Manage", FormMethod.Post))
             {
-                <ul class="reg_form" id="reg-ul">
-                    <div id="userCue" class="cue">注册请注意格式</div>
+            <ul class="reg_form" id="reg-ul">
+                <div id="userCue" class="cue">注册请注意格式</div>
 
-                    <li>
+                <li>
 
-                        <label for="user" class="input-tips2">用户名：</label>
-                        <div class="inputOuter2">
-                            @Html.TextBoxFor(m => m.Account, new { @class = "inputstyle2", placeholder = "请输入用户名或邮箱" })
-                            @Html.ValidationMessageFor(m => m.Account)
-                        </div>
+                    <label for="user" class="input-tips2">用户名：</label>
+                    <div class="inputOuter2">
+                        @Html.TextBoxFor(m => m.Account, new { @class = "inputstyle2", placeholder = "请输入用户名或邮箱" })
+                        @Html.ValidationMessageFor(m => m.Account)
+                    </div>
 
-                    </li>
-
-                    <li>
-                        <label for="passwd" class="input-tips2">密码：</label>
-                        <div class="inputOuter2">
-                            @Html.PasswordFor(m => m.Password, new { @class = "inputstyle2", placeholder = "请输入密码" })
-                            @Html.ValidationMessageFor(m => m.Password)
-                        </div>
-
-                    </li>
-                    <li>
-                        <label for="passwd2" class="input-tips2">确认密码：</label>
-                        <div class="inputOuter2">
-                            @Html.PasswordFor(m => m.Cpassword, new { @class = "inputstyle2", placeholder = "请确认密码" })
-                            @Html.ValidationMessageFor(m => m.Cpassword)
-                        </div>
-
-                    </li>
-                    <li>
-                        <label for="user" class="input-tips2">验证码：</label>
-                        <div class="inputOuter3">
-
-                            @Html.TextBoxFor(m => m.Code, new { @class = "inputstyle3" })
-                            @Html.ValidationMessageFor(m => m.Code)
-                        </div>
-                        <img src="/home/ValidateCode/" style="position:relative;left:150px;">
-                    </li>
+                </li>
 
 
-                    <li>
-                        <div class="inputArea">
-                            <button type="submit" id="regUser" style="margin-top:10px;margin-left:120px;width:150px;height:40px;" class="button_blue">注    册</button>
+                <li>
 
-                        </div>
-                    </li>
+                    <label for="user" class="input-tips2">昵称：</label>
+                    <div class="inputOuter2">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "inputstyle2", placeholder = "请输入" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
 
-                    <div class="cl"></div>
-                </ul>
+                </li>
+
+                <li>
+                    <label for="passwd" class="input-tips2">密码：</label>
+                    <div class="inputOuter2">
+                        @Html.PasswordFor(m => m.Password, new { @class = "inputstyle2", placeholder = "请输入密码" })
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
+
+                </li>
+                <li>
+                    <label for="passwd2" class="input-tips2">确认密码：</label>
+                    <div class="inputOuter2">
+                        @Html.PasswordFor(m => m.Cpassword, new { @class = "inputstyle2", placeholder = "请确认密码" })
+                        @Html.ValidationMessageFor(m => m.Cpassword)
+                    </div>
+
+                </li>
+                <li>
+                    <label for="user" class="input-tips2">验证码：</label>
+                    <div class="inputOuter3">
+
+                        @Html.TextBoxFor(m => m.Code, new { @class = "inputstyle3" })
+                        @Html.ValidationMessageFor(m => m.Code)
+                    </div>
+                    <img src="/home/ValidateCode/" style="position:relative;left:150px;">
+                </li>
+
+
+                <li>
+                    <div class="inputArea">
+                        <button type="submit" id="regUser" style="margin-top:10px;margin-left:120px;width:150px;height:40px;" class="button_blue">注    册</button>
+
+                    </div>
+                </li>
+
+                <div class="cl"></div>
+            </ul>
             }
 
 

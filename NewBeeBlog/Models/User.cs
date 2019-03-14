@@ -10,12 +10,17 @@ namespace NewBeeBlog.Models
     {
         //写入数据库的内容包括用户名和密码，CheckPassword仅用于校验，不写入库
         [Key]
+        [MinLength(4)]
         [MaxLength(16)]
         public string Account { get; set; }
         [Required]
+        [MinLength(1)]
+        [MaxLength(16)]
+        public string Name { get; set; }//昵称
+
+        [Required]
         [MaxLength(64)]
         public string Password { get; set; }
-        
-        public ICollection<TextList> Textlists { get; set; }
+        public ICollection<CommitList> CommitLists { get; set; }
     }
 }

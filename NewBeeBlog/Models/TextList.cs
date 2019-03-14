@@ -20,7 +20,6 @@ namespace NewBeeBlog.Models
         public string TextTitle { get; set; }//标题
         [Required]
         [DisplayName("文章正文")]
-        [MaxLength(20000)]
         public string Text { get; set; }//内容
         [Required]
         [DisplayName("点击量")]
@@ -31,17 +30,17 @@ namespace NewBeeBlog.Models
         [DisplayName("分类")]
         public string CategoryName { get; set; }//分类
 
-        [Required]
-        [MinLength(4)]
-        [MaxLength(8)]
-        public string Account { get; set; }//发布人
+        //[Required]
+        //[MinLength(4)]
+        //[MaxLength(8)]
+        //public string Account { get; set; }//发布人
 
         public DateTime TextChangeDate { get; set; }//更新时间
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
         //关联表
-        public ICollection<User> Users { get; set; }
+        //public ICollection<User> Users { get; set; }
         public ICollection<CommitList> CommitLists { get; set; }
     }
 }
