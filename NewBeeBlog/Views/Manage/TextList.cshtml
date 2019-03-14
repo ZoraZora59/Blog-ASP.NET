@@ -1,49 +1,32 @@
 ﻿@model IEnumerable<NewBeeBlog.ViewModels.ManageText>
 @{
     ViewBag.Title = "博文管理";
-    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
+<script src="~/front/EasyUi/jquery.min.js"></script>
+<script src="~/front/EasyUi/jquery.easyui.min.js"></script>
+<!--先引用jquery.min再引用jquery-->
+<script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
+<link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
+<link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
+<script type="text/javascript"></script>
 @*尝试做确认对话框，但是又又又又又失败了*@
-<script>
-    function destroyText() {
-            $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
-                if (r) {
-                    @*window.location.href='@Url.Action("Update", "Manage")';*@
-                    deleteText();
-                }
-            });
 
-    }
-    function deleteText() {
-        var s = $(".jsID").val();
-        $.ajax({
-            type: "POST",//FromMethod
-            url: "/Manage/DeleteText",//"/Controller/Action"
-            data: { TextID: s },//参数 "参数名："参数值""
-            datatype: 'html',
-            success: function (TextName) {
-                alert(TextName + '删除成功');
-            }
-        });
-    }
-</script>
-<table id="dg" title="@ViewBag.Title" class="easyui-datagrid" style="height:inherit"
-       
+<table id="dg" title="@ViewBag.Title" style="width:98% ; height:98%"
        rownumbers="true" fitColumns="true" singleSelect="true">
     <thead>
         <tr>
             @*TODO：尝试隐藏TextID列*@
-            <th width=5%>@Html.DisplayNameFor(model => model.TextID)</th>
-            <th width=40%>@Html.DisplayNameFor(model => model.TextTitle)</th>
-            <th width=15%>@Html.DisplayNameFor(model => model.CategoryName)</th>
-            <th width=5%>@Html.DisplayNameFor(model => model.Hot)</th>
-            <th width=20%>@Html.DisplayNameFor(model => model.TextChangeDate)</th>
-            <th width=15%></th>
+            <th style="width:5%;height:20px">@Html.DisplayNameFor(model => model.TextID)</th>
+            <th style="width:40%;height:20px">@Html.DisplayNameFor(model => model.TextTitle)</th>
+            <th style="width:15%;height:20px">@Html.DisplayNameFor(model => model.CategoryName)</th>
+            <th style="width:5%;height:20px">@Html.DisplayNameFor(model => model.Hot)</th>
+            <th style="width:20%;height:20px">@Html.DisplayNameFor(model => model.TextChangeDate)</th>
+            <th style="width:15%;height:20px"></th>
         </tr>
         @foreach (var item in Model)
         {
             <tr>
-                <td class="jsID" >
+                <td id="@item.TextID">
                     @Html.DisplayFor(modelItem => item.TextID)
                 </td>
                 <td>
@@ -62,10 +45,33 @@
                     <!--TODO:处理连接跳转以及删除确认对话框-->
                     <a href="#" class="easyui-linkbutton" plain="true">编辑</a>
                     |<a href="#" class="easyui-linkbutton" plain="true">详情</a>
-                    |<a href="#" class="easyui-linkbutton" plain="true" onclick="destroyText()">删除</a>
+                    |<a href="#" class="easyui-linkbutton" plain="true" onclick="destroyText(@item.TextID)">删除</a>
                 </td>
             </tr>
         }
     </thead>
 </table>
 
+<script>
+    function destroyText(tid) {
+        alert(tid);
+        $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
+            if (r) {
+                $.ajax({
+                    ajax:false,
+                    type: "POST",//FromMethod
+                    url: "/Manage/DeleteText",//"/Controller/Action"
+                    data: { TextID: tid },//参数 "参数名："参数值""
+                    datatype: 'html',
+                    success: function () {
+                        alert('删除成功');
+                    },
+                    error: function () {
+                        alert('删除失败');
+                    }
+                });
+                }
+            });
+
+    }
+</script>

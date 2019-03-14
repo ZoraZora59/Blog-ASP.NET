@@ -38,32 +38,32 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <th>
             @Html.DisplayFor(modelItem => item.TextTitle)
-        </td>
-        <td>
+        </th>
+        <th>
             @Html.DisplayFor(modelItem => item.Text)
-        </td>
-        <td>
+        </th>
+        <th>
             @Html.DisplayFor(modelItem => item.Hot)
-        </td>
-        <td>
+        </th>
+        <th>
             @Html.DisplayFor(modelItem => item.Attachment)
-        </td>
-        <td>
+        </th>
+        <th>
             @Html.DisplayFor(modelItem => item.CategoryName)
-        </td>
-        <td>
+        </th>
+        <th>
             @Html.DisplayFor(modelItem => item.Account)
-        </td>
-        <td>
+        </th>
+        <th>
             @Html.DisplayFor(modelItem => item.TextChangeDate)
-        </td>
-        <td>
+        </th>
+        <th>
             @Html.ActionLink("Edit", "Edit", new { id=item.TextID }) |
             @Html.ActionLink("Details", "Details", new { id=item.TextID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.TextID })
-        </td>
+        </th>
     </tr>
 }
 
