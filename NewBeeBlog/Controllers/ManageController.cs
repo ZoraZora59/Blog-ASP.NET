@@ -77,21 +77,26 @@ namespace NewBeeBlog.Controllers
             return View(TextLists);
         }
         [HttpPost]
-        public ActionResult DeleteText()//文章删除
+        public JsonResult DeleteText()//文章删除
         {
             try
             {
+
                 string tID = Request["TextID"].ToString();
                 int TextID = int.Parse(tID);
                 TextList target = db.TextLists.Find(TextID);
                 db.TextLists.Remove(target);
                 db.SaveChanges();
             }
+            catch (System.ArgumentNullException)
+            {
+                throw;
+            }
             catch (Exception)
             {
                 throw;
-            } 
-            return Content("修改成功");
+            }
+            return Json("success");
         }
         // Get:Update
         [HttpGet]

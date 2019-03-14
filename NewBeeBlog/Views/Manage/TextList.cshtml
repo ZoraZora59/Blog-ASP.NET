@@ -11,7 +11,7 @@
 <script type="text/javascript"></script>
 @*尝试做确认对话框，但是又又又又又失败了*@
 
-<table id="dg" title="@ViewBag.Title" style="width:98% ; height:98%"
+<table id="dg" title="@ViewBag.Title" style="vertical-align:middle ; text-align:center ; width:98% ; height:98%"
        rownumbers="true" fitColumns="true" singleSelect="true">
     <thead>
         <tr>
@@ -53,8 +53,9 @@
 </table>
 
 <script>
+    //TODO:刷新页面功能
     function destroyText(tid) {
-        alert(tid);
+        //alert(tid);
         $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
             if (r) {
                 $.ajax({
@@ -65,9 +66,11 @@
                     datatype: 'html',
                     success: function () {
                         alert('删除成功');
+                        //document.all.博文管理.document.location.reload();
                     },
                     error: function () {
                         alert('删除失败');
+                        //document.all.博文管理.document.location.reload();
                     }
                 });
                 }
