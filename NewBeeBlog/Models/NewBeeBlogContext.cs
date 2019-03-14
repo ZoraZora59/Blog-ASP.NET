@@ -22,6 +22,6 @@ namespace NewBeeBlog.Models
         public DbSet<TextList> TextLists { get; set; }
         public DbSet<CommitList> CommitLists { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Categroy> Categroys { get; set; }
+       
     }
 }
