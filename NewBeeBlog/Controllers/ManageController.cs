@@ -141,13 +141,9 @@ namespace NewBeeBlog.Controllers
                 };
                 try
                 {
-                    using (NewBeeBlogContext dbContent = new NewBeeBlogContext())
-                    //防止并发错误
-                    {
-                        dbContent.Users.Add(user);
-                        dbContent.SaveChanges();
-                        //保存数据库
-                    }
+                   db.Users.Add(user);
+                   db.SaveChanges();
+                   //保存数据库 
                 }
                 catch(System.Data.Entity.Infrastructure.DbUpdateException)
                 {
@@ -229,6 +225,47 @@ namespace NewBeeBlog.Controllers
             new SerializeTool().Serialize<BlogConfig>(model);
             return View();
         }
+        [HttpGet]
+        public ActionResult AddCategroy()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddCategroy(AddCategroy model)
+        {
+            if (ModelState.IsValid)
+            {
+                var categroy = new Categroy();
+                categroy.CategroyName = model.CategroyName;
+                try
+                {
+                    
+                    db.Categroys.Add(categroy);
+                    db.SaveChanges();//保存数据库
+                    
+                    return Content("添加成功");
+                }
+                catch (Exception)
+                {
+                    return Content("添加失败");
+                    throw;
+                }
+                
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult ManageCategroy()
+        {
+            return View();
+        }
+        public JsonResult LoadCategroy()
+        {
+            var list =db.Categroys.ToList().Select(m => new { ID = m.ID, CategroyName = m.CategroyName }).ToList();
+            return Json(list);
+        }
+
+         
         protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
