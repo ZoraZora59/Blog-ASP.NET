@@ -53,7 +53,7 @@ namespace NewBeeBlog.Controllers
             return View(manageUsers);
         }
         //Get:Update
-        [HttpPost]
+        [HttpGet]
         public ActionResult Update()//文章更新
         {
             //try
