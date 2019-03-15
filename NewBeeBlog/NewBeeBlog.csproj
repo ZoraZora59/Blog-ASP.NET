@@ -149,11 +149,9 @@
     <Compile Include="Migrations\201903140900120_InitialCreate2.Designer.cs">
       <DependentUpon>201903140900120_InitialCreate2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Categroy.cs" />
-    <Compile Include="Models\UniqueAttribute.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
+    <Compile Include="ViewModels\ChangeUserInfo.cs" />
     <Compile Include="ViewModels\LoginUser.cs" />
     <Compile Include="ViewModels\ManageMain.cs" />
     <Compile Include="ViewModels\ManageText.cs" />
@@ -941,6 +939,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Views\Home\ChangeInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
@@ -954,7 +953,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903140239047_InitialCreate.resx">

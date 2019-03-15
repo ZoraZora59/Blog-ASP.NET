@@ -213,6 +213,7 @@ namespace NewBeeBlog.Controllers
                     {
                         if (user.Password == nameUser.Password)
                         {
+
                             Session["loginuser"] = nameUser;
                             return Redirect("/");
                         }
@@ -227,6 +228,10 @@ namespace NewBeeBlog.Controllers
             }
             return View();
         }
+        
+
+       
+
         [HttpGet]
         public ActionResult Config()
         {
@@ -245,40 +250,40 @@ namespace NewBeeBlog.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult AddCategroy(AddCategroy model)
-        {
-            if (ModelState.IsValid)
-            {
-                var categroy = new Categroy();
-                categroy.CategroyName = model.CategroyName;
-                try
-                {
+        //[HttpPost]
+        //public ActionResult AddCategroy(AddCategroy model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var categroy = new Categroy();
+        //        categroy.CategroyName = model.CategroyName;
+        //        try
+        //        {
                     
-                    db.Categroys.Add(categroy);
-                    db.SaveChanges();//保存数据库
+        //            db.Categroys.Add(categroy);
+        //            db.SaveChanges();//保存数据库
                     
-                    return Content("添加成功");
-                }
-                catch (Exception)
-                {
-                    return Content("添加失败");
-                    throw;
-                }
+        //            return Content("添加成功");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            return Content("添加失败");
+        //            throw;
+        //        }
                 
-            }
-            return View();
-        }
-        [HttpGet]
-        public ActionResult ManageCategroy()
-        {
-            return View();
-        }
-        public JsonResult LoadCategroy()
-        {
-            var list =db.Categroys.ToList().Select(m => new { ID = m.ID, CategroyName = m.CategroyName }).ToList();
-            return Json(list);
-        }
+        //    }
+        //    return View();
+        //}
+        //[HttpGet]
+        //public ActionResult ManageCategroy()
+        //{
+        //    return View();
+        //}
+        //public JsonResult LoadCategroy()
+        //{
+        //    var list =db.Categroys.ToList().Select(m => new { ID = m.ID, CategroyName = m.CategroyName }).ToList();
+        //    return Json(list);
+        //}
 
         [HttpGet]
         public ActionResult ManageUsers()
