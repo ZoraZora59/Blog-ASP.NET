@@ -184,6 +184,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\NewBeeBlogContext.mdf" />
+    <Content Include="App_Data\NewBeeBlogContext_log.ldf">
+      <DependentUpon>NewBeeBlogContext.mdf</DependentUpon>
+    </Content>
     <Content Include="bin\LitJSON.dll" />
     <Content Include="config\blogconfig.xml" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -907,8 +911,6 @@
     <Content Include="Views\Manage\ManageUser.cshtml" />
     <Content Include="Views\Manage\Config.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
-    <Content Include="Views\Manage\AddCategroy.cshtml" />
-    <Content Include="Views\Manage\ManageCategroy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

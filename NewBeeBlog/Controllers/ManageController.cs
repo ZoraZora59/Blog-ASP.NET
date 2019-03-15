@@ -33,8 +33,6 @@ namespace NewBeeBlog.Controllers
                 //TODO:异常判断
                 throw;
             }
-            
-            
         }
         //Get:ManageUser
         [HttpGet]
@@ -57,27 +55,39 @@ namespace NewBeeBlog.Controllers
             return View(manageUsers);
         }
         //Get:Update
-        [HttpGet]
-        public ActionResult Update()//创建新文章
+        [HttpPost]
+        public ActionResult Update()//文章更新
         {
-            ViewBag.Title = "创建文章";
+            //try
+            //{
+            //    string jstID = Request["TextID"].ToString();
+            //    if(jstID!=null)
+            //    {
+            //        int tID = int.Parse(jstID);
+            //        var text = new TextList();
+            //        text = GetTextContent(tID);
+            //        ViewBag.title = "文章更新";
+            //        return View(text);
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
+            //ViewBag.Title = "创建文章";
             return View();
         }
-        public void GetValue()
+        public TextList GetTextContent(int tID)
         {
-            //Request属性可用来获取querystring,form表单以及cookie中的值
-            var querystring = Request["method"];
+            var text = new TextList();
+            text = db.TextLists.Find(tID);
+            return text;
         }
-        //Post:Update
-        [HttpPost]
-        public ActionResult Update(int TextID)//修改文章
-        {
-
-            ViewBag.Title = "修改文章";
-            TextList TextLists = new TextList();
-            TextLists = db.TextLists.Find(TextID);
-            return View(TextLists);
-        }
+        //[HttpPost]
+        //public ActionResult Update(TextList model)//修改文章
+        //{
+        //    return View(model);
+        //}
         [HttpPost]
         public JsonResult DeleteText()//文章删除
         {
@@ -99,6 +109,7 @@ namespace NewBeeBlog.Controllers
                 throw;
             }
             return Json("success");
+            
         }
         // Get:Update
         [HttpGet]
@@ -227,6 +238,7 @@ namespace NewBeeBlog.Controllers
         {
             new SerializeTool().Serialize<BlogConfig>(model);
             return View();
+
         }
         [HttpGet]
         public ActionResult AddCategroy()
@@ -318,6 +330,7 @@ namespace NewBeeBlog.Controllers
             return Content("删除成功");
 
         }
+
 
 
         protected override void Dispose(bool disposing)//数据连接释放

@@ -9,13 +9,12 @@
 <link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
 <link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
 <script type="text/javascript"></script>
-@*尝试做确认对话框，但是又又又又又失败了*@
 
 <table id="dg" title="@ViewBag.Title" style="vertical-align:middle ; text-align:center ; width:98% ; height:98%"
        rownumbers="true" fitColumns="true" singleSelect="true">
     <thead>
         <tr>
-            @*TODO：尝试隐藏TextID列*@
+            @*TODO：隐藏TextID列*@
             <th style="width:5%;height:20px">@Html.DisplayNameFor(model => model.TextID)</th>
             <th style="width:40%;height:20px">@Html.DisplayNameFor(model => model.TextTitle)</th>
             <th style="width:15%;height:20px">@Html.DisplayNameFor(model => model.CategoryName)</th>
@@ -42,10 +41,9 @@
                     @Html.DisplayFor(modelItem => item.TextChangeDate)
                 </td>
                 <td field="Button">
-                    <!--TODO:处理连接跳转以及删除确认对话框-->
                     <a href="#" class="easyui-linkbutton" plain="true">编辑</a>
                     |<a href="#" class="easyui-linkbutton" plain="true">详情</a>
-                    |<a href="#" class="easyui-linkbutton" plain="true" onclick="destroyText(@item.TextID)">删除</a>
+                    |<button href="#" class="easyui-linkbutton" plain="true" onclick="destroyText(@item.TextID)">删除</button>
                 </td>
             </tr>
         }
@@ -66,15 +64,14 @@
                     datatype: 'html',
                     success: function () {
                         alert('删除成功');
+                        document.getElementById(tid).parentElement.remove();
                         //document.all.博文管理.document.location.reload();
                     },
                     error: function () {
                         alert('删除失败');
-                        //document.all.博文管理.document.location.reload();
                     }
                 });
                 }
             });
-
     }
 </script>
