@@ -13,5 +13,7 @@ namespace NewBeeBlog.ViewModels
         public string Account { get; set; }
         [DisplayName("评论数量")]
         public int CommitCount { get; set; }
+
+        public string Name { get; set; }
     }
 }

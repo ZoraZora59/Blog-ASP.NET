@@ -12,10 +12,15 @@ namespace NewBeeBlog.Models
         [Key]
         [MaxLength(16)]
         public string Account { get; set; }
+
         [Required]
         [MaxLength(64)]
         public string Password { get; set; }
-        
+
+        [Required]
+        [MaxLength(64)]
+        public string Name { get; set; }
+
         public ICollection<TextList> Textlists { get; set; }
     }
 }
