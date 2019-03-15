@@ -149,6 +149,7 @@
     <Compile Include="Migrations\201903140900120_InitialCreate2.Designer.cs">
       <DependentUpon>201903140900120_InitialCreate2.cs</DependentUpon>
     </Compile>
+
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
