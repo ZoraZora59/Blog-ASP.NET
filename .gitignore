@@ -334,3 +334,9 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 Blog-ASP.NET/
+NewBeeBlog/Migrations/201903140239047_InitialCreate.cs
+NewBeeBlog/Migrations/201903140239047_InitialCreate.Designer.cs
+NewBeeBlog/Migrations/201903140239047_InitialCreate.resx
+NewBeeBlog/Migrations/201903140354426_InitialCreate1.cs
+NewBeeBlog/Migrations/201903140354426_InitialCreate1.Designer.cs
+NewBeeBlog/Migrations/201903140354426_InitialCreate1.resx

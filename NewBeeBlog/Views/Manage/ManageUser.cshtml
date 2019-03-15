@@ -1,14 +1,24 @@
 ﻿@model IEnumerable<NewBeeBlog.ViewModels.ManageUser>
 @{
     ViewBag.Title = "ManageUser";
+    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
-<table id="List" title="@ViewBag.Title" class="easyui-datagrid" 
-       rownumbers="true" fitColumns="true" singleSelect="true">
-    <thead>
-        <tr>
-            <th field="Account" width="400">@Html.DisplayNameFor(model => model.Account)</th>
-            <th field="CommitCount" width="100">@Html.DisplayNameFor(model => model.CommitCount)</th>
-            <th field="Button" width="100"></th>
-        </tr>
-    </thead>
-</table>
+<div data-options="region:'center'" id="tt">
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:80%"
+           url="/manage/LoadUsers"
+           toolbar="#toolbar" pagination="true"
+           rownumbers="true" fitColumns="true" singleSelect="true">
+        <thead>
+            <tr>
+                <th field="Account" width="50">用户账号</th>
+                <th field="Name" width="50">用户昵称</th>
+                <th data-options="field:'_operate',width:80,align:'center',formatter:formatOper">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript">
+    function formatOper(val, row, index) {
+        return  '<a href="javascript:if(confirm(\'确实要删除吗?\'))location=\'/manage/DelUsers?Account=' + row.Account + '\'" class="easyui-linkbutton" plain="true"><font color="black">删除</font></a>';
+    }
+</script>

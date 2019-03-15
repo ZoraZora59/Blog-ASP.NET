@@ -3,6 +3,8 @@ using NewBeeBlog.Models;
 using NewBeeBlog.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -148,7 +150,8 @@ namespace NewBeeBlog.Controllers
                 var user = new User
                 {
                     Account = model.Account,
-                    Password = md5tool.GetMD5(model.Password)//需要md5加密否则是明文传输
+                    Password = md5tool.GetMD5(model.Password),//需要md5加密否则是明文传输
+                    Name = model.Name
                 };
                 try
                 {
@@ -235,7 +238,101 @@ namespace NewBeeBlog.Controllers
         {
             new SerializeTool().Serialize<BlogConfig>(model);
             return View();
-        }      
+
+        }
+        [HttpGet]
+        public ActionResult AddCategroy()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddCategroy(AddCategroy model)
+        {
+            if (ModelState.IsValid)
+            {
+                var categroy = new Categroy();
+                categroy.CategroyName = model.CategroyName;
+                try
+                {
+                    
+                    db.Categroys.Add(categroy);
+                    db.SaveChanges();//保存数据库
+                    
+                    return Content("添加成功");
+                }
+                catch (Exception)
+                {
+                    return Content("添加失败");
+                    throw;
+                }
+                
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult ManageCategroy()
+        {
+            return View();
+        }
+        public JsonResult LoadCategroy()
+        {
+            var list =db.Categroys.ToList().Select(m => new { ID = m.ID, CategroyName = m.CategroyName }).ToList();
+            return Json(list);
+        }
+
+        [HttpGet]
+        public ActionResult ManageUsers()
+        {
+            return View();
+        }
+        public JsonResult LoadUsers()
+        {
+            var list = db.Users.ToList().Select(m => new { Account = m.Account , Name = m.Name}).ToList();
+            foreach (var li in list)
+            {
+                if (li.Account == "admin123")
+                {
+                    list.Remove(li);
+                    break;
+                }
+            }
+            return Json(list);
+        }
+        
+        public ActionResult DelUsers(string Account)
+        {
+            
+            //var odlModel = db.Users.FirstOrDefault(m => m.Account == Account);
+            //Console.WriteLine(Account);
+            //if (odlModel!=null)
+            //{
+            //    DbEntityEntry entry = db.Entry(odlModel);
+            //    entry.State = EntityState.Deleted;
+            //    int res = db.SaveChanges();
+            //    if (res > 0)
+            //    {
+            //        return Content("删除成功");
+            //    }
+            //    else
+            //    {
+            //        return Content("删除失败");
+            //    }
+            //}
+            //return Content("删除失败");
+            Console.WriteLine(Account);
+            var odlModel = db.Users.Find(Account);
+            if(odlModel==null)
+            {
+                return HttpNotFound();
+            }
+            db.Users.Remove(odlModel);
+            db.SaveChanges();
+            return Content("删除成功");
+
+        }
+
+
+
         protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)

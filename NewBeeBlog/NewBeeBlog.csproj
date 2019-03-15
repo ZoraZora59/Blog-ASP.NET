@@ -137,6 +137,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
+    <Compile Include="Migrations\201903140239047_InitialCreate.cs" />
+    <Compile Include="Migrations\201903140239047_InitialCreate.Designer.cs">
+      <DependentUpon>201903140239047_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903140354426_InitialCreate1.cs" />
+    <Compile Include="Migrations\201903140354426_InitialCreate1.Designer.cs">
+      <DependentUpon>201903140354426_InitialCreate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903140900120_InitialCreate2.cs" />
+    <Compile Include="Migrations\201903140900120_InitialCreate2.Designer.cs">
+      <DependentUpon>201903140900120_InitialCreate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Categroy.cs" />
+    <Compile Include="Models\UniqueAttribute.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\LoginUser.cs" />
@@ -939,6 +954,18 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903140239047_InitialCreate.resx">
+      <DependentUpon>201903140239047_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903140354426_InitialCreate1.resx">
+      <DependentUpon>201903140354426_InitialCreate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903140900120_InitialCreate2.resx">
+      <DependentUpon>201903140900120_InitialCreate2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
