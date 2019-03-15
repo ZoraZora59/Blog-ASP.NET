@@ -50,12 +50,11 @@
 
                 </li>
 
-
                 <li>
 
                     <label for="user" class="input-tips2">昵称：</label>
                     <div class="inputOuter2">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "inputstyle2", placeholder = "请输入" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "inputstyle2", placeholder = "请输入你可爱的昵称" })
                         @Html.ValidationMessageFor(m => m.Name)
                     </div>
 
