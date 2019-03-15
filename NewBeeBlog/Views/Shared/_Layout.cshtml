@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="referrer" content="origin">
-    <title>@confuginfo.Name 的个人博客</title>
+    <title>@confuginfo.Name</title>
 
     <link href="~/front/index_files/blog-common.css" rel="stylesheet" />
     <link href="~/front/index_files/bundle-CodingLife.css" rel="stylesheet" />
@@ -44,16 +44,13 @@
                 <ul id="navList">
 
                     <li><a id="blog_nav_myhome" class="menu" href="/">首页</a></li>
-                    <li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/jackchensir">博文</a></li>
-                    @if (currentUser != null)//已经登录
-                    {
-                        <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/index">管理</a></li>
-                    }
-                    else
-                    {
-                        <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/Login">登录</a></li>
-                        <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/Register">注册</a></li>
-                    }
+                    <li><a id="blog_nav_contact" class="menu" rel="nofollow" href="/Textlists/">博文</a></li>
+                   
+                    <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/index">管理</a></li>
+                    
+                    <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/Login">登录</a></li>
+                    <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/Register">注册</a></li>
+                    
 
 
 

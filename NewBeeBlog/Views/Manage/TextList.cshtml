@@ -51,7 +51,6 @@
 </table>
 
 <script>
-    //TODO:刷新页面功能
     function destroyText(tid) {
         //alert(tid);
         $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
@@ -65,7 +64,6 @@
                     success: function () {
                         alert('删除成功');
                         document.getElementById(tid).parentElement.remove();
-                        //document.all.博文管理.document.location.reload();
                     },
                     error: function () {
                         alert('删除失败');
