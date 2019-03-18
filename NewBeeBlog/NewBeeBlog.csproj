@@ -137,30 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
-    <Compile Include="Migrations\201903171100270_InitialCreate.cs" />
-    <Compile Include="Migrations\201903171100270_InitialCreate.Designer.cs">
-      <DependentUpon>201903171100270_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903180226024_InitialCreate1.cs" />
-    <Compile Include="Migrations\201903180226024_InitialCreate1.Designer.cs">
-      <DependentUpon>201903180226024_InitialCreate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903180305512_InitialCreate2.cs" />
-    <Compile Include="Migrations\201903180305512_InitialCreate2.Designer.cs">
-      <DependentUpon>201903180305512_InitialCreate2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TestList.cs" />
     <Compile Include="ViewModels\AddBlog.cs" />
-    <Compile Include="Migrations\201903180246001_InitialCreate.cs" />
-    <Compile Include="Migrations\201903180246001_InitialCreate.Designer.cs">
-      <DependentUpon>201903180246001_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903180306322_InitialCreate1.cs" />
-    <Compile Include="Migrations\201903180306322_InitialCreate1.Designer.cs">
-      <DependentUpon>201903180306322_InitialCreate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="App_Code\KDEHtmlHelper.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
@@ -1362,23 +1340,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903171100270_InitialCreate.resx">
-      <DependentUpon>201903171100270_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903180226024_InitialCreate1.resx">
-      <DependentUpon>201903180226024_InitialCreate1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903180305512_InitialCreate2.resx">
-      <DependentUpon>201903180305512_InitialCreate2.cs</DependentUpon>
-    <EmbeddedResource Include="Migrations\201903180246001_InitialCreate.resx">
-      <DependentUpon>201903180246001_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903180306322_InitialCreate1.resx">
-      <DependentUpon>201903180306322_InitialCreate1.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="attached\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
