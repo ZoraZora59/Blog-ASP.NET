@@ -1,149 +1,39 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NewBeeBlog.Models.NewBeeBlogContext();
+    var listBlog = db.TextLists.ToList();
+}
+@for (int i = 0; i < listBlog.Count; i++)
+{
+    <div class="day">
+        <div class="dayTitle">
+            <a id="homepage1_HomePageDays_DaysList_ctl00_ImageLink" href="https://www.cnblogs.com/jackchensir/archive/2019/02/11.html">@listBlog[i].TextChangeDate.ToString()</a>
+        </div>
+
+
+        <div class="postTitle">
+            <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/10360944.html">@listBlog[i].TextTitle</a>
+        </div>
+        <div class="postCon">
+            <div class="c_b_p_desc">
+                @if (listBlog[i].Text.Length < 100)
+                {
+                    @Html.Raw(@listBlog[i].Text)
+                }
+                else
+                {
+                    @Html.Raw(@listBlog[i].Text.Substring(0,50))
+                }
+
+                <a href="https://www.cnblogs.com/jackchensir/p/10360944.html" class="c_b_p_desc_readmore">阅读全文</a>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @listBlog[i].TextChangeDate.ToString() NewbeeBlog 阅读(14) 评论(0)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=10360944" rel="nofollow">编辑</a></div>
+        <div class="clear"></div>
+
+    </div>
 }
 
-
-                <div class="day">
-                    <div class="dayTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl00_ImageLink" href="https://www.cnblogs.com/jackchensir/archive/2019/02/11.html">2019年2月11日</a>
-                    </div>
-
-
-                    <div class="postTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/10360944.html">Cmder-控制台模拟器</a>
-                    </div>
-                    <div class="postCon">
-                        <div class="c_b_p_desc">
-                            摘要:
-                            Cmder是一个软件包，由于在Windows上缺少漂亮的控制台模拟器而纯粹受挫。
-                            它基于令人惊叹的软件，并采用Monokai配色方案和自定义快速布局，从一开始就看起来很性感。
-                            首先，展示一下界面，和Windows的cmd相互对比一下…… 其次介绍下菜单设置快捷键及其功能： 之后相应的菜单功能就自己摸<a href="https://www.cnblogs.com/jackchensir/p/10360944.html" class="c_b_p_desc_readmore">阅读全文</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="postDesc">posted @@ 2019-02-11 09:59 jackchensir 阅读(14) 评论(0)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=10360944" rel="nofollow">编辑</a></div>
-                    <div class="clear"></div>
-
-                </div>
-
-
-                <div class="day">
-                    <div class="dayTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl01_ImageLink" href="https://www.cnblogs.com/jackchensir/archive/2018/06/27.html">2018年6月27日</a>
-                    </div>
-
-
-                    <div class="postTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl01_DayList_TitleUrl_0" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/9234965.html">Linux下安装mysql（示例mysql5.6安装）</a>
-                    </div>
-                    <div class="postCon">
-                        <div class="c_b_p_desc">
-                            摘要:
-                            1.首先检查你的linux上是否已经安装了mysql 2.如果mysql的版本不是想要的版本。需要把mysql卸载
-                            3.上传mysql的linux安装包（这里是从mysql官网上下载好的，所以就不用演示在线安装） 下载网址:
-                            http://dev.mysql.com/get/Downloads/My<a href="https://www.cnblogs.com/jackchensir/p/9234965.html" class="c_b_p_desc_readmore">阅读全文</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="postDesc">posted @@ 2018-06-27 17:13 jackchensir 阅读(46) 评论(0)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=9234965" rel="nofollow">编辑</a></div>
-                    <div class="clear"></div>
-
-                </div>
-
-
-                <div class="day">
-                    <div class="dayTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl02_ImageLink" href="https://www.cnblogs.com/jackchensir/archive/2018/03/09.html">2018年3月9日</a>
-                    </div>
-
-
-                    <div class="postTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl02_DayList_TitleUrl_0" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/8532357.html">用ajax传递json,返回前台的中文乱码问题</a>
-                    </div>
-                    <div class="postCon">
-                        <div class="c_b_p_desc">
-                            摘要:
-                            java项目中用ajax传递json，返回前台时中文出现问号（乱码问题）的解决办法 首先看一下没有解决前的状态：
-                            我用的框架是ssm,在springMVC中我配置了编码格式为utf-8，每个jsp页面也用了utf-8，
-                            在利用ajax向后台提交的时候也定义了dataType: applicaptio<a href="https://www.cnblogs.com/jackchensir/p/8532357.html" class="c_b_p_desc_readmore">阅读全文</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="postDesc">posted @@ 2018-03-09 10:09 jackchensir 阅读(1270) 评论(0)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=8532357" rel="nofollow">编辑</a></div>
-                    <div class="clear"></div>
-
-                </div>
-
-
-                <div class="day">
-                    <div class="dayTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl03_ImageLink" href="https://www.cnblogs.com/jackchensir/archive/2018/03/02.html">2018年3月2日</a>
-                    </div>
-
-
-                    <div class="postTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl03_DayList_TitleUrl_0" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/8490091.html">在Eclipse中利用maven整合搭建ssm框架</a>
-                    </div>
-                    <div class="postCon">
-                        <div class="c_b_p_desc">
-                            摘要: 首先说明用到的框架： spring +
-                            springMVC + mybatis 构建工具：maven 开发工具：eclipse 开发环境：win10 java版本：jdk1.8
-                            tomcat版本：tomcat8.0 一、创建web项目 先整体看下项目的目录结构 二、maven需要引入的jar包，po<a href="https://www.cnblogs.com/jackchensir/p/8490091.html" class="c_b_p_desc_readmore">阅读全文</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="postDesc">posted @@ 2018-03-02 11:04 jackchensir 阅读(3201) 评论(0)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=8490091" rel="nofollow">编辑</a></div>
-                    <div class="clear"></div>
-
-                </div>
-
-
-                <div class="day">
-                    <div class="dayTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl04_ImageLink" href="https://www.cnblogs.com/jackchensir/archive/2018/01/17.html">2018年1月17日</a>
-                    </div>
-
-
-                    <div class="postTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl04_DayList_TitleUrl_0" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/8306448.html">利用git提交代码</a>
-                    </div>
-                    <div class="postCon">
-                        <div class="c_b_p_desc">
-                            摘要: 一、首先需要下载git
-                            查看电脑是否安装git,打开终端，输入git,回车如果输出如下,则代表已安装了git 如果未安装,则会输出: 按照提示输入:sudo
-                            apt-get install git即可安装!!或者到此处下载:git下载,&nbsp;pkg包下载完成，双击安装。 输入命令:git
-                            --versi<a href="https://www.cnblogs.com/jackchensir/p/8306448.html" class="c_b_p_desc_readmore">阅读全文</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="postDesc">posted @@ 2018-01-17 22:17 jackchensir 阅读(67114) 评论(0)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=8306448" rel="nofollow">编辑</a></div>
-                    <div class="clear"></div>
-
-                </div>
-
-
-                <div class="day">
-                    <div class="dayTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl05_ImageLink" href="https://www.cnblogs.com/jackchensir/archive/2017/10/25.html">2017年10月25日</a>
-                    </div>
-
-
-                    <div class="postTitle">
-                        <a id="homepage1_HomePageDays_DaysList_ctl05_DayList_TitleUrl_0" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/7732035.html">ps知识集锦</a>
-                    </div>
-                    <div class="postCon">
-                        <div class="c_b_p_desc">
-                            摘要: 1、工具箱 移动工具
-                            【V】矩形、椭圆选框工具 【M】套索、多边形套索、磁性套索 【L】快速选择工具、魔棒工具 【W】 裁剪、透视裁剪、切片、切片选择工具
-                            【C】吸管、颜色取样器、标尺、注释、123计数工具 【I】 污点修复画笔、修复画笔、修补、内容感知移动、红眼工具 【J】
-                            画笔、铅笔、颜色替换、混合器画笔工具 【B】仿制图章、图案图章工具 【S】 历史记录画笔工具、历史记录艺术画...<a href="https://www.cnblogs.com/jackchensir/p/7732035.html" class="c_b_p_desc_readmore">阅读全文</a>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="postDesc">posted @@ 2017-10-25 20:05 jackchensir 阅读(78) 评论(1)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7732035" rel="nofollow">编辑</a></div>
-                    <div class="clear"></div>
-
-                </div>
-
-                

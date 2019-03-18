@@ -137,15 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
-    <Compile Include="Migrations\201903180246001_InitialCreate.cs" />
-    <Compile Include="Migrations\201903180246001_InitialCreate.Designer.cs">
-      <DependentUpon>201903180246001_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903180306322_InitialCreate1.cs" />
-    <Compile Include="Migrations\201903180306322_InitialCreate1.Designer.cs">
-      <DependentUpon>201903180306322_InitialCreate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\TestList.cs" />
+    <Compile Include="ViewModels\AddBlog.cs" />
+    <Compile Include="App_Code\KDEHtmlHelper.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
@@ -167,7 +161,6 @@
     <Compile Include="Models\CommitList.cs" />
     <Compile Include="Models\LikeOrDis.cs" />
     <Compile Include="Models\NewBeeBlogContext.cs" />
-    <Compile Include="Models\TextList.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\UpdateText.cs" />
@@ -1299,6 +1292,7 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Home\ChangeInfo.cshtml" />
     <Content Include="Views\Manage\Show.cshtml" />
+    <Content Include="Views\Manage\AddBlog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
@@ -1347,12 +1341,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903180246001_InitialCreate.resx">
-      <DependentUpon>201903180246001_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903180306322_InitialCreate1.resx">
-      <DependentUpon>201903180306322_InitialCreate1.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="attached\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
