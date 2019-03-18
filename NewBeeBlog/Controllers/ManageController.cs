@@ -148,7 +148,6 @@ namespace NewBeeBlog.Controllers
                 throw;
             }
             return Json("success");
-
         }
         // Get:Update
         [HttpGet]

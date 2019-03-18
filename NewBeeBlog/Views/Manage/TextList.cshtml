@@ -41,9 +41,9 @@
                     @Html.DisplayFor(modelItem => item.TextChangeDate)
                 </td>
                 <td field="Button">
-                    <a href="#" class="easyui-linkbutton" plain="true">编辑</a>
-                    |<a href="#" class="easyui-linkbutton" plain="true">详情</a>
-                    |<button href="#" class="easyui-linkbutton" plain="true" onclick="destroyText(@item.TextID)">删除</button>
+                    <button class="easyui-linkbutton" plain="true" onclick="editText(@item.TextID)">编辑</button>
+                    |<button class="easyui-linkbutton" plain="true" onclick="showText(@item.TextID)">详情</button>
+                    |<button class="easyui-linkbutton" plain="true" onclick="destroyText(@item.TextID)">删除</button>
                 </td>
             </tr>
         }
@@ -51,6 +51,12 @@
 </table>
 
 <script>
+    function editText(tid) {
+        window.location.href = "/Manage/Update?TextID=" + tid;
+    }
+    function showText(tid) {
+        window.location.href = "/Manage/Show?TextID=" + tid;
+    }
     function destroyText(tid) {
         //alert(tid);
         $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
