@@ -24,21 +24,14 @@ namespace NewBeeBlog.Models
         [Required]
         [DisplayName("点击量")]
         public int Hot { get; set; }//点击量
-        [DisplayName("附件")]
-        public string Attachment { get; set; }//附件地址
+
         [MaxLength(12)]
         [DisplayName("分类")]
         public string CategoryName { get; set; }//分类
-
-        //[Required]
-        //[MinLength(4)]
-        //[MaxLength(8)]
-        //public string Account { get; set; }//发布人
-
-        public DateTime TextChangeDate { get; set; }//更新时间
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-
+		
+		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+		public DateTime TextChangeDate { get; set; }//更新时间
+		
         //关联表
         //public ICollection<User> Users { get; set; }
         public ICollection<CommitList> CommitLists { get; set; }
