@@ -51,15 +51,12 @@
 </table>
 
 <script>
-<<<<<<< HEAD
     function editText(tid) {
         window.location.href = "/Manage/Update?TextID=" + tid;
     }
     function showText(tid) {
         window.location.href = "/Manage/Show?TextID=" + tid;
     }
-=======
->>>>>>> parent of ad17fc6... 完成文章详情功能，并添加跳转
     function destroyText(tid) {
         //alert(tid);
         $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
