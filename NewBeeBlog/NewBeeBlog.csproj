@@ -137,9 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Models\TestList.cs" />
-    <Compile Include="ViewModels\AddBlog.cs" />
-    <Compile Include="App_Code\KDEHtmlHelper.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
@@ -154,7 +153,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

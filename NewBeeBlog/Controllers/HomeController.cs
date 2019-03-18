@@ -85,11 +85,11 @@ namespace NewBeeBlog.Controllers
         }
 
 
-        public ActionResult Blog()
+        public ActionResult Blog(int id)
         {
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
             ViewBag.currentLoginInfo = currentLoginUser;
-            var model = db.TextLists.FirstOrDefault(m => m.TextID == TextID);
+            var model = db.TextLists.FirstOrDefault(m => m.TextID == id);
             return View(model);
         }
 
