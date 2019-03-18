@@ -137,18 +137,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
-    <Compile Include="Migrations\201903140239047_InitialCreate.cs" />
-    <Compile Include="Migrations\201903140239047_InitialCreate.Designer.cs">
-      <DependentUpon>201903140239047_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201903171100270_InitialCreate.cs" />
+    <Compile Include="Migrations\201903171100270_InitialCreate.Designer.cs">
+      <DependentUpon>201903171100270_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903140354426_InitialCreate1.cs" />
-    <Compile Include="Migrations\201903140354426_InitialCreate1.Designer.cs">
-      <DependentUpon>201903140354426_InitialCreate1.cs</DependentUpon>
+    <Compile Include="Migrations\201903180226024_InitialCreate1.cs" />
+    <Compile Include="Migrations\201903180226024_InitialCreate1.Designer.cs">
+      <DependentUpon>201903180226024_InitialCreate1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903140900120_InitialCreate2.cs" />
-    <Compile Include="Migrations\201903140900120_InitialCreate2.Designer.cs">
-      <DependentUpon>201903140900120_InitialCreate2.cs</DependentUpon>
+    <Compile Include="Migrations\201903180305512_InitialCreate2.cs" />
+    <Compile Include="Migrations\201903180305512_InitialCreate2.Designer.cs">
+      <DependentUpon>201903180305512_InitialCreate2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\TestList.cs" />
+    <Compile Include="ViewModels\AddBlog.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
@@ -170,7 +173,6 @@
     <Compile Include="Models\CommitList.cs" />
     <Compile Include="Models\LikeOrDis.cs" />
     <Compile Include="Models\NewBeeBlogContext.cs" />
-    <Compile Include="Models\TextList.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -940,6 +942,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Home\ChangeInfo.cshtml" />
+    <Content Include="Views\Manage\AddBlog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
@@ -955,14 +958,14 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903140239047_InitialCreate.resx">
-      <DependentUpon>201903140239047_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903171100270_InitialCreate.resx">
+      <DependentUpon>201903171100270_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140354426_InitialCreate1.resx">
-      <DependentUpon>201903140354426_InitialCreate1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903180226024_InitialCreate1.resx">
+      <DependentUpon>201903180226024_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903140900120_InitialCreate2.resx">
-      <DependentUpon>201903140900120_InitialCreate2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903180305512_InitialCreate2.resx">
+      <DependentUpon>201903180305512_InitialCreate2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

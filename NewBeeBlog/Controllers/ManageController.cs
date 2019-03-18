@@ -83,11 +83,46 @@ namespace NewBeeBlog.Controllers
             text = db.TextLists.Find(tID);
             return text;
         }
-        //[HttpPost]
-        //public ActionResult Update(TextList model)//修改文章
-        //{
-        //    return View(model);
-        //}
+        
+        public ActionResult AddBlog()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]//取消敏感字符的验证
+        public ActionResult AddBlog(AddBlog model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.TextLists.Add(new TextList { TextTitle=model.TextTitle,Text=model.Text,CategoryName=model.CategoryName, Hot=0});
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                {
+                    return Content("数据库更新出错");
+                }
+                catch (System.ObjectDisposedException)
+                {
+                    return Content("数据上下文连接已过期");
+                }
+                catch (System.InvalidOperationException)
+                {
+                    return Content("数据实体处理异常");
+                }
+                catch (Exception)
+                {
+                    //TODO:异常报告
+                    return Content("数据库异常");
+                    throw;
+                }
+            }
+            return View();
+        }
+
+
         [HttpPost]
         public JsonResult DeleteText()//文章删除
         {
