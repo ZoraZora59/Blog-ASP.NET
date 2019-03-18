@@ -1,66 +1,94 @@
-﻿@model NewBeeBlog.Models.TextList
+﻿@model NewBeeBlog.ViewModels.UpdateText
+
+@{
+    Layout = null;
+}
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/kindeditor/themes/default/default.css" rel="stylesheet" />
+    <script src="~/kindeditor/kindeditor-all.js"></script>
+    <script src="~/kindeditor/lang/zh-CN.js"></script>
+    <script>
+        var editor;
+        KindEditor.ready(function (K) {
+            editor = K.create('textarea[name="Text"]', {
+                allowFileManager: true,
+                uploadJson: '/manage/upload'
+            });
+            K('input[name=getHtml]').click(function (e) {
+                alert(editor.html());
+            });
+            K('input[name=isEmpty]').click(function (e) {
+                alert(editor.isEmpty());
+            });
+            K('input[name=getText]').click(function (e) {
+                alert(editor.text());
+            });
+            K('input[name=selectedHtml]').click(function (e) {
+                alert(editor.selectedHtml());
+            });
+            K('input[name=setHtml]').click(function (e) {
+                editor.html('<h3>Hello KindEditor</h3>');
+            });
+            K('input[name=setText]').click(function (e) {
+                editor.text('<h3>Hello KindEditor</h3>');
+            });
+            K('input[name=insertHtml]').click(function (e) {
+                editor.insertHtml('<strong>插入HTML</strong>');
+            });
+            K('input[name=appendHtml]').click(function (e) {
+                editor.appendHtml('<strong>添加HTML</strong>');
+            });
+            K('input[name=clear]').click(function (e) {
+                editor.html('');
+            });
+        });
+    </script>
+</head>
 
 
-<div class="form-horizontal">
-<h4>增改文章</h4>
-<hr />
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-<div class="form-group">
-    @Html.LabelFor(model => model.TextTitle, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.TextTitle, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.TextTitle, "", new { @class = "text-danger" })
+
+<body>
+    <div>
+        @using (Html.BeginForm("Update", "Manage", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>名称：</td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Title)
+                    </td>
+                    <td>
+                        @Html.ValidationMessageFor(m => m.Title)
+                    </td>
+                </tr>
+                <tr>
+                    <td>内容：</td>
+                    <td>
+                        <textarea name="Text" style="width:800px;height:800px;visibility:hidden;">KindEditor</textarea>
+                    </td>
+                    <td>
+                        @Html.ValidationMessageFor(m => m.Text)
+                    </td>
+                </tr>
+                <tr>
+                    <td>分类：</td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Category)
+                    </td>
+                    <td>
+                        @Html.ValidationMessageFor(m => m.Category)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="确定" /></td>
+                </tr>
+            </table>
+        }
     </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.Hot, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Hot, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Hot, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.TextChangeDate, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.TextChangeDate, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.TextChangeDate, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Create" class="btn btn-default" />
-    </div>
-</div>
-</div>
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+</body>

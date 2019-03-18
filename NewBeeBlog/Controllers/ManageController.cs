@@ -2,10 +2,14 @@
 using NewBeeBlog.Models;
 using NewBeeBlog.ViewModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -264,9 +268,7 @@ namespace NewBeeBlog.Controllers
             return View();
         }
         
-
-       
-
+		
         [HttpGet]
         public ActionResult Config()
         {
@@ -372,7 +374,345 @@ namespace NewBeeBlog.Controllers
         }
 
 
+		#region
+		[HttpPost]
+		public ActionResult UploadImage()
+		{
+			string savePath = "/Content/UploadImages/";
+			string saveUrl = "/Content/UploadImages/";
+			string fileTypes = "gif,jpg,jpeg,png,bmp";
+			int maxSize = 1000000;
 
+			Hashtable hash = new Hashtable();
+
+			HttpPostedFileBase file = Request.Files["imgFile"];
+			if (file == null)
+			{
+				hash = new Hashtable();
+				hash["error"] = 1;
+				hash["message"] = "请选择文件";
+				return Json(hash);
+			}
+
+			string dirPath = Server.MapPath(savePath);
+			if (!Directory.Exists(dirPath))
+			{
+				hash = new Hashtable();
+				hash["error"] = 1;
+				hash["message"] = "上传目录不存在";
+				return Json(hash);
+			}
+
+			string fileName = file.FileName;
+			string fileExt = Path.GetExtension(fileName).ToLower();
+
+			ArrayList fileTypeList = ArrayList.Adapter(fileTypes.Split(','));
+
+			if (file.InputStream == null || file.InputStream.Length > maxSize)
+			{
+				hash = new Hashtable();
+				hash["error"] = 1;
+				hash["message"] = "上传文件大小超过限制";
+				return Json(hash);
+			}
+
+			if (string.IsNullOrEmpty(fileExt) || Array.IndexOf(fileTypes.Split(','), fileExt.Substring(1).ToLower()) == -1)
+			{
+				hash = new Hashtable();
+				hash["error"] = 1;
+				hash["message"] = "上传文件扩展名是不允许的扩展名";
+				return Json(hash);
+			}
+
+			string newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
+			string filePath = dirPath + newFileName;
+			file.SaveAs(filePath);
+			string fileUrl = saveUrl + newFileName;
+
+			hash = new Hashtable();
+			hash["error"] = 0;
+			hash["url"] = fileUrl;
+
+			return Json(hash, "text/html;charset=UTF-8"); ;
+
+		}
+
+		public ActionResult ProcessRequest()
+		{
+			//根目录路径，相对路径
+			String rootPath = "/Content/UploadImages/";
+			//根目录URL，可以指定绝对路径，
+			String rootUrl = "/Content/UploadImages/";
+			//图片扩展名
+			String fileTypes = "gif,jpg,jpeg,png,bmp";
+
+			String currentPath = "";
+			String currentUrl = "";
+			String currentDirPath = "";
+			String moveupDirPath = "";
+
+			//根据path参数，设置各路径和URL
+			String path = Request.QueryString["path"];
+			path = String.IsNullOrEmpty(path) ? "" : path;
+			if (path == "")
+			{
+				currentPath = Server.MapPath(rootPath);
+				currentUrl = rootUrl;
+				currentDirPath = "";
+				moveupDirPath = "";
+			}
+			else
+			{
+				currentPath = Server.MapPath(rootPath) + path;
+				currentUrl = rootUrl + path;
+				currentDirPath = path;
+				moveupDirPath = Regex.Replace(currentDirPath, @"(.*?)[^\/]+\/$", "$1");
+			}
+
+			//排序形式，name or size or type
+			String order = Request.QueryString["order"];
+			order = String.IsNullOrEmpty(order) ? "" : order.ToLower();
+
+			//不允许使用..移动到上一级目录
+			if (Regex.IsMatch(path, @"\.\."))
+			{
+				Response.Write("Access is not allowed.");
+				Response.End();
+			}
+			//最后一个字符不是/
+			if (path != "" && !path.EndsWith("/"))
+			{
+				Response.Write("Parameter is not valid.");
+				Response.End();
+			}
+			//目录不存在或不是目录
+			if (!Directory.Exists(currentPath))
+			{
+				Response.Write("Directory does not exist.");
+				Response.End();
+			}
+
+			//遍历目录取得文件信息
+			string[] dirList = Directory.GetDirectories(currentPath);
+			string[] fileList = Directory.GetFiles(currentPath);
+
+			switch (order)
+			{
+				case "size":
+					Array.Sort(dirList, new NameSorter());
+					Array.Sort(fileList, new SizeSorter());
+					break;
+				case "type":
+					Array.Sort(dirList, new NameSorter());
+					Array.Sort(fileList, new TypeSorter());
+					break;
+				case "name":
+				default:
+					Array.Sort(dirList, new NameSorter());
+					Array.Sort(fileList, new NameSorter());
+					break;
+			}
+
+			Hashtable result = new Hashtable();
+			result["moveup_dir_path"] = moveupDirPath;
+			result["current_dir_path"] = currentDirPath;
+			result["current_url"] = currentUrl;
+			result["total_count"] = dirList.Length + fileList.Length;
+			List<Hashtable> dirFileList = new List<Hashtable>();
+			result["file_list"] = dirFileList;
+			for (int i = 0; i < dirList.Length; i++)
+			{
+				DirectoryInfo dir = new DirectoryInfo(dirList[i]);
+				Hashtable hash = new Hashtable();
+				hash["is_dir"] = true;
+				hash["has_file"] = (dir.GetFileSystemInfos().Length > 0);
+				hash["filesize"] = 0;
+				hash["is_photo"] = false;
+				hash["filetype"] = "";
+				hash["filename"] = dir.Name;
+				hash["datetime"] = dir.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
+				dirFileList.Add(hash);
+			}
+			for (int i = 0; i < fileList.Length; i++)
+			{
+				FileInfo file = new FileInfo(fileList[i]);
+				Hashtable hash = new Hashtable();
+				hash["is_dir"] = false;
+				hash["has_file"] = false;
+				hash["filesize"] = file.Length;
+				hash["is_photo"] = (Array.IndexOf(fileTypes.Split(','), file.Extension.Substring(1).ToLower()) >= 0);
+				hash["filetype"] = file.Extension.Substring(1);
+				hash["filename"] = file.Name;
+				hash["datetime"] = file.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
+				dirFileList.Add(hash);
+			}
+			//Response.AddHeader("Content-Type", "application/json; charset=UTF-8");
+			//context.Response.Write(JsonMapper.ToJson(result));
+			//context.Response.End();
+			return Json(result, "text/html;charset=UTF-8", JsonRequestBehavior.AllowGet);
+		}
+
+		public class NameSorter : IComparer
+		{
+			public int Compare(object x, object y)
+			{
+				if (x == null && y == null)
+				{
+					return 0;
+				}
+				if (x == null)
+				{
+					return -1;
+				}
+				if (y == null)
+				{
+					return 1;
+				}
+				FileInfo xInfo = new FileInfo(x.ToString());
+				FileInfo yInfo = new FileInfo(y.ToString());
+
+				return xInfo.FullName.CompareTo(yInfo.FullName);
+			}
+		}
+
+		public class SizeSorter : IComparer
+		{
+			public int Compare(object x, object y)
+			{
+				if (x == null && y == null)
+				{
+					return 0;
+				}
+				if (x == null)
+				{
+					return -1;
+				}
+				if (y == null)
+				{
+					return 1;
+				}
+				FileInfo xInfo = new FileInfo(x.ToString());
+				FileInfo yInfo = new FileInfo(y.ToString());
+
+				return xInfo.Length.CompareTo(yInfo.Length);
+			}
+		}
+
+		public class TypeSorter : IComparer
+		{
+			public int Compare(object x, object y)
+			{
+				if (x == null && y == null)
+				{
+					return 0;
+				}
+				if (x == null)
+				{
+					return -1;
+				}
+				if (y == null)
+				{
+					return 1;
+				}
+				FileInfo xInfo = new FileInfo(x.ToString());
+				FileInfo yInfo = new FileInfo(y.ToString());
+
+				return xInfo.Extension.CompareTo(yInfo.Extension);
+			}
+		}
+		#endregion
+
+
+		// POST: Blogs/Create
+		// 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
+		// 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
+		[HttpPost]
+		//[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
+		public ActionResult Update([Bind(Include = "Title,Category,Text")] UpdateText BlogText)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
+					db.SaveChanges();
+				}
+				catch (Exception)//TODO:添加异常处理信息
+				{
+
+					throw;
+				}
+			}
+
+			return View(BlogText);
+		}
+        public ActionResult Upload()
+        {
+            //文件保存目录路径
+            String savePath = "/attached/";
+            //文件保存目录URL
+            String saveUrl = "/attached/";
+            //定义允许上传的文件扩展名
+            Hashtable extTable = new Hashtable();
+            extTable.Add("image", "gif,jpg,jpeg,png,bmp");
+            extTable.Add("flash", "swf,flv");
+            extTable.Add("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
+            extTable.Add("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2");
+            //最大文件大小
+            int maxSize = 1000000;
+            HttpPostedFileBase imgFile = Request.Files["imgFile"];
+            if (imgFile == null)
+            {
+                return Content("请选择文件。");
+            }
+            String dirPath = Server.MapPath(savePath);
+            if (!Directory.Exists(dirPath))
+            {
+                return Content("上传目录不存在。");
+            }
+            String dirName = Request.QueryString["dir"];
+            if (String.IsNullOrEmpty(dirName))
+            {
+                dirName = "image";
+            }
+            if (!extTable.ContainsKey(dirName))
+            {
+                return Content("目录名不正确。");
+            }
+            String fileName = imgFile.FileName;
+            String fileExt = Path.GetExtension(fileName).ToLower();
+            if (imgFile.InputStream == null || imgFile.InputStream.Length > maxSize)
+            {
+                return Content("上传文件大小超过限制。");
+            }
+            if (String.IsNullOrEmpty(fileExt) || Array.IndexOf(((String)extTable[dirName]).Split(','), fileExt.Substring(1).ToLower()) == -1)
+            {
+                return Content("上传文件扩展名是不允许的扩展名。\n只允许" + ((String)extTable[dirName]) + "格式。");
+            }
+            //创建文件夹
+            dirPath += dirName + "/";
+            saveUrl += dirName + "/";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+            String ymd = DateTime.Now.ToString("yyyyMMdd", DateTimeFormatInfo.InvariantInfo);
+            dirPath += ymd + "/";
+            saveUrl += ymd + "/";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+            String newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
+            String filePath = dirPath + newFileName;
+            imgFile.SaveAs(filePath);
+            String fileUrl = saveUrl + newFileName;
+            Hashtable hash = new Hashtable();
+            hash["error"] = 0;
+            hash["url"] = fileUrl;
+            return Json(hash);
+        }
         protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
