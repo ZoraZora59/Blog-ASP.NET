@@ -90,6 +90,10 @@ namespace NewBeeBlog.Controllers
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
             ViewBag.currentLoginInfo = currentLoginUser;
             var model = db.TextLists.FirstOrDefault(m => m.TextID == id);
+            model.Hot += 1;
+            DbEntityEntry entry = db.Entry(model);
+            entry.State = EntityState.Modified;
+            int res = db.SaveChanges();
             return View(model);
         }
 

@@ -1290,6 +1290,7 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Home\ChangeInfo.cshtml" />
     <Content Include="Views\Manage\AddBlog.cshtml" />
+    <Content Include="Views\Home\Blog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
