@@ -138,8 +138,6 @@
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
     <Compile Include="Models\TestList.cs" />
-    <Compile Include="ViewModels\AddBlog.cs" />
-    <Compile Include="App_Code\KDEHtmlHelper.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
