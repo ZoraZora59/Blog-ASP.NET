@@ -18,7 +18,15 @@
         </div>
         <div class="postCon">
             <div class="c_b_p_desc">
-                @listBlog[i].Text
+                @if (listBlog[i].Text.Length < 100)
+                {
+                    @Html.Raw(@listBlog[i].Text)
+                }
+                else
+                {
+                    @Html.Raw(@listBlog[i].Text.Substring(0,50))
+                }
+
                 <a href="https://www.cnblogs.com/jackchensir/p/10360944.html" class="c_b_p_desc_readmore">阅读全文</a>
             </div>
         </div>
