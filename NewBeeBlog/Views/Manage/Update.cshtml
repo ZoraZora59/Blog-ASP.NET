@@ -32,6 +32,9 @@
             </div>
         </div>
     }*@
+
+
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -47,14 +50,23 @@
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
+<<<<<<< HEAD
         <div class="form-group">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" }, id = "content" })
+=======
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } ,id="content"})
+>>>>>>> parent of ad17fc6... 完成文章详情功能，并添加跳转
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
             </div>
         </div>
 
+<<<<<<< HEAD
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -64,14 +76,30 @@
     </div>
     <div>
         <button type="button" class="easyui-linkbutton" plain="true" onclick="backToList()">返回列表</button>
+=======
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+>>>>>>> parent of ad17fc6... 完成文章详情功能，并添加跳转
     </div>
 }
 
 
 <script>
-    function backToList() {
-        window.location.href = "/Manage/TextList";
-    }
     var editor;
     KindEditor.ready(function (K) {
         editor = K.create('textarea[id="content"]', {
