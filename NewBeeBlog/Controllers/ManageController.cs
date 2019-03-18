@@ -258,6 +258,28 @@ namespace NewBeeBlog.Controllers
 			}
 			return View(BlogText);
 		}
+		[HttpGet]
+		public ActionResult Show()//文章详情
+		{
+			try
+			{
+				string jstID = Request["TextID"].ToString();
+				if (jstID != null)
+				{
+					int tid = int.Parse(jstID);
+					TextList model = new TextList();
+					model = db.TextLists.Find(tid);
+					if (model != null)
+						return View(model);
+				}
+			}
+			catch (Exception)
+			{
+				return Redirect("/Manage/TextList");
+				//throw;
+			}
+			return Redirect("/Manage/TextList");
+		}
 
 		[HttpGet]
         public ActionResult Config()
@@ -574,28 +596,6 @@ namespace NewBeeBlog.Controllers
 		}
 		#endregion
 
-		[HttpGet]
-		public ActionResult Show()//文章详情
-		{
-			try
-			{
-				string jstID = Request["TextID"].ToString();
-				if (jstID != null)
-				{
-					int tid = int.Parse(jstID);
-					TextList model = new TextList();
-					model = db.TextLists.Find(tid);
-					if (model != null)
-						return View(model);
-				}
-			}
-			catch (Exception)
-			{
-				return Redirect("/Manage/TextList");
-				//throw;
-			}
-			return Redirect("/Manage/TextList");
-		}
 		
 		protected override void Dispose(bool disposing)//数据连接释放
         {
