@@ -54,6 +54,9 @@
     function editText(tid) {
         window.location.href = "/Manage/Update?TextID=" + tid;
     }
+    function showText(tid) {
+        window.location.href = "/Manage/Show?TextID=" + tid;
+    }
     function destroyText(tid) {
         //alert(tid);
         $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {

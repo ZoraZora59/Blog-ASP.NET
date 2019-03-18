@@ -46,6 +46,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("编辑文章", "Update", new { TextID = Model.TextID }) |
-    @Html.ActionLink("返回列表", "TextList")
+    <div>
+        @Html.ActionLink("编辑文章", "Update", new { TextID = Model.TextID })
+    </div>
+    <div>
+        @Html.ActionLink("返回列表", "TextList")
+    </div>
 </p>

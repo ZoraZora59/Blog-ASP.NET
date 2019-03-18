@@ -18,10 +18,7 @@ namespace NewBeeBlog.Controllers
 {
     public class ManageController : Controller
     {
-
         private NewBeeBlogContext db = new NewBeeBlogContext();
-        // GET: Manage
-        // Post:Index
         public ActionResult Index()//生成页面时加载Model数据
         {
             try
