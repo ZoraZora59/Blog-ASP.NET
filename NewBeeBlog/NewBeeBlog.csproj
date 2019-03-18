@@ -1292,7 +1292,11 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Home\ChangeInfo.cshtml" />
     <Content Include="Views\Manage\Show.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Manage\AddBlog.cshtml" />
+=======
+    <Content Include="Views\Manage\View.cshtml" />
+>>>>>>> parent of c20daed... Update NewBeeBlog.csproj
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
