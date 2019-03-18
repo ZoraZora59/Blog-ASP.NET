@@ -40,7 +40,7 @@ namespace NewBeeBlog.Controllers
         }
         //Get:ManageUser
         [HttpGet]
-        public ActionResult ManageUser()
+        public ActionResult ManageUser()//TODO:未完成评论统计
         {
             List<ManageUser> manageUsers = new List<ManageUser>();
             List<User> trans = db.Users.ToList();
@@ -58,33 +58,61 @@ namespace NewBeeBlog.Controllers
             }
             return View(manageUsers);
         }
+
+		[HttpGet]
+		public ActionResult Show()//文章详情
+		{
+			try
+			{
+				string jstID = Request["TextID"].ToString();
+				if (jstID != null)
+				{
+					int tid = int.Parse(jstID);
+					TextList model = new TextList();
+					model=db.TextLists.Find(tid);
+					if(model!=null)
+						return View(model);
+				}
+			}
+			catch (Exception)
+			{
+				return Redirect("/Manage/TextList");
+				//throw;
+			}
+			return Redirect("/Manage/TextList");
+		}
         //Get:Update
         [HttpGet]
         public ActionResult Update()//文章更新
-        {
-            //try
-            //{
-            //    string jstID = Request["TextID"].ToString();
-            //    if(jstID!=null)
-            //    {
-            //        int tID = int.Parse(jstID);
-            //        var text = new TextList();
-            //        text = GetTextContent(tID);
-            //        ViewBag.title = "文章更新";
-            //        return View(text);
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
-            //ViewBag.Title = "创建文章";
-            return View();
+		{
+			try
+			{
+				string jstID = Request["TextID"].ToString();
+				if (jstID != null)
+				{
+					int tID = int.Parse(jstID);
+					var text = new TextList();
+					text = GetTextContent(tID);
+					ViewBag.title = "文章更新";
+					UpdateText Utext = new UpdateText { Id = text.TextID, Title = text.TextTitle, Category = text.CategoryName,Text=text.Text };
+					return View(Utext);
+				}
+			}
+			catch(NullReferenceException)
+			{
+				//TODO：异常处理
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+			ViewBag.Title = "创建文章";
+			return View(new UpdateText());
         }
-        public TextList GetTextContent(int tID)
+        public TextList GetTextContent(int tID)//根据文章ID查找对应文章
         {
             var text = new TextList();
-            text = db.TextLists.Find(tID);
+            text = db.TextLists.Find(tID);//找不到会返回null
             return text;
         }
         //[HttpPost]
@@ -232,9 +260,29 @@ namespace NewBeeBlog.Controllers
             }
             return View();
         }
-        
-		
-        [HttpGet]
+
+		[HttpPost]
+		//[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
+		public ActionResult Update([Bind(Include = "Title,Category,Text")] UpdateText BlogText)//增改博文的数据库修改
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
+					db.SaveChanges();
+				}
+				catch (Exception)//TODO:添加异常处理信息
+				{
+
+					throw;
+				}
+			}
+
+			return View(BlogText);
+		}
+		[HttpGet]
         public ActionResult Config()
         {
             var model = new SerializeTool().DeSerialize<BlogConfig>();
@@ -337,9 +385,8 @@ namespace NewBeeBlog.Controllers
             return Content("删除成功");
 
         }
-
-
-		#region
+		
+# region kindeditor操作
 		[HttpPost]
 		public ActionResult UploadImage()
 		{
@@ -586,32 +633,8 @@ namespace NewBeeBlog.Controllers
 			}
 		}
 		#endregion
-
-
-		// POST: Blogs/Create
-		// 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
-		// 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
-		[HttpPost]
-		//[ValidateAntiForgeryToken]
-		[ValidateInput(false)]
-		public ActionResult Update([Bind(Include = "Title,Category,Text")] UpdateText BlogText)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
-					db.SaveChanges();
-				}
-				catch (Exception)//TODO:添加异常处理信息
-				{
-
-					throw;
-				}
-			}
-
-			return View(BlogText);
-		}
+		
+		
 		protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
