@@ -15,7 +15,6 @@ namespace NewBeeBlog.Models
 
         [Required]
         [DisplayName("文章标题")]
-        [MinLength(4)]
         [MaxLength(40)]
         public string TextTitle { get; set; }//标题
         [Required]

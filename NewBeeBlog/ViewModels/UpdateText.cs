@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace NewBeeBlog.ViewModels
 {
@@ -21,5 +22,6 @@ namespace NewBeeBlog.ViewModels
 
 		[Display(Name ="分类")]
 		public string Category { get; set; }
-	}
+        
+    }
 }

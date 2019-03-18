@@ -146,6 +146,7 @@
       <DependentUpon>201903180306322_InitialCreate1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="App_Code\KDEHtmlHelper.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
@@ -1352,6 +1353,9 @@
     <EmbeddedResource Include="Migrations\201903180306322_InitialCreate1.resx">
       <DependentUpon>201903180306322_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="attached\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
