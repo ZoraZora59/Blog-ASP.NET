@@ -1291,15 +1291,8 @@
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Home\ChangeInfo.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Manage\Show.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Views\Manage\AddBlog.cshtml" />
-=======
     <Content Include="Views\Manage\View.cshtml" />
->>>>>>> parent of c20daed... Update NewBeeBlog.csproj
-=======
->>>>>>> parent of ad17fc6... 完成文章详情功能，并添加跳转
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
