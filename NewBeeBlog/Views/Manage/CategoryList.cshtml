@@ -4,6 +4,8 @@
 <!--先引用jquery.min再引用jquery-->
 <script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
 <link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
+<link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
+<script type="text/javascript"></script>
 
 <table class="table">
     <tr>
@@ -22,7 +24,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td id="@item.CategoryName">
                 @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
@@ -31,12 +33,56 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CategoryHot)
             </td>
-            <td>
-                @Html.ActionLink("修改分类名", "Edit", new { CategoryName = item.CategoryName }) |
-                @Html.ActionLink("分类详情", "Details", new { CategoryName = item.CategoryName }) |
-                @Html.ActionLink("删除此分类", "Delete", new { CategoryName = item.CategoryName })
+            <td field="Button">
+                <button class="easyui-linkbutton" plain="true" onclick="editCategory('@item.CategoryName')">修改分类名</button>
+               |<button class="easyui-linkbutton" plain="true" onclick="showCategory('@item.CategoryName')">分类详情</button>
+               |<button class="easyui-linkbutton" plain="true" onclick="deleteCategory('@item.CategoryName')">删除此分类</button>
             </td>
         </tr>
     }
 
 </table>
+<script>
+    function editCategory(c) {
+        window.location.href = "/Manage/EditCategory?CategoryName=" + c;
+    }
+    function showCategory(c) {
+        window.location.href = "/Manage/Show?CategoryName=" + c;
+    }
+    function deleteCategory(c) {
+        alert(c);
+        $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r)
+        {
+            if (r)
+            {
+                //$.ajax({
+                //    ajax: false,
+                //    type: "POST",//FromMethod
+                //    url: "/Manage/DeleteCategory",//"/Controller/Action"
+                //    data: { CategoryName: c},//参数 "参数名："参数值""
+                //    datatype: 'html',
+                //    success: function () {
+                //        alert('删除成功');
+                //        document.getElementById(c).parentElement.remove();
+                //    },
+                //    error: function (data) {
+                //        alert('删除失败');
+                //    }
+                //});
+
+                $.post("/Manage/DeleteCategory", { CategoryName: c }, function (data)
+                {
+                    if (data == 0) {
+                        document.getElementById(c).parentElement.remove();
+                        alert("删除成功");
+                    }
+                    else
+                    {
+                        alert("删除失败");
+                    }
+                }
+                )
+            }
+        }
+    )}
+</script>

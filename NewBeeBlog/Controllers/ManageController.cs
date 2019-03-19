@@ -103,6 +103,10 @@ namespace NewBeeBlog.Controllers
 			{
 				var categoryItem = new CategoryList();//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
 				categoryItem.CategoryName = item.CategoryName;
+				if(categoryItem.CategoryName==null)
+				{
+					categoryItem.CategoryName = "未分类";
+				}
 				if(!mod.Exists(T=>T.CategoryName==categoryItem.CategoryName))//若不存在于已生成列表则添加进列表
 				{
 					categoryItem.CategoryHot += item.Hot;
@@ -118,7 +122,37 @@ namespace NewBeeBlog.Controllers
 			mod=mod.OrderByDescending(T=>T.CategoryHot).ToList();
             return View(mod);
         }
-		
+
+		[HttpPost]
+		public JsonResult DeleteCategory()//删除指定分类
+		{
+			string name;
+			try
+			{
+				name = Request["CategoryName"].ToString();
+				if (name == "未分类")
+					return Json(1);
+				while (db.TextLists.FirstOrDefault(c => c.CategoryName == name) != null)
+				{
+					//1.先查询要修改的原数据
+					TextList modelNew = db.TextLists.Where(a => a.CategoryName == name).FirstOrDefault();
+
+					//2.设置修改后的值
+					modelNew.CategoryName = null;
+					db.SaveChanges();
+				}
+			}
+			catch (ArgumentNullException)
+			{
+				throw;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+			return Json(0);
+		}
+
         [HttpPost]
         public JsonResult DeleteText()//文章删除
         {
