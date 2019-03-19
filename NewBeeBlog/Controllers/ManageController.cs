@@ -98,10 +98,10 @@ namespace NewBeeBlog.Controllers
         {
 			List<CategoryList> mod = new List<CategoryList>();
 			List<TextList> temp = new List<TextList>();
-			var categoryItem = new CategoryList();
 			temp = db.TextLists.ToList();
 			foreach(var item in temp)
 			{
+				var categoryItem = new CategoryList();//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
 				categoryItem.CategoryName = item.CategoryName;
 				if(!mod.Exists(T=>T.CategoryName==categoryItem.CategoryName))//若不存在于已生成列表则添加进列表
 				{
