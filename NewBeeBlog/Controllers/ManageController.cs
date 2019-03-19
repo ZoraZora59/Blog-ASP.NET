@@ -50,54 +50,84 @@ namespace NewBeeBlog.Controllers
                 temp.Account = item.Account;
                 temp.CommitCount = 0;
                 var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
-                foreach(var cmt in cmtlist)
+                foreach (var cmt in cmtlist)
                 {
                     temp.CommitCount++;
                 }
                 manageUsers.Add(temp);
             }
             return View(manageUsers);
-		}//TODO:未完成评论统计
-		 //Get:Update
-		[HttpGet]
+        }
+        //Get:Update
+        [HttpGet]
         public ActionResult Update()//文章更新
         {
-			try
-			{
-				string jstID = Request["TextID"].ToString();
-				if (jstID != null)
-				{
-					int tID = int.Parse(jstID);
-					var text = new TextList();
-					text = GetTextContent(tID);
-					ViewBag.title = "文章更新";
-					UpdateText Utext = new UpdateText { Id = text.TextID, Title = text.TextTitle, Category = text.CategoryName, Text = text.Text };
-					return View(Utext);
-				}
-			}
-			catch (NullReferenceException)
-			{
-				//TODO：异常处理
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-			ViewBag.Title = "创建文章";
-			return View(new UpdateText());
-		}
+            //try
+            //{
+            //    string jstID = Request["TextID"].ToString();
+            //    if(jstID!=null)
+            //    {
+            //        int tID = int.Parse(jstID);
+            //        var text = new TextList();
+            //        text = GetTextContent(tID);
+            //        ViewBag.title = "文章更新";
+            //        return View(text);
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
+            //ViewBag.Title = "创建文章";
+            return View();
+        }
         public TextList GetTextContent(int tID)
         {
             var text = new TextList();
-            text = db.TextLists.Find(tID);//找不到会返回null
-			return text;
-			}//根据文章ID查找对应文章
-		//[HttpPost]
-		//public ActionResult Update(TextList model)//修改文章
-		//{
-		//    return View(model);
-		//}
-		[HttpPost]
+            text = db.TextLists.Find(tID);
+            return text;
+        }
+
+        public ActionResult AddBlog()
+        {
+            return View();
+        }
+
+        //[HttpPost]
+        //[ValidateInput(false)]//取消敏感字符的验证
+        //public ActionResult AddBlog(AddBlog model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            db.TextLists.Add(new TextList { TextTitle = model.TextTitle, Text = model.Text, CategoryName = model.CategoryName, Hot = 0 });
+        //            db.SaveChanges();
+        //        }
+        //        catch (System.Data.Entity.Infrastructure.DbUpdateException)
+        //        {
+        //            return Content("数据库更新出错");
+        //        }
+        //        catch (System.ObjectDisposedException)
+        //        {
+        //            return Content("数据上下文连接已过期");
+        //        }
+        //        catch (System.InvalidOperationException)
+        //        {
+        //            return Content("数据实体处理异常");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            //TODO:异常报告
+        //            return Content("数据库异常");
+        //            throw;
+        //        }
+        //    }
+        //    return View();
+        //}
+
+
+        [HttpPost]
         public JsonResult DeleteText()//文章删除
         {
             try
@@ -118,7 +148,6 @@ namespace NewBeeBlog.Controllers
                 throw;
             }
             return Json("success");
-            
         }
         // Get:Update
         [HttpGet]
@@ -151,7 +180,7 @@ namespace NewBeeBlog.Controllers
             if (ModelState.IsValid)
             //判断是否验证通过
             {
-                string sessionValidCode = Session["validatecode"]==null?string.Empty: Session["validatecode"].ToString();
+                string sessionValidCode = Session["validatecode"] == null ? string.Empty : Session["validatecode"].ToString();
                 if (!model.Code.Equals(sessionValidCode))
                 {
                     return Content("验证码输入错误");
@@ -164,19 +193,19 @@ namespace NewBeeBlog.Controllers
                 };
                 try
                 {
-                   db.Users.Add(user);
-                   db.SaveChanges();
-                   //保存数据库 
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    //保存数据库 
                 }
-                catch(System.Data.Entity.Infrastructure.DbUpdateException)
+                catch (System.Data.Entity.Infrastructure.DbUpdateException)
                 {
                     return Content("数据库更新出错");
                 }
-                catch(System.ObjectDisposedException)
+                catch (System.ObjectDisposedException)
                 {
                     return Content("数据上下文连接已过期");
                 }
-                catch(System.InvalidOperationException)
+                catch (System.InvalidOperationException)
                 {
                     return Content("数据实体处理异常");
                 }
@@ -185,7 +214,7 @@ namespace NewBeeBlog.Controllers
                     //TODO:异常报告
                     return Content("数据库异常");
                     throw;
-                }           
+                }
             }
             return Redirect("/");
         }
@@ -231,57 +260,15 @@ namespace NewBeeBlog.Controllers
                             return Content("账号或密码不正确");
                         }
                     }
-              
-                    
+
+
                 }
             }
             return View();
         }
 
-		[HttpPost]
-		//[ValidateAntiForgeryToken]
-		[ValidateInput(false)]
-		public ActionResult Update([Bind(Include = "Title,Category,Text")] UpdateText BlogText)//增改博文    数据库修改
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
-					db.SaveChanges();
-				}
-				catch (Exception)//TODO:添加异常处理信息
-				{
 
-					throw;
-				}
-			}
-			return View(BlogText);
-		}
-		[HttpGet]
-		public ActionResult Show()//文章详情
-		{
-			try
-			{
-				string jstID = Request["TextID"].ToString();
-				if (jstID != null)
-				{
-					int tid = int.Parse(jstID);
-					TextList model = new TextList();
-					model = db.TextLists.Find(tid);
-					if (model != null)
-						return View(model);
-				}
-			}
-			catch (Exception)
-			{
-				return Redirect("/Manage/TextList");
-				//throw;
-			}
-			return Redirect("/Manage/TextList");
-		}
-
-		[HttpGet]
+        [HttpGet]
         public ActionResult Config()
         {
             var model = new SerializeTool().DeSerialize<BlogConfig>();
@@ -294,7 +281,45 @@ namespace NewBeeBlog.Controllers
             return View();
 
         }
+        [HttpGet]
+        public ActionResult AddCategroy()
+        {
+            return View();
+        }
+        //[HttpPost]
+        //public ActionResult AddCategroy(AddCategroy model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var categroy = new Categroy();
+        //        categroy.CategroyName = model.CategroyName;
+        //        try
+        //        {
 
+        //            db.Categroys.Add(categroy);
+        //            db.SaveChanges();//保存数据库
+
+        //            return Content("添加成功");
+        //        }
+        //        catch (Exception)
+        //        {
+        //            return Content("添加失败");
+        //            throw;
+        //        }
+
+        //    }
+        //    return View();
+        //}
+        //[HttpGet]
+        //public ActionResult ManageCategroy()
+        //{
+        //    return View();
+        //}
+        //public JsonResult LoadCategroy()
+        //{
+        //    var list =db.Categroys.ToList().Select(m => new { ID = m.ID, CategroyName = m.CategroyName }).ToList();
+        //    return Json(list);
+        //}
 
         [HttpGet]
         public ActionResult ManageUsers()
@@ -303,7 +328,7 @@ namespace NewBeeBlog.Controllers
         }
         public JsonResult LoadUsers()
         {
-            var list = db.Users.ToList().Select(m => new { Account = m.Account , Name = m.Name}).ToList();
+            var list = db.Users.ToList().Select(m => new { Account = m.Account, Name = m.Name }).ToList();
             foreach (var li in list)
             {
                 if (li.Account == "admin123")
@@ -314,10 +339,10 @@ namespace NewBeeBlog.Controllers
             }
             return Json(list);
         }
-        
+
         public ActionResult DelUsers(string Account)
         {
-            
+
             //var odlModel = db.Users.FirstOrDefault(m => m.Account == Account);
             //Console.WriteLine(Account);
             //if (odlModel!=null)
@@ -337,7 +362,7 @@ namespace NewBeeBlog.Controllers
             //return Content("删除失败");
             Console.WriteLine(Account);
             var odlModel = db.Users.Find(Account);
-            if(odlModel==null)
+            if (odlModel == null)
             {
                 return HttpNotFound();
             }
@@ -348,256 +373,346 @@ namespace NewBeeBlog.Controllers
         }
 
 
-		#region kindeditor操作
-		[HttpPost]
-		public ActionResult UploadImage()
-		{
-			string savePath = "/Content/UploadImages/";
-			string saveUrl = "/Content/UploadImages/";
-			string fileTypes = "gif,jpg,jpeg,png,bmp";
-			int maxSize = 1000000;
+        #region
+        [HttpPost]
+        public ActionResult UploadImage()
+        {
+            string savePath = "/Content/UploadImages/";
+            string saveUrl = "/Content/UploadImages/";
+            string fileTypes = "gif,jpg,jpeg,png,bmp";
+            int maxSize = 1000000;
 
-			Hashtable hash = new Hashtable();
+            Hashtable hash = new Hashtable();
 
-			HttpPostedFileBase file = Request.Files["imgFile"];
-			if (file == null)
-			{
-				hash = new Hashtable();
-				hash["error"] = 1;
-				hash["message"] = "请选择文件";
-				return Json(hash);
-			}
+            HttpPostedFileBase file = Request.Files["imgFile"];
+            if (file == null)
+            {
+                hash = new Hashtable();
+                hash["error"] = 1;
+                hash["message"] = "请选择文件";
+                return Json(hash);
+            }
 
-			string dirPath = Server.MapPath(savePath);
-			if (!Directory.Exists(dirPath))
-			{
-				hash = new Hashtable();
-				hash["error"] = 1;
-				hash["message"] = "上传目录不存在";
-				return Json(hash);
-			}
+            string dirPath = Server.MapPath(savePath);
+            if (!Directory.Exists(dirPath))
+            {
+                hash = new Hashtable();
+                hash["error"] = 1;
+                hash["message"] = "上传目录不存在";
+                return Json(hash);
+            }
 
-			string fileName = file.FileName;
-			string fileExt = Path.GetExtension(fileName).ToLower();
+            string fileName = file.FileName;
+            string fileExt = Path.GetExtension(fileName).ToLower();
 
-			ArrayList fileTypeList = ArrayList.Adapter(fileTypes.Split(','));
+            ArrayList fileTypeList = ArrayList.Adapter(fileTypes.Split(','));
 
-			if (file.InputStream == null || file.InputStream.Length > maxSize)
-			{
-				hash = new Hashtable();
-				hash["error"] = 1;
-				hash["message"] = "上传文件大小超过限制";
-				return Json(hash);
-			}
+            if (file.InputStream == null || file.InputStream.Length > maxSize)
+            {
+                hash = new Hashtable();
+                hash["error"] = 1;
+                hash["message"] = "上传文件大小超过限制";
+                return Json(hash);
+            }
 
-			if (string.IsNullOrEmpty(fileExt) || Array.IndexOf(fileTypes.Split(','), fileExt.Substring(1).ToLower()) == -1)
-			{
-				hash = new Hashtable();
-				hash["error"] = 1;
-				hash["message"] = "上传文件扩展名是不允许的扩展名";
-				return Json(hash);
-			}
+            if (string.IsNullOrEmpty(fileExt) || Array.IndexOf(fileTypes.Split(','), fileExt.Substring(1).ToLower()) == -1)
+            {
+                hash = new Hashtable();
+                hash["error"] = 1;
+                hash["message"] = "上传文件扩展名是不允许的扩展名";
+                return Json(hash);
+            }
 
-			string newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
-			string filePath = dirPath + newFileName;
-			file.SaveAs(filePath);
-			string fileUrl = saveUrl + newFileName;
+            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
+            string filePath = dirPath + newFileName;
+            file.SaveAs(filePath);
+            string fileUrl = saveUrl + newFileName;
 
-			hash = new Hashtable();
-			hash["error"] = 0;
-			hash["url"] = fileUrl;
+            hash = new Hashtable();
+            hash["error"] = 0;
+            hash["url"] = fileUrl;
 
-			return Json(hash, "text/html;charset=UTF-8"); ;
+            return Json(hash, "text/html;charset=UTF-8"); ;
 
-		}
+        }
 
-		public ActionResult ProcessRequest()
-		{
-			//根目录路径，相对路径
-			String rootPath = "/Content/UploadImages/";
-			//根目录URL，可以指定绝对路径，
-			String rootUrl = "/Content/UploadImages/";
-			//图片扩展名
-			String fileTypes = "gif,jpg,jpeg,png,bmp";
+        public ActionResult ProcessRequest()
+        {
+            //根目录路径，相对路径
+            String rootPath = "/Content/UploadImages/";
+            //根目录URL，可以指定绝对路径，
+            String rootUrl = "/Content/UploadImages/";
+            //图片扩展名
+            String fileTypes = "gif,jpg,jpeg,png,bmp";
 
-			String currentPath = "";
-			String currentUrl = "";
-			String currentDirPath = "";
-			String moveupDirPath = "";
+            String currentPath = "";
+            String currentUrl = "";
+            String currentDirPath = "";
+            String moveupDirPath = "";
 
-			//根据path参数，设置各路径和URL
-			String path = Request.QueryString["path"];
-			path = String.IsNullOrEmpty(path) ? "" : path;
-			if (path == "")
-			{
-				currentPath = Server.MapPath(rootPath);
-				currentUrl = rootUrl;
-				currentDirPath = "";
-				moveupDirPath = "";
-			}
-			else
-			{
-				currentPath = Server.MapPath(rootPath) + path;
-				currentUrl = rootUrl + path;
-				currentDirPath = path;
-				moveupDirPath = Regex.Replace(currentDirPath, @"(.*?)[^\/]+\/$", "$1");
-			}
+            //根据path参数，设置各路径和URL
+            String path = Request.QueryString["path"];
+            path = String.IsNullOrEmpty(path) ? "" : path;
+            if (path == "")
+            {
+                currentPath = Server.MapPath(rootPath);
+                currentUrl = rootUrl;
+                currentDirPath = "";
+                moveupDirPath = "";
+            }
+            else
+            {
+                currentPath = Server.MapPath(rootPath) + path;
+                currentUrl = rootUrl + path;
+                currentDirPath = path;
+                moveupDirPath = Regex.Replace(currentDirPath, @"(.*?)[^\/]+\/$", "$1");
+            }
 
-			//排序形式，name or size or type
-			String order = Request.QueryString["order"];
-			order = String.IsNullOrEmpty(order) ? "" : order.ToLower();
+            //排序形式，name or size or type
+            String order = Request.QueryString["order"];
+            order = String.IsNullOrEmpty(order) ? "" : order.ToLower();
 
-			//不允许使用..移动到上一级目录
-			if (Regex.IsMatch(path, @"\.\."))
-			{
-				Response.Write("Access is not allowed.");
-				Response.End();
-			}
-			//最后一个字符不是/
-			if (path != "" && !path.EndsWith("/"))
-			{
-				Response.Write("Parameter is not valid.");
-				Response.End();
-			}
-			//目录不存在或不是目录
-			if (!Directory.Exists(currentPath))
-			{
-				Response.Write("Directory does not exist.");
-				Response.End();
-			}
+            //不允许使用..移动到上一级目录
+            if (Regex.IsMatch(path, @"\.\."))
+            {
+                Response.Write("Access is not allowed.");
+                Response.End();
+            }
+            //最后一个字符不是/
+            if (path != "" && !path.EndsWith("/"))
+            {
+                Response.Write("Parameter is not valid.");
+                Response.End();
+            }
+            //目录不存在或不是目录
+            if (!Directory.Exists(currentPath))
+            {
+                Response.Write("Directory does not exist.");
+                Response.End();
+            }
 
-			//遍历目录取得文件信息
-			string[] dirList = Directory.GetDirectories(currentPath);
-			string[] fileList = Directory.GetFiles(currentPath);
+            //遍历目录取得文件信息
+            string[] dirList = Directory.GetDirectories(currentPath);
+            string[] fileList = Directory.GetFiles(currentPath);
 
-			switch (order)
-			{
-				case "size":
-					Array.Sort(dirList, new NameSorter());
-					Array.Sort(fileList, new SizeSorter());
-					break;
-				case "type":
-					Array.Sort(dirList, new NameSorter());
-					Array.Sort(fileList, new TypeSorter());
-					break;
-				case "name":
-				default:
-					Array.Sort(dirList, new NameSorter());
-					Array.Sort(fileList, new NameSorter());
-					break;
-			}
+            switch (order)
+            {
+                case "size":
+                    Array.Sort(dirList, new NameSorter());
+                    Array.Sort(fileList, new SizeSorter());
+                    break;
+                case "type":
+                    Array.Sort(dirList, new NameSorter());
+                    Array.Sort(fileList, new TypeSorter());
+                    break;
+                case "name":
+                default:
+                    Array.Sort(dirList, new NameSorter());
+                    Array.Sort(fileList, new NameSorter());
+                    break;
+            }
 
-			Hashtable result = new Hashtable();
-			result["moveup_dir_path"] = moveupDirPath;
-			result["current_dir_path"] = currentDirPath;
-			result["current_url"] = currentUrl;
-			result["total_count"] = dirList.Length + fileList.Length;
-			List<Hashtable> dirFileList = new List<Hashtable>();
-			result["file_list"] = dirFileList;
-			for (int i = 0; i < dirList.Length; i++)
-			{
-				DirectoryInfo dir = new DirectoryInfo(dirList[i]);
-				Hashtable hash = new Hashtable();
-				hash["is_dir"] = true;
-				hash["has_file"] = (dir.GetFileSystemInfos().Length > 0);
-				hash["filesize"] = 0;
-				hash["is_photo"] = false;
-				hash["filetype"] = "";
-				hash["filename"] = dir.Name;
-				hash["datetime"] = dir.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
-				dirFileList.Add(hash);
-			}
-			for (int i = 0; i < fileList.Length; i++)
-			{
-				FileInfo file = new FileInfo(fileList[i]);
-				Hashtable hash = new Hashtable();
-				hash["is_dir"] = false;
-				hash["has_file"] = false;
-				hash["filesize"] = file.Length;
-				hash["is_photo"] = (Array.IndexOf(fileTypes.Split(','), file.Extension.Substring(1).ToLower()) >= 0);
-				hash["filetype"] = file.Extension.Substring(1);
-				hash["filename"] = file.Name;
-				hash["datetime"] = file.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
-				dirFileList.Add(hash);
-			}
-			//Response.AddHeader("Content-Type", "application/json; charset=UTF-8");
-			//context.Response.Write(JsonMapper.ToJson(result));
-			//context.Response.End();
-			return Json(result, "text/html;charset=UTF-8", JsonRequestBehavior.AllowGet);
-		}
+            Hashtable result = new Hashtable();
+            result["moveup_dir_path"] = moveupDirPath;
+            result["current_dir_path"] = currentDirPath;
+            result["current_url"] = currentUrl;
+            result["total_count"] = dirList.Length + fileList.Length;
+            List<Hashtable> dirFileList = new List<Hashtable>();
+            result["file_list"] = dirFileList;
+            for (int i = 0; i < dirList.Length; i++)
+            {
+                DirectoryInfo dir = new DirectoryInfo(dirList[i]);
+                Hashtable hash = new Hashtable();
+                hash["is_dir"] = true;
+                hash["has_file"] = (dir.GetFileSystemInfos().Length > 0);
+                hash["filesize"] = 0;
+                hash["is_photo"] = false;
+                hash["filetype"] = "";
+                hash["filename"] = dir.Name;
+                hash["datetime"] = dir.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
+                dirFileList.Add(hash);
+            }
+            for (int i = 0; i < fileList.Length; i++)
+            {
+                FileInfo file = new FileInfo(fileList[i]);
+                Hashtable hash = new Hashtable();
+                hash["is_dir"] = false;
+                hash["has_file"] = false;
+                hash["filesize"] = file.Length;
+                hash["is_photo"] = (Array.IndexOf(fileTypes.Split(','), file.Extension.Substring(1).ToLower()) >= 0);
+                hash["filetype"] = file.Extension.Substring(1);
+                hash["filename"] = file.Name;
+                hash["datetime"] = file.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
+                dirFileList.Add(hash);
+            }
+            //Response.AddHeader("Content-Type", "application/json; charset=UTF-8");
+            //context.Response.Write(JsonMapper.ToJson(result));
+            //context.Response.End();
+            return Json(result, "text/html;charset=UTF-8", JsonRequestBehavior.AllowGet);
+        }
 
-		public class NameSorter : IComparer
-		{
-			public int Compare(object x, object y)
-			{
-				if (x == null && y == null)
-				{
-					return 0;
-				}
-				if (x == null)
-				{
-					return -1;
-				}
-				if (y == null)
-				{
-					return 1;
-				}
-				FileInfo xInfo = new FileInfo(x.ToString());
-				FileInfo yInfo = new FileInfo(y.ToString());
+        public class NameSorter : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                if (x == null && y == null)
+                {
+                    return 0;
+                }
+                if (x == null)
+                {
+                    return -1;
+                }
+                if (y == null)
+                {
+                    return 1;
+                }
+                FileInfo xInfo = new FileInfo(x.ToString());
+                FileInfo yInfo = new FileInfo(y.ToString());
 
-				return xInfo.FullName.CompareTo(yInfo.FullName);
-			}
-		}
+                return xInfo.FullName.CompareTo(yInfo.FullName);
+            }
+        }
 
-		public class SizeSorter : IComparer
-		{
-			public int Compare(object x, object y)
-			{
-				if (x == null && y == null)
-				{
-					return 0;
-				}
-				if (x == null)
-				{
-					return -1;
-				}
-				if (y == null)
-				{
-					return 1;
-				}
-				FileInfo xInfo = new FileInfo(x.ToString());
-				FileInfo yInfo = new FileInfo(y.ToString());
+        public class SizeSorter : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                if (x == null && y == null)
+                {
+                    return 0;
+                }
+                if (x == null)
+                {
+                    return -1;
+                }
+                if (y == null)
+                {
+                    return 1;
+                }
+                FileInfo xInfo = new FileInfo(x.ToString());
+                FileInfo yInfo = new FileInfo(y.ToString());
 
-				return xInfo.Length.CompareTo(yInfo.Length);
-			}
-		}
+                return xInfo.Length.CompareTo(yInfo.Length);
+            }
+        }
 
-		public class TypeSorter : IComparer
-		{
-			public int Compare(object x, object y)
-			{
-				if (x == null && y == null)
-				{
-					return 0;
-				}
-				if (x == null)
-				{
-					return -1;
-				}
-				if (y == null)
-				{
-					return 1;
-				}
-				FileInfo xInfo = new FileInfo(x.ToString());
-				FileInfo yInfo = new FileInfo(y.ToString());
+        public class TypeSorter : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                if (x == null && y == null)
+                {
+                    return 0;
+                }
+                if (x == null)
+                {
+                    return -1;
+                }
+                if (y == null)
+                {
+                    return 1;
+                }
+                FileInfo xInfo = new FileInfo(x.ToString());
+                FileInfo yInfo = new FileInfo(y.ToString());
 
-				return xInfo.Extension.CompareTo(yInfo.Extension);
-			}
-		}
-		#endregion
+                return xInfo.Extension.CompareTo(yInfo.Extension);
+            }
+        }
+        #endregion
 
-		
-		protected override void Dispose(bool disposing)//数据连接释放
+
+        // POST: Blogs/Create
+        // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
+        // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Update([Bind(Include = "Title,Category,Text")] UpdateText BlogText)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
+                    db.SaveChanges();
+                }
+                catch (Exception)//TODO:添加异常处理信息
+                {
+
+                    throw;
+                }
+            }
+
+            return View(BlogText);
+        }
+        public ActionResult Upload()
+        {
+            //文件保存目录路径
+            String savePath = "/attached/";
+            //文件保存目录URL
+            String saveUrl = "/attached/";
+            //定义允许上传的文件扩展名
+            Hashtable extTable = new Hashtable();
+            extTable.Add("image", "gif,jpg,jpeg,png,bmp");
+            extTable.Add("flash", "swf,flv");
+            extTable.Add("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
+            extTable.Add("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2");
+            //最大文件大小
+            int maxSize = 1000000;
+            HttpPostedFileBase imgFile = Request.Files["imgFile"];
+            if (imgFile == null)
+            {
+                return Content("请选择文件。");
+            }
+            String dirPath = Server.MapPath(savePath);
+            if (!Directory.Exists(dirPath))
+            {
+                return Content("上传目录不存在。");
+            }
+            String dirName = Request.QueryString["dir"];
+            if (String.IsNullOrEmpty(dirName))
+            {
+                dirName = "image";
+            }
+            if (!extTable.ContainsKey(dirName))
+            {
+                return Content("目录名不正确。");
+            }
+            String fileName = imgFile.FileName;
+            String fileExt = Path.GetExtension(fileName).ToLower();
+            if (imgFile.InputStream == null || imgFile.InputStream.Length > maxSize)
+            {
+                return Content("上传文件大小超过限制。");
+            }
+            if (String.IsNullOrEmpty(fileExt) || Array.IndexOf(((String)extTable[dirName]).Split(','), fileExt.Substring(1).ToLower()) == -1)
+            {
+                return Content("上传文件扩展名是不允许的扩展名。\n只允许" + ((String)extTable[dirName]) + "格式。");
+            }
+            //创建文件夹
+            dirPath += dirName + "/";
+            saveUrl += dirName + "/";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+            String ymd = DateTime.Now.ToString("yyyyMMdd", DateTimeFormatInfo.InvariantInfo);
+            dirPath += ymd + "/";
+            saveUrl += ymd + "/";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+            String newFileName = DateTime.Now.ToString("yyyyMMddHHmmss_ffff", DateTimeFormatInfo.InvariantInfo) + fileExt;
+            String filePath = dirPath + newFileName;
+            imgFile.SaveAs(filePath);
+            String fileUrl = saveUrl + newFileName;
+            Hashtable hash = new Hashtable();
+            hash["error"] = 0;
+            hash["url"] = fileUrl;
+            return Json(hash);
+        }
+        protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
             {

@@ -85,9 +85,16 @@ namespace NewBeeBlog.Controllers
         }
 
 
-        public ActionResult Blog()
+        public ActionResult Blog(int id)
         {
-            return View();
+            var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
+            ViewBag.currentLoginInfo = currentLoginUser;
+            var model = db.TextLists.FirstOrDefault(m => m.TextID == id);
+            model.Hot += 1;
+            DbEntityEntry entry = db.Entry(model);
+            entry.State = EntityState.Modified;
+            int res = db.SaveChanges();
+            return View(model);
         }
 
         public ActionResult About()

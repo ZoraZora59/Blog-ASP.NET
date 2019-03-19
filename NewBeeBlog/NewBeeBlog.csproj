@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Models\TestList.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
@@ -152,7 +153,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1289,6 +1289,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Home\ChangeInfo.cshtml" />
+    <Content Include="Views\Home\Blog.cshtml" />
     <Content Include="Views\Manage\Show.cshtml" />
     <Content Include="Views\Manage\View.cshtml" />
   </ItemGroup>
