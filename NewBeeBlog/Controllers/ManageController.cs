@@ -18,7 +18,6 @@ namespace NewBeeBlog.Controllers
 {
     public class ManageController : Controller
     {
-
         private NewBeeBlogContext db = new NewBeeBlogContext();
         // GET: Manage
         // Post:Index
@@ -94,6 +93,44 @@ namespace NewBeeBlog.Controllers
         }
 
 		[HttpGet]
+		public ActionResult RenameCategory()
+		{
+			try
+			{
+				ViewBag.title = "分类重命名";
+				ViewBag.Name = Request["CategoryName"].ToString();
+			}
+			catch (Exception)
+			{
+				return Redirect("/manage/CategoryList");
+			}
+			
+			return View();
+		}
+		public JsonResult JSRenameCategory()
+		{//TODO:修改返回值，增加异常处理
+			try
+			{
+				var OldName = Request["OldName"].ToString();
+				var NewName = Request["NewName"].ToString();
+				while (db.TextLists.FirstOrDefault(c => c.CategoryName ==OldName) != null)
+				{
+					//1.先查询要修改的原数据
+					TextList modelNew = db.TextLists.Where(a => a.CategoryName == OldName).FirstOrDefault();
+
+					//2.设置修改后的值
+					modelNew.CategoryName = NewName;
+					db.SaveChanges();
+				}
+			}
+			catch
+			{
+				throw;
+			}
+			return Json(0);
+		}
+
+		[HttpGet]
         public ActionResult CategoryList()//分类管理
         {
 			List<CategoryList> mod = new List<CategoryList>();
@@ -120,6 +157,7 @@ namespace NewBeeBlog.Controllers
 				}
 			}
 			mod=mod.OrderByDescending(T=>T.CategoryHot).ToList();
+			ViewBag.title = "分类管理";
             return View(mod);
         }
 
@@ -153,6 +191,39 @@ namespace NewBeeBlog.Controllers
 			return Json(0);
 		}
 
+		[HttpGet]
+		public ActionResult CategoryDetail()//分类详情
+		{
+			var mod = new CategoryList();
+			try
+			{
+				var cname = Request["CategoryName"].ToString();
+				List<TextList> Tmod = db.TextLists.Where(c => c.CategoryName == cname).ToList();
+				List<CategoryText> Cmod = new List<CategoryText>();
+				foreach(var item in Tmod)
+				{
+					var temp = new CategoryText();
+					temp.TextTitle = item.TextTitle;
+					temp.TextID = item.TextID;
+					temp.Hot = item.Hot;
+					temp.ChangeTime = item.TextChangeDate;
+					Cmod.Add(temp);
+				}
+				ViewBag.CategoryTextList = Cmod;
+				mod.TextCount = Tmod.Count(c => c.CategoryName == cname);
+				mod.CategoryName = cname;
+				foreach(var item in Cmod)
+				{
+					mod.CategoryHot += item.Hot;
+				}
+			}
+			catch (Exception)
+			{
+				return Content("查询分类异常");
+			}
+			return View(mod);
+		}
+
         [HttpPost]
         public JsonResult DeleteText()//文章删除
         {
@@ -165,7 +236,7 @@ namespace NewBeeBlog.Controllers
                 db.TextLists.Remove(target);
                 db.SaveChanges();
             }
-            catch (System.ArgumentNullException)
+            catch (ArgumentNullException)
             {
                 throw;
             }
@@ -771,5 +842,4 @@ namespace NewBeeBlog.Controllers
             base.Dispose(disposing);
         }
     }
-
 }

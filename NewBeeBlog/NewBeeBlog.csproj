@@ -143,6 +143,7 @@
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
     <Compile Include="ViewModels\CategoryList.cs" />
+    <Compile Include="ViewModels\CategoryText.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
     <Compile Include="ViewModels\LoginUser.cs" />
     <Compile Include="ViewModels\ManageMain.cs" />
@@ -1294,6 +1295,8 @@
     <Content Include="Views\Home\Blog.cshtml" />
     <Content Include="Views\Manage\Show.cshtml" />
     <Content Include="Views\Manage\CategoryList.cshtml" />
+    <Content Include="Views\Manage\CategoryDetail.cshtml" />
+    <Content Include="Views\Manage\RenameCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />

@@ -6,7 +6,9 @@
 <link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
 <link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
 <script type="text/javascript"></script>
-
+<h2>
+    @ViewBag.title
+</h2>
 <table class="table">
     <tr>
         <th>
@@ -44,10 +46,10 @@
 </table>
 <script>
     function editCategory(c) {
-        window.location.href = "/Manage/EditCategory?CategoryName=" + c;
+        window.location.href = "/Manage/RenameCategory?CategoryName=" + c;
     }
     function showCategory(c) {
-        window.location.href = "/Manage/Show?CategoryName=" + c;
+        window.location.href = "/Manage/CategoryDetail?CategoryName=" + c;
     }
     function deleteCategory(c) {
         alert(c);
