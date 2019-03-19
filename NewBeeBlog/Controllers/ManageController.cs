@@ -93,9 +93,30 @@ namespace NewBeeBlog.Controllers
             return text;
         }
 
-        public ActionResult AddBlog()
+		[HttpGet]
+        public ActionResult CategoryList()//分类管理
         {
-            return View();
+			List<CategoryList> mod = new List<CategoryList>();
+			List<TextList> temp = new List<TextList>();
+			var categoryItem = new CategoryList();
+			temp = db.TextLists.ToList();
+			foreach(var item in temp)
+			{
+				categoryItem.CategoryName = item.CategoryName;
+				if(!mod.Exists(T=>T.CategoryName==categoryItem.CategoryName))//若不存在于已生成列表则添加进列表
+				{
+					categoryItem.CategoryHot += item.Hot;
+					categoryItem.TextCount ++;
+					mod.Add(categoryItem);
+				}
+				else//否则对指定项进行修改
+				{
+					mod.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).CategoryHot += item.Hot;
+					mod.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).TextCount ++;
+				}
+			}
+			mod=mod.OrderByDescending(T=>T.CategoryHot).ToList();
+            return View(mod);
         }
 		
         [HttpPost]
@@ -344,7 +365,7 @@ namespace NewBeeBlog.Controllers
         }
 
 
-        #region
+        #region Kindeditor
         [HttpPost]
         public ActionResult UploadImage()
         {

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<NewBeeBlog.ViewModels.CategoryList>
+<script src="~/front/EasyUi/jquery.min.js"></script>
+<script src="~/front/EasyUi/jquery.easyui.min.js"></script>
+<!--先引用jquery.min再引用jquery-->
+<script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
+<link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TextCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryHot)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TextCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryHot)
+            </td>
+            <td>
+                @Html.ActionLink("修改分类名", "Edit", new { CategoryName = item.CategoryName }) |
+                @Html.ActionLink("分类详情", "Details", new { CategoryName = item.CategoryName }) |
+                @Html.ActionLink("删除此分类", "Delete", new { CategoryName = item.CategoryName })
+            </td>
+        </tr>
+    }
+
+</table>

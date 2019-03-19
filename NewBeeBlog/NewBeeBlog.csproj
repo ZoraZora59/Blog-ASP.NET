@@ -138,9 +138,11 @@
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TestList.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
     <Compile Include="ViewModels\AddCategroy.cs" />
+    <Compile Include="ViewModels\CategoryList.cs" />
     <Compile Include="ViewModels\ChangeUserInfo.cs" />
     <Compile Include="ViewModels\LoginUser.cs" />
     <Compile Include="ViewModels\ManageMain.cs" />
@@ -1291,7 +1293,7 @@
     <Content Include="Views\Home\ChangeInfo.cshtml" />
     <Content Include="Views\Home\Blog.cshtml" />
     <Content Include="Views\Manage\Show.cshtml" />
-    <Content Include="Views\Manage\View.cshtml" />
+    <Content Include="Views\Manage\CategoryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
@@ -1341,7 +1343,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="attached\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
