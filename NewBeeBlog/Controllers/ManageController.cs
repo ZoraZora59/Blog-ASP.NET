@@ -58,30 +58,35 @@ namespace NewBeeBlog.Controllers
             }
             return View(manageUsers);
         }
-        //Get:Update
-        [HttpGet]
-        public ActionResult Update()//文章更新
-        {
-            //try
-            //{
-            //    string jstID = Request["TextID"].ToString();
-            //    if(jstID!=null)
-            //    {
-            //        int tID = int.Parse(jstID);
-            //        var text = new TextList();
-            //        text = GetTextContent(tID);
-            //        ViewBag.title = "文章更新";
-            //        return View(text);
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
-            //ViewBag.Title = "创建文章";
-            return View();
-        }
-        public TextList GetTextContent(int tID)
+		//Get:Update
+		[HttpGet]
+		public ActionResult Update()//文章更新
+		{
+			try
+			{
+				string jstID = Request["TextID"].ToString();
+				if (jstID != null)
+				{
+					int tID = int.Parse(jstID);
+					var text = new TextList();
+					text = GetTextContent(tID);
+					ViewBag.title = "文章更新";
+					UpdateText Utext = new UpdateText { Id = text.TextID, Title = text.TextTitle, Category = text.CategoryName, Text = text.Text };
+					return View(Utext);
+				}
+			}
+			catch (NullReferenceException)
+			{
+				//TODO：异常处理
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+			ViewBag.Title = "创建文章";
+			return View(new UpdateText());
+		}
+		public TextList GetTextContent(int tID)
         {
             var text = new TextList();
             text = db.TextLists.Find(tID);
@@ -92,41 +97,7 @@ namespace NewBeeBlog.Controllers
         {
             return View();
         }
-
-        //[HttpPost]
-        //[ValidateInput(false)]//取消敏感字符的验证
-        //public ActionResult AddBlog(AddBlog model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            db.TextLists.Add(new TextList { TextTitle = model.TextTitle, Text = model.Text, CategoryName = model.CategoryName, Hot = 0 });
-        //            db.SaveChanges();
-        //        }
-        //        catch (System.Data.Entity.Infrastructure.DbUpdateException)
-        //        {
-        //            return Content("数据库更新出错");
-        //        }
-        //        catch (System.ObjectDisposedException)
-        //        {
-        //            return Content("数据上下文连接已过期");
-        //        }
-        //        catch (System.InvalidOperationException)
-        //        {
-        //            return Content("数据实体处理异常");
-        //        }
-        //        catch (Exception)
-        //        {
-        //            //TODO:异常报告
-        //            return Content("数据库异常");
-        //            throw;
-        //        }
-        //    }
-        //    return View();
-        //}
-
-
+		
         [HttpPost]
         public JsonResult DeleteText()//文章删除
         {
@@ -646,7 +617,31 @@ namespace NewBeeBlog.Controllers
 
             return View(BlogText);
         }
-        public ActionResult Upload()
+
+		[HttpGet]
+		public ActionResult Show()//文章详情
+		{
+			try
+			{
+				string jstID = Request["TextID"].ToString();
+				if (jstID != null)
+				{
+					int tid = int.Parse(jstID);
+					TextList model = new TextList();
+					model = db.TextLists.Find(tid);
+					if (model != null)
+						return View(model);
+				}
+			}
+			catch (Exception)
+			{
+				return Redirect("/Manage/TextList");
+				//throw;
+			}
+			return Redirect("/Manage/TextList");
+		}
+
+		public ActionResult Upload()
         {
             //文件保存目录路径
             String savePath = "/attached/";
