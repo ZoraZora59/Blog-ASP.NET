@@ -52,6 +52,9 @@
 
 
 <script>
+    function backToList() {
+        window.location.href = "/Manage/TextList";
+    }
     var editor;
     KindEditor.ready(function (K) {
         editor = K.create('textarea[id="content"]', {
