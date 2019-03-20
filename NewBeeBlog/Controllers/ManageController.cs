@@ -74,6 +74,9 @@ namespace NewBeeBlog.Controllers
 					return View(Utext);
 				}
 			}
+			catch (NullReferenceException)
+			{
+			}
 			catch (Exception)
 			{
 				throw;
@@ -178,7 +181,7 @@ namespace NewBeeBlog.Controllers
 					db.SaveChanges();
 				}
 			}
-			catch (ArgumentNullException)//TODO:异常处理
+			catch (ArgumentNullException)
 			{
 				throw;
 			}
@@ -215,9 +218,9 @@ namespace NewBeeBlog.Controllers
 					mod.CategoryHot += item.Hot;
 				}
 			}
-			catch(NullReferenceException)
+			catch (NullReferenceException)
 			{
-				return Redirect("/manage/categorylist");
+				return Redirect("/manage/CategoryList");
 			}
 			catch (Exception)
 			{
