@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<NewBeeBlog.ViewModels.TextIndex>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "博客主页";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var db = new NewBeeBlog.Models.NewBeeBlogContext();
-    var listBlog = db.TextLists.ToList();
 }
 @foreach (var item in Model)
 {
