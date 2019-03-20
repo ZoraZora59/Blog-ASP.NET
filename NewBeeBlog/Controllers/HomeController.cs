@@ -27,7 +27,24 @@ namespace NewBeeBlog.Controllers
         {
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
             ViewBag.currentLoginInfo = currentLoginUser;
-            return View();
+			var models = new List<TextIndex>();
+			var TextList = new List<TextList>();
+			TextList = db.TextLists.ToList();
+			foreach(var item in TextList)
+			{
+				var temp = new TextIndex();//每个都要重新new！！！！切记
+				temp.TextID = item.TextID;
+				temp.CommitCount=db.CommitLists.Count(c => c.TextID == item.TextID);
+				temp.Text = item.Text;
+				if (item.CategoryName == null)
+					item.CategoryName = "未分类";
+				temp.CategoryName = item.CategoryName;
+				temp.TextTitle = item.TextTitle;
+				temp.TextChangeDate = item.TextChangeDate;
+				temp.Hot = item.Hot;
+				models.Add(temp);
+			}
+            return View(models);
         }
 
         [HttpGet]
