@@ -74,9 +74,9 @@ namespace NewBeeBlog.Controllers
 					return View(Utext);
 				}
 			}
-			catch (NullReferenceException)
+			catch(NullReferenceException)
 			{
-				//TODO：异常处理
+				return Redirect("/manage/Textlist");
 			}
 			catch (Exception)
 			{
@@ -111,15 +111,17 @@ namespace NewBeeBlog.Controllers
 		{//TODO:修改返回值，增加异常处理
 			try
 			{
-				var OldName = Request["OldName"].ToString();
-				var NewName = Request["NewName"].ToString();
-				while (db.TextLists.FirstOrDefault(c => c.CategoryName ==OldName) != null)
+				var NameString = Request["NameChanging"].ToString();
+				string[] NameChange = NameString.Split(new char[] { ','});
+				string oldOne = NameChange[0];
+				string newOne = NameChange[1];
+				while (db.TextLists.FirstOrDefault(c => c.CategoryName == oldOne) != null)
 				{
 					//1.先查询要修改的原数据
-					TextList modelNew = db.TextLists.Where(a => a.CategoryName == OldName).FirstOrDefault();
+					TextList modelNew = db.TextLists.Where(a => a.CategoryName == oldOne).FirstOrDefault();
 
 					//2.设置修改后的值
-					modelNew.CategoryName = NewName;
+					modelNew.CategoryName = newOne;
 					db.SaveChanges();
 				}
 			}
@@ -180,7 +182,7 @@ namespace NewBeeBlog.Controllers
 					db.SaveChanges();
 				}
 			}
-			catch (ArgumentNullException)
+			catch (ArgumentNullException)//TODO:异常处理
 			{
 				throw;
 			}
@@ -216,6 +218,10 @@ namespace NewBeeBlog.Controllers
 				{
 					mod.CategoryHot += item.Hot;
 				}
+			}
+			catch(NullReferenceException)
+			{
+				return Redirect("/manage/categorylist");
 			}
 			catch (Exception)
 			{

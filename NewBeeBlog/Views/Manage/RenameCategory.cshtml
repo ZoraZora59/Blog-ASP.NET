@@ -13,29 +13,30 @@
 </div>
 <hr />
 <div>
-    分类名：<span id="Nold">@ViewBag.Name</span>
+    分类名：<span>@ViewBag.Name</span>
 </div>
 <div>
     新命名：<input type="text" id="Nnew" />
 </div>
 <div>
-    <button class="button_blue" onclick="rename()">确认更名</button>
+    <button class="button_blue" onclick="rename('@ViewBag.Name')">确认更名</button>
     @Html.ActionLink("返回列表", "CategoryList")
 </div>
 <script>
-    function rename() {
+    function rename(old) {
+        var NameString = document.getElementById('Nnew').value;
+        NameString = old + ',' + NameString;
         $.messager.confirm('更名确认', '更名操作无法回退，确定要更改分类名吗?', function (r) {
             if (r) {
                 $.ajax({
                     ajax: false,
-                    type: "POST",//FromMethod
+                    type: "POST",//FromMetho
                     url: "/Manage/JSRenameCategory",//"/Controller/Action"
-                    data: { OldName: document.getElementById('Nold').innerText, NewName: document.getElementById('Nnew').innerText },//参数 "参数名："参数值""
+                    data: { NameChanging: NameString },//参数 "参数名："参数值""
                     datatype: 'html',
-                    success: function (0) {
+                    success: function (data) {
                         alert('更名成功');
-                        document.getElementById(Nold).textContent = newname;
-                        document.getElementById(Nnew).textContent = '';
+                        window.location.href = "/Manage/CategoryList";
                     },
                     error: function () {
                         alert('更名失败');
