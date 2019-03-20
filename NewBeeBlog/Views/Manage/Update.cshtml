@@ -15,8 +15,17 @@
 
 <div class="form-horizontal">
     <h4>增改文章</h4>
+    @if (Model.Id != 0)
+    {
+        
+        <div class="form-group" style="display:none">
+            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" >
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = Model.Id})
+            </div>
+        </div>
+    }
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">

@@ -751,20 +751,41 @@ namespace NewBeeBlog.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Update([Bind(Include = "Title,Category,Text")] UpdateText BlogText)
+        public ActionResult Update([Bind(Include = "Id,Title,Category,Text")] UpdateText BlogText)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
-                    db.SaveChanges();
-                }
-                catch (Exception)//TODO:添加异常处理信息
-                {
+				if(BlogText.Id!=0)
+				{
+					if (db.TextLists.FirstOrDefault(c => c.TextID == BlogText.Id) != null)
+					{
+						//1.先查询要修改的原数据
+						TextList modelNew = db.TextLists.Where(a => a.TextID == BlogText.Id).FirstOrDefault();
 
-                    throw;
-                }
+						//2.设置修改后的值
+						modelNew.TextTitle = BlogText.Title;
+						modelNew.CategoryName = BlogText.Category;
+						modelNew.Text = BlogText.Text;
+						db.SaveChanges();
+					}
+					else
+					{
+						return Content("更新失败，请确认需要更新的文章是否存在。如需重试请刷新页面......");
+					}
+				}
+				else
+				{
+					try
+					{
+						db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
+						db.SaveChanges();
+					}
+					catch (Exception)//TODO:添加异常处理信息
+					{
+
+						throw;
+					}
+				}
             }
 
             return View(BlogText);
