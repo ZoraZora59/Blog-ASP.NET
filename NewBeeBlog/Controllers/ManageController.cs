@@ -107,7 +107,7 @@ namespace NewBeeBlog.Controllers
 			return View();
 		}//分类更名
 		public JsonResult JSRenameCategory()
-		{//TODO:修改返回值，增加异常处理
+		{//TODO:修改返回值
 			try
 			{
 				var NameString = Request["NameChanging"].ToString();
