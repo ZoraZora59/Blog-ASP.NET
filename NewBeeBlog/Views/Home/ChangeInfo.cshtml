@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <h1><font color="#0081c1">个人信息修改注册</font></h1>
+    <h1><font color="#0081c1">个人信息修改</font></h1>
 
     <div class="login" style="margin-top:50px;">
 
@@ -42,10 +42,10 @@
             {
                 <ul class="reg_form" id="reg-ul">
                     <li>
-
-                        <label for="user" class="input-tips2">用户名：</label>
-                        @name
-
+                        <label for="user" class="input-tips2">用户名:</label>
+                        <div class="inputOuter2">
+                            <input type="text" class="inputstyle2" disabled="disabled" style="height:38px" value="@currentUser.Account">
+                        </div>
                     <li>
 
                         <label for="user" class="input-tips2">昵称：</label>

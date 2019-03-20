@@ -51,9 +51,19 @@ namespace NewBeeBlog.Controllers
         [HttpGet]
         public ActionResult ChangeInfo()
         {
-            var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
-            ViewBag.currentLoginInfo = currentLoginUser;
-            return View();
+			if(Session["loginuser"] == null)
+				return Redirect("/home");
+			try
+			{
+				var currentLoginUser = (User)Session["loginuser"];
+				ViewBag.currentLoginInfo = currentLoginUser;
+				return View();
+			}
+			catch (Exception)
+			{
+				return Redirect("/home");
+			}
+            
         }
 
 
