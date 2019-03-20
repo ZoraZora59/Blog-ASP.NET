@@ -1,5 +1,8 @@
-﻿@{
-   var configinfo = ViewBag.Config as NewBeeBlog.ViewModels.BlogConfig;
+﻿
+@{
+    var configinfo = ViewBag.Config as NewBeeBlog.ViewModels.BlogConfig;
+    var db = new NewBeeBlog.Models.NewBeeBlogContext();
+    var listBlog = db.TextLists.ToList();
 }
 
 <div id="sideBar">
@@ -102,7 +105,15 @@
                     <div id="topview_posts_wrap">
                         <div class="catListView">
                             <h3 class="catListTitle">阅读排行榜</h3>
-                            <div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/jackchensir/p/8306448.html">1. 利用git提交代码(67107)</a></li><li><a href="https://www.cnblogs.com/jackchensir/p/8490091.html">2. 在Eclipse中利用maven整合搭建ssm框架(3201)</a></li><li><a href="https://www.cnblogs.com/jackchensir/p/8532357.html">3. 用ajax传递json,返回前台的中文乱码问题(1270)</a></li><li><a href="https://www.cnblogs.com/jackchensir/p/7732035.html">4. ps知识集锦(78)</a></li><li><a href="https://www.cnblogs.com/jackchensir/p/9234965.html">5. Linux下安装mysql（示例mysql5.6安装）(46)</a></li></ul></div>
+                            <div id="TopViewPostsBlock">
+                                <ul>
+                                    <li><a href="https://www.cnblogs.com/jackchensir/p/8306448.html">1. 利用git提交代码(67107)</a></li>
+                                    <li><a href="https://www.cnblogs.com/jackchensir/p/8490091.html">2. 在Eclipse中利用maven整合搭建ssm框架(3201)</a></li>
+                                    <li><a href="https://www.cnblogs.com/jackchensir/p/8532357.html">3. 用ajax传递json,返回前台的中文乱码问题(1270)</a></li>
+                                    <li><a href="https://www.cnblogs.com/jackchensir/p/7732035.html">4. ps知识集锦(78)</a></li>
+                                    <li><a href="https://www.cnblogs.com/jackchensir/p/9234965.html">5. Linux下安装mysql（示例mysql5.6安装）(46)</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div><div id="sidebar_topcommentedposts" class="sidebar-block">

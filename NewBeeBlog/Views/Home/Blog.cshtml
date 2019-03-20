@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Blog";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentLoginInfo = ViewBag.currentLoginInfo == null ? null : ViewBag.currentLoginInfo;
 }
 
 <!DOCTYPE html>
@@ -44,7 +45,9 @@
                 </div>
                 <div id="comments_pager_bottom"></div>
             </div>
-            <script type="text/javascript">var commentManager = new blogCommentManager(); commentManager.renderComments(0);</script>
+            <script type="text/">var commentManager = new blogCommentManager(); commentManager.renderComments(0);</script>
+            @if (currentLoginInfo == null)
+            {
             <div id="comment_form" class="commentform">
                 <a name="commentform"></a>
                 <div id="divCommentShow"></div>
@@ -55,6 +58,7 @@
                 <script async="async" src="Blog_files/gpt.js"></script>
 
             </div>
+            }
 
 
         </div><!--end: forFlow -->
