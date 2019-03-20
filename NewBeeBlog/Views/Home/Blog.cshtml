@@ -1,5 +1,4 @@
 ﻿@model NewBeeBlog.Models.TextList
-
 @{
     ViewBag.Title = "Blog";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -87,48 +86,67 @@
 
                     }
                     else
-                    {
-                        //TODO:新增评论功能
-                        <div id="comment_form_container">
-                            <script type="text/javascript" src="%E5%8D%9A%E6%96%873_files/mention.js"></script>
-                            <div id="commentform_title">发表评论</div>
-                            <span id="tip_comment" style="color:Red"></span>
-                            <p>
-                                昵称：<input type="text" id="tbCommentAuthor" class="author" disabled="disabled" size="50" value="@currentLoginInfo.Name">
-                            </p>
-                            <p></p>
-                            <div class="commentbox_main">
-                                <div>评论内容：</div>
-                                <textarea style="width:80%;height:200px;resize:vertical"></textarea>
-                            </div>
-                            <p id="commentbox_opt">
-                                <input id="btn_comment_submit" type="button" class="comment_btn" value="提交评论">
-                            </p>
-                            <div id="tip_comment2" style="color:Red"></div>
-                            <p></p>
-                            <div style="display:none">
-                                <span id="comment_edit_id"></span><span id="span_parentcomment_id"></span>
-                                <span id="span_parent_id"></span>
-                                <span id="span_comment_replyto"></span>
-                                <span id="span_comment_posted"></span>
-                            </div>
-                        </div>
+                    {//TODO:新增评论功能
+                        <form>
 
+                            <div id="comment_form_container">
+                                <script type="text/javascript" src="%E5%8D%9A%E6%96%873_files/mention.js"></script>
+                                <div id="commentform_title">发表评论</div>
+                                <span id="tip_comment" style="color:Red"></span>
+                                <input type="hidden" value="@currentLoginInfo.Account" name="Account" />
+                                <input type="hidden" value=@Model.TextID name="TextID" />
+                                <p>
+                                    昵称：<input type="text" id="tbCommentAuthor" class="author" disabled="disabled" size="50" value="@currentLoginInfo.Name">
+                                </p>
+                                <p></p>
+                                <div class="commentbox_main">
+                                    <div>评论内容：</div>
+                                    <textarea id="Content" style="width:80%;height:200px;resize:vertical"></textarea>
+                                </div>
+                                <p id="commentbox_opt">
+                                    <input type="button" name="button" class="btn-primary" onclick="submitCommit('@Model.TextID','@currentLoginInfo.Account')" value="提交评论">
+                                </p>
+                                <div id="tip_comment2" style="color:Red"></div>
+                                <p></p>
+                                <div style="display:none">
+                                    <span id="comment_edit_id"></span><span id="span_parentcomment_id"></span>
+                                    <span id="span_parent_id"></span>
+                                    <span id="span_comment_replyto"></span>
+                                    <span id="span_comment_posted"></span>
+                                </div>
+                            </div>
+                        </form>
                     }
                 </div>
                 <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
                 <div id="opt_under_post"></div>
                 <script async="async" src="Blog_files/gpt.js"></script>
             </div>
-            
-            
+
+
 
 
         </div><!--end: forFlow -->
     </div><!--end: mainContent 主体内容容器-->
     <div class="clear"></div>
 </div><!--end: main -->
-<script>
+<script>//TODO:评论提交问题修改
+    function submitCommit(tid, act) {
+        var txt = document.getElementsById('Content').values;
+        $.ajax({
+            ajax=false,
+            'type': 'post',
+            'url': '/Home/AddCommit',
+            'data': { TextID: tid, Account: act, Content: txt },
+            success: function (data) {
+                alert('评论成功');
+                window.location.href = "/Home/Blog/" + tid;
+            },
+            error: function () {
+                alert('评论失败');
+            }
+        });
+    }
     function log() {
         window.location.href = "/Manage/Login";
     }
