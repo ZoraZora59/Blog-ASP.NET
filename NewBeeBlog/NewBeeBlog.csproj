@@ -155,6 +155,7 @@
     <Compile Include="Models\NewBeeBlogContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ShowCommit.cs" />
     <Compile Include="ViewModels\TextIndex.cs" />
     <Compile Include="ViewModels\UpdateText.cs" />
   </ItemGroup>

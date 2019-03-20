@@ -32,7 +32,7 @@ namespace NewBeeBlog.Controllers
 			TextList = db.TextLists.ToList();
 			foreach(var item in TextList)
 			{
-				var temp = new TextIndex();//每个都要重新new！！！！切记
+				var temp = new TextIndex();
 				temp.TextID = item.TextID;
 				temp.CommitCount=db.CommitLists.Count(c => c.TextID == item.TextID);
 				temp.Text = item.Text;
@@ -79,15 +79,15 @@ namespace NewBeeBlog.Controllers
                     int res = db.SaveChanges();
                     //保存数据库 
                 }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                catch (DbUpdateException)
                 {
                     return Content("数据库更新出错");
                 }
-                catch (System.ObjectDisposedException)
+                catch (ObjectDisposedException)
                 {
                     return Content("数据上下文连接已过期");
                 }
-                catch (System.InvalidOperationException)
+                catch (InvalidOperationException)
                 {
                     return Content("数据实体处理异常");
                 }
@@ -111,6 +111,22 @@ namespace NewBeeBlog.Controllers
             DbEntityEntry entry = db.Entry(model);
             entry.State = EntityState.Modified;
             int res = db.SaveChanges();
+
+			//评论模块
+			var temp = db.CommitLists.Where(c => c.TextID == id).ToList();
+			var cmt = new List<ShowCommit>();
+			int i = 0;
+			foreach(var item in temp)
+			{
+				var tmp = new ShowCommit();
+				tmp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
+				tmp.Date = item.CommitChangeDate.ToString("yyyy-MM-dd")+"  "+ item.CommitChangeDate.ToShortTimeString();
+				tmp.Content = item.CommitText;
+				tmp.Num = i;
+				cmt.Add(tmp);
+				i++;
+			}
+			ViewBag.CmtList = cmt;
             return View(model);
         }
 
