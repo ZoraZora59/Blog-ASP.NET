@@ -122,6 +122,7 @@ namespace NewBeeBlog.Controllers
 				tmp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
 				tmp.Date = item.CommitChangeDate.ToString("yyyy-MM-dd")+"  "+ item.CommitChangeDate.ToShortTimeString();
 				tmp.Content = item.CommitText;
+				tmp.Id = item.CommitID;
 				tmp.Num = i;
 				cmt.Add(tmp);
 				i++;

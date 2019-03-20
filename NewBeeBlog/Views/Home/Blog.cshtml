@@ -48,9 +48,17 @@
             <div class="feedbackItem">
                 <div class="feedbackListSubtitle">
                     <div class="feedbackManage">
-                        &nbsp;&nbsp;<span class="comment_actions"></span>
+                        &nbsp;&nbsp;
+                        <span class="comment_actions">
+                        @if (item.Account == currentLoginInfo.Account)
+                        { 
+                            <span style="display:none">@item.Account</span>
+                            <a>删除此评论</a>//TODO:添加删除评论的实现方法
+                        }
+                        </span>
                     </div>
-                    <div>#@item.Num楼</div> <span class="comment_date">@item.Date.ToString</span> <span target="_blank">@item.Account</span>
+                    <div style="display:none">@item.Id</div>
+                    <div>#@item.Num楼</div> <span class="comment_date">@item.Date.ToString</span> <span target="_blank">@item.Name</span>
                 </div>
                 <div class="feedbackCon">
                     <div id="comment_body_3822567" class="blog_comment_body">@item.Content</div>
