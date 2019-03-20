@@ -1,4 +1,4 @@
-﻿
+﻿@Html.Action("Sidebar","Side")
 @{
     var configinfo = ViewBag.Config as NewBeeBlog.ViewModels.BlogConfig;
     var db = new NewBeeBlog.Models.NewBeeBlogContext();
@@ -133,6 +133,20 @@
                 </div>
             </div>
             <script type="text/javascript">loadBlogSideColumn();</script>
+            <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+            <script>
+                var googletag = googletag || {};
+                googletag.cmd = googletag.cmd || [];
+            </script>
+            <script>
+                googletag.cmd.push(function () {
+                    googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+                    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+                    googletag.pubads().enableSingleRequest();
+                    googletag.enableServices();
+                });
+            </script>
+
         </div>
 
     </div><!--end: sideBarMain -->

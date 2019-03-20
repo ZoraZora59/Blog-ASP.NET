@@ -30,6 +30,7 @@ namespace NewBeeBlog.Controllers
             return View();
         }
 
+
         [HttpGet]
         public ActionResult ChangeInfo()
         {

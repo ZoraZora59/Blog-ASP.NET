@@ -138,6 +138,7 @@
   <ItemGroup>
     <Compile Include="App_Code\SerializeTool.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SideController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TestList.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />
@@ -1346,6 +1347,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="attached\" />
+    <Folder Include="Views\Side\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
