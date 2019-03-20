@@ -788,7 +788,7 @@ namespace NewBeeBlog.Controllers
 				}
             }
 
-            return View(BlogText);
+            return Redirect("/manage/textlist");
         }
 
 		[HttpGet]

@@ -1,23 +1,73 @@
 ﻿@model NewBeeBlog.ViewModels.UpdateText
 
+<script src="~/front/EasyUi/jquery.min.js"></script>
+<script src="~/front/EasyUi/jquery.easyui.min.js"></script>
+<!--先引用jquery.min再引用jquery-->
+<script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
+<link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
+<link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
+<script src="~/kindeditor/kindeditor-all.js" type="text/javascript"></script>
+<script src="~/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+<link href="~/kindeditor/themes/default/default.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/front/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<head>
-    <script src="~/front/EasyUi/jquery.min.js"></script>
-    <script src="~/front/EasyUi/jquery.easyui.min.js"></script>
-    <!--先引用jquery.min再引用jquery-->
-    <script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
-    <link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
-    <link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
-    <script src="~/kindeditor/kindeditor-all.js" type="text/javascript"></script>
-    <script src="~/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
-    <link href="~/kindeditor/themes/default/default.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>增改文章</h4>
+        @if (Model.Id != 0)
+        {
 
+            <div class="form-group" style="display:none">
+                @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Id, new { htmlAttributes = Model.Id })
 
+                </div>
+            </div>
+        }
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" style="width:90%">
+            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="width:100%">
+                @Html.TextAreaFor(model => model.Text, new { htmlAttributes = new { @class = "form-control", @style = "width:100%" }, id = "content" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="easyui-linkbutton" plain="true" value="提交更新" />
+            </div>
+        </div>
+        <div>
+            <button type="button" class="easyui-linkbutton" plain="true" onclick="backToList()">返回列表</button>
+        </div>
+    </div>
+}
     <script>
+        function backToList() {
+            window.location.href = "/Manage/TextList";
+        }
         var editor;
         KindEditor.ready(function (K) {
-            editor = K.create('textarea[name="Text"]', {
+            editor = K.create('textarea[id="content"]', {
+                width: '100%',
+                minHeight: '200px',
+                resizeType: 1,
                 allowFileManager: true,
                 uploadJson: '/manage/upload'
             });
@@ -50,45 +100,3 @@
             });
         });
     </script>
-</head>
-
-<body>
-<div class="form-horizontal">
-    <h4>增改文章</h4>
-    @if (Model.Id != 0)
-    {
-        
-        <div class="form-group" style="display:none">
-            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" >
-                @Html.EditorFor(model => model.Id, new { htmlAttributes = Model.Id})
-            </div>
-        </div>
-    }
-    <hr />
-    <div class="form-group">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" }, id = "content" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="easyui-linkbutton" plain="true" value="提交更新" />
-        </div>
-    </div>
-</div>
