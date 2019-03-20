@@ -41,21 +41,7 @@ namespace NewBeeBlog.Controllers
         [HttpGet]
         public ActionResult ManageUser()
         {
-            List<ManageUser> manageUsers = new List<ManageUser>();
-            List<User> trans = db.Users.ToList();
-            ManageUser temp = new ManageUser();
-            foreach (var item in trans)
-            {
-                temp.Account = item.Account;
-                temp.CommitCount = 0;
-                var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
-                foreach (var cmt in cmtlist)
-                {
-                    temp.CommitCount++;
-                }
-                manageUsers.Add(temp);
-            }
-            return View(manageUsers);
+            return View();
         }
 		//Get:Update
 		[HttpGet]
@@ -451,16 +437,37 @@ namespace NewBeeBlog.Controllers
         }
         public JsonResult LoadUsers()
         {
-            var list = db.Users.ToList().Select(m => new { Account = m.Account, Name = m.Name }).ToList();
-            foreach (var li in list)
-            {
-                if (li.Account == "admin123")
-                {
-                    list.Remove(li);
-                    break;
-                }
-            }
-            return Json(list);
+            //var list = db.Users.ToList().Select(m => new { Account = m.Account, Name = m.Name }).ToList();
+            //foreach (var li in list)
+            //{
+            //    if (li.Account == "admin123")
+            //    {
+            //        list.Remove(li);
+            //        break;
+            //    }
+            //}
+			List<ManageUser> manageUsers = new List<ManageUser>();
+			var trans = db.Users.Select(m => new { m.Account, m.Name }).ToList();
+			trans.Remove(trans.Find(a => a.Account == "admin123"));
+			foreach (var item in trans)
+			{
+				ManageUser temp = new ManageUser();
+				//if (item.Account == "admin123")
+				//{
+				//	trans.Remove(item);
+				//	continue;
+				//}
+				temp.Account = item.Account;
+				temp.Name = item.Name;
+				temp.CommitCount = 0;
+				var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
+				foreach (var cmt in cmtlist)
+				{
+					temp.CommitCount++;
+				}
+				manageUsers.Add(temp);
+			}
+			return Json(manageUsers);
         }
 
         public ActionResult DelUsers(string Account)

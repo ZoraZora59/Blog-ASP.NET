@@ -1,5 +1,4 @@
 ﻿@model NewBeeBlog.Models.TextList
-
 @{
     ViewBag.Title = "Blog";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,7 +8,7 @@
 <!DOCTYPE html>
 <div id="main">
     <div id="mainContent">
-        <div class="forFlow"> 
+        <div class="forFlow">
             <div id="post_detail">
                 <!--done-->
                 <div id="topics">
@@ -26,66 +25,128 @@
                 </div><!--end: topics 文章、评论容器-->
             </div>
             <a name="!comments"></a><div id="blog-comments-placeholder">
-    <div id="comments_pager_top"></div>
-    <br>
-    <div class="feedback_area_title">评论列表</div>
-    <div class="feedbackNoItems"></div>
-    @if (ViewBag.CmtList.Count == 0)
-    {
-        <div class="feedbackItem">
-            <div class="feedbackListSubtitle">
-                <div class="feedbackManage">
-                    &nbsp;&nbsp;<span class="comment_actions"></span>
-                </div>
-                <div>此文章目前暂无评论</div>
-            </div>
-        </div>
-    }
-    else
-    {
-        foreach (var item in ViewBag.CmtList)
-        {
-            <div class="feedbackItem">
-                <div class="feedbackListSubtitle">
-                    <div class="feedbackManage">
-                        &nbsp;&nbsp;<span class="comment_actions"></span>
+                <div id="comments_pager_top"></div>
+                <br>
+                <div class="feedback_area_title">评论列表</div>
+                <div class="feedbackNoItems"></div>
+                @if (ViewBag.CmtList.Count == 0)
+                {
+                    <div class="feedbackItem">
+                        <div class="feedbackListSubtitle">
+                            <div class="feedbackManage">
+                                &nbsp;&nbsp;<span class="comment_actions"></span>
+                            </div>
+                            <div>此文章目前暂无评论</div>
+                        </div>
                     </div>
-                    <div>#@item.Num楼</div> <span class="comment_date">@item.Date.ToString</span> <span target="_blank">@item.Account</span>
-                </div>
-                <div class="feedbackCon">
-                    <div id="comment_body_3822567" class="blog_comment_body">@item.Content</div>
-                </div>
+                }
+                else
+                {
+                    foreach (var item in ViewBag.CmtList)
+                    {
+                        <div class="feedbackItem">
+                            <div class="feedbackListSubtitle">
+                                <div class="feedbackManage">
+                                    &nbsp;&nbsp;
+                                    <span class="comment_actions">
+                                        @if (item.Account == currentLoginInfo.Account)
+                                        {
+                                            <span style="display:none">@item.Account</span>
+                                            <a>删除此评论</a>//TODO:添加删除评论的实现方法
+                                        }
+                                    </span>
+                                </div>
+                                <div style="display:none">@item.Id</div>
+                                <div>#@item.Num楼</div> <span class="comment_date">@item.Date.ToString</span> <span target="_blank">@item.Name</span>
+                            </div>
+                            <div class="feedbackCon">
+                                <div id="comment_body_3822567" class="blog_comment_body">@item.Content</div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+                <div id="comments_pager_bottom"></div>
             </div>
-        }
-    }
+            <script type="text/">
+                var commentManager = new blogCommentManager(); commentManager.renderComments(0);
+            </script>
+            <div id="comment_form" class="commentform">
+                <a name="commentform"></a>
+                <div id="divCommentShow"></div>
+                <div id="comment_nav"><a href="#top">返回顶部</a></div>
+                <div id="comment_form_container">
+                    @if (currentLoginInfo == null)
+                    {
 
+                        <div class="login_tips">
+                            注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0)" class="bold" onclick="log()">登录</a>或 <a rel="nofollow" href="javascript:void(0)" class="underline" onclick="register()">注册</a>，<a href="~/home">访问</a>博客主页。
+                        </div>
 
-    <div id="comments_pager_bottom"></div>
-</div>
-            <script type="text/">var commentManager = new blogCommentManager(); commentManager.renderComments(0);</script>
-            @if (currentLoginInfo == null)
-            {
-                <div id="comment_form" class="commentform">
-                    <a name="commentform"></a>
-                    <div id="divCommentShow"></div>
-                    <div id="comment_nav"><a href="#top">返回顶部</a></div>
-                    <div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0)" class="bold" onclick="log()">登录</a> 或 <a rel="nofollow" href="javascript:void(0)" class="underline" onclick="register()">注册</a>，<a href="~/home">访问</a>博客主页。</div></div>
-                    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
-                    <div id="opt_under_post"></div>
-                    <script async="async" src="Blog_files/gpt.js"></script>
+                    }
+                    else
+                    {//TODO:新增评论功能
+                        <form>
+
+                            <div id="comment_form_container">
+                                <script type="text/javascript" src="%E5%8D%9A%E6%96%873_files/mention.js"></script>
+                                <div id="commentform_title">发表评论</div>
+                                <span id="tip_comment" style="color:Red"></span>
+                                <input type="hidden" value="@currentLoginInfo.Account" name="Account" />
+                                <input type="hidden" value=@Model.TextID name="TextID" />
+                                <p>
+                                    昵称：<input type="text" id="tbCommentAuthor" class="author" disabled="disabled" size="50" value="@currentLoginInfo.Name">
+                                </p>
+                                <p></p>
+                                <div class="commentbox_main">
+                                    <div>评论内容：</div>
+                                    <textarea id="Content" style="width:80%;height:200px;resize:vertical"></textarea>
+                                </div>
+                                <p id="commentbox_opt">
+                                    <input type="button" name="button" class="btn-primary" onclick="submitCommit('@Model.TextID','@currentLoginInfo.Account')" value="提交评论">
+                                </p>
+                                <div id="tip_comment2" style="color:Red"></div>
+                                <p></p>
+                                <div style="display:none">
+                                    <span id="comment_edit_id"></span><span id="span_parentcomment_id"></span>
+                                    <span id="span_parent_id"></span>
+                                    <span id="span_comment_replyto"></span>
+                                    <span id="span_comment_posted"></span>
+                                </div>
+                            </div>
+                        </form>
+                    }
                 </div>
-            }
-            else
-            {
-                //TODO:新增评论功能
-            }
+                <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+                <div id="opt_under_post"></div>
+                <script async="async" src="Blog_files/gpt.js"></script>
+            </div>
+
+
 
 
         </div><!--end: forFlow -->
     </div><!--end: mainContent 主体内容容器-->
     <div class="clear"></div>
 </div><!--end: main -->
-<script>
+<script>//TODO:评论提交问题修改
+    function submitCommit(tid, act) {
+        var txt = document.getElementsById('Content').values;
+        $.ajax({
+            ajax=false,
+            'type': 'post',
+            'url': '/Home/AddCommit',
+            'data': { TextID: tid, Account: act, Content: txt },
+            success: function (data) {
+                alert('评论成功');
+                window.location.href = "/Home/Blog/" + tid;
+            },
+            error: function () {
+                alert('评论失败');
+            }
+        });
+    }
     function log() {
         window.location.href = "/Manage/Login";
     }

@@ -19,7 +19,8 @@ namespace NewBeeBlog.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            var model = new SerializeTool().DeSerialize<BlogConfig>();            ViewBag.Config = model;
+            var model = new SerializeTool().DeSerialize<BlogConfig>();
+			ViewBag.Config = model;
         }
 
         public ActionResult Index()
@@ -81,9 +82,19 @@ namespace NewBeeBlog.Controllers
         [HttpGet]
         public ActionResult ChangeInfo()
         {
-            var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
-            ViewBag.currentLoginInfo = currentLoginUser;
-            return View();
+			if(Session["loginuser"] == null)
+				return Redirect("/home");
+			try
+			{
+				var currentLoginUser = (User)Session["loginuser"];
+				ViewBag.currentLoginInfo = currentLoginUser;
+				return View();
+			}
+			catch (Exception)
+			{
+				return Redirect("/home");
+			}
+            
         }
 
 
@@ -132,7 +143,7 @@ namespace NewBeeBlog.Controllers
             return Redirect("/");
         }
 
-
+		[HttpGet]
         public ActionResult Blog(int id)
         {
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
@@ -153,6 +164,7 @@ namespace NewBeeBlog.Controllers
 				tmp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
 				tmp.Date = item.CommitChangeDate.ToString("yyyy-MM-dd")+"  "+ item.CommitChangeDate.ToShortTimeString();
 				tmp.Content = item.CommitText;
+				tmp.Id = item.CommitID;
 				tmp.Num = i;
 				cmt.Add(tmp);
 				i++;
@@ -160,6 +172,28 @@ namespace NewBeeBlog.Controllers
 			ViewBag.CmtList = cmt;
             return View(model);
         }
+
+		[HttpPost]
+		public JsonResult AddCommit()
+		{
+			try
+			{
+				int TextID = int.Parse(Request["TextID"]);
+				string Account = Request["Account"].ToString();
+				string Content = Request["Content"].ToString();
+				var cmt = new CommitList();
+				cmt.CommitText = Content;
+				cmt.Account = Account;
+				cmt.TextID = TextID;
+				db.CommitLists.Add(cmt);
+				db.SaveChanges();
+				return Json(0);
+			}
+			catch (Exception)
+			{
+				return Json(null);
+			}
+		}
 
         public ActionResult About()
         {

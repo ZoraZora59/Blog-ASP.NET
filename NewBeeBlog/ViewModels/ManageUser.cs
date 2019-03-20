@@ -11,9 +11,10 @@ namespace NewBeeBlog.ViewModels
     {
         [DisplayName("用户名")]
         public string Account { get; set; }
+		[DisplayName("昵称")]
+		public string Name { get; set; }
         [DisplayName("评论数量")]
         public int CommitCount { get; set; }
-
-        public string Name { get; set; }
+		
     }
 }
