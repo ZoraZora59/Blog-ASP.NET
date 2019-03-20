@@ -15,7 +15,7 @@ namespace NewBeeBlog.Controllers
         private NewBeeBlogContext db = new NewBeeBlogContext();
 
         [ChildActionOnly]
-        public ActionResult Sidebar()
+        public ActionResult Sidebar(string searchSthing)
         {
             var model = new SerializeTool().DeSerialize<BlogConfig>();
             ViewBag.Config = model;
@@ -49,8 +49,9 @@ namespace NewBeeBlog.Controllers
             }
             ViewBag.timesort = time_lists;
 
+            
+            
 
-           
             return View("~/Views/Shared/_Sidebar.cshtml", hots);
             
         }

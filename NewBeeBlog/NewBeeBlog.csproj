@@ -156,6 +156,8 @@
     <Compile Include="Models\NewBeeBlogContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ShowCommit.cs" />
+    <Compile Include="ViewModels\TextIndex.cs" />
     <Compile Include="ViewModels\TextListsHot.cs" />
     <Compile Include="ViewModels\UpdateText.cs" />
   </ItemGroup>
@@ -1291,6 +1293,7 @@
     <Content Include="Views\Manage\CategoryList.cshtml" />
     <Content Include="Views\Manage\CategoryDetail.cshtml" />
     <Content Include="Views\Manage\RenameCategory.cshtml" />
+    <Content Include="Views\Home\SearchResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />

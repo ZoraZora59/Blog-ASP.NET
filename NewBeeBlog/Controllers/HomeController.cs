@@ -19,8 +19,7 @@ namespace NewBeeBlog.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            var model = new SerializeTool().DeSerialize<BlogConfig>();
-            ViewBag.Config = model;
+            var model = new SerializeTool().DeSerialize<BlogConfig>();            ViewBag.Config = model;
         }
 
         public ActionResult Index()
@@ -45,6 +44,37 @@ namespace NewBeeBlog.Controllers
 				models.Add(temp);
 			}
             return View(models);
+        }
+
+        
+        public ActionResult SearchResult(string searchthing)
+        {
+            var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
+            ViewBag.currentLoginInfo = currentLoginUser;
+            var blog = from m in db.TextLists
+                       select m;
+            //搜索
+            var search_list = new List<TextIndex>();
+            if (!string.IsNullOrEmpty(searchthing))
+            {
+                var s_blogs = blog.Where(m => m.TextTitle.Contains(searchthing) || m.Text.Contains(searchthing)).ToList();
+                foreach (var item in s_blogs)
+                {
+                    var temp = new TextIndex();
+                    temp.TextID = item.TextID;
+                    temp.CommitCount = db.CommitLists.Count(c => c.TextID == item.TextID);
+                    temp.Text = item.Text;
+                    if (item.CategoryName == null)
+                        item.CategoryName = "未分类";
+                    temp.CategoryName = item.CategoryName;
+                    temp.TextTitle = item.TextTitle;
+                    temp.TextChangeDate = item.TextChangeDate;
+                    temp.Hot = item.Hot;
+                    search_list.Add(temp);
+                }
+                ViewBag.searchRes = search_list;
+            }
+            return View(search_list);
         }
 
 
