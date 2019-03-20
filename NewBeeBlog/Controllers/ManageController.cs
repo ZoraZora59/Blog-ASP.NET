@@ -74,10 +74,6 @@ namespace NewBeeBlog.Controllers
 					return View(Utext);
 				}
 			}
-			catch(NullReferenceException)
-			{
-				return Redirect("/manage/Textlist");
-			}
 			catch (Exception)
 			{
 				throw;
