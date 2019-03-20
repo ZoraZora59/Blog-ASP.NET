@@ -47,6 +47,7 @@ namespace NewBeeBlog.Controllers
             return View(models);
         }
 
+
         [HttpGet]
         public ActionResult ChangeInfo()
         {
