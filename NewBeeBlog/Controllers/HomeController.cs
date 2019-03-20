@@ -27,7 +27,24 @@ namespace NewBeeBlog.Controllers
         {
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
             ViewBag.currentLoginInfo = currentLoginUser;
-            return View();
+			var models = new List<TextIndex>();
+			var TextList = new List<TextList>();
+			TextList = db.TextLists.ToList();
+			foreach(var item in TextList)
+			{
+				var temp = new TextIndex();
+				temp.TextID = item.TextID;
+				temp.CommitCount=db.CommitLists.Count(c => c.TextID == item.TextID);
+				temp.Text = item.Text;
+				if (item.CategoryName == null)
+					item.CategoryName = "未分类";
+				temp.CategoryName = item.CategoryName;
+				temp.TextTitle = item.TextTitle;
+				temp.TextChangeDate = item.TextChangeDate;
+				temp.Hot = item.Hot;
+				models.Add(temp);
+			}
+            return View(models);
         }
 
 
@@ -63,15 +80,15 @@ namespace NewBeeBlog.Controllers
                     int res = db.SaveChanges();
                     //保存数据库 
                 }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                catch (DbUpdateException)
                 {
                     return Content("数据库更新出错");
                 }
-                catch (System.ObjectDisposedException)
+                catch (ObjectDisposedException)
                 {
                     return Content("数据上下文连接已过期");
                 }
-                catch (System.InvalidOperationException)
+                catch (InvalidOperationException)
                 {
                     return Content("数据实体处理异常");
                 }
@@ -95,6 +112,22 @@ namespace NewBeeBlog.Controllers
             DbEntityEntry entry = db.Entry(model);
             entry.State = EntityState.Modified;
             int res = db.SaveChanges();
+
+			//评论模块
+			var temp = db.CommitLists.Where(c => c.TextID == id).ToList();
+			var cmt = new List<ShowCommit>();
+			int i = 0;
+			foreach(var item in temp)
+			{
+				var tmp = new ShowCommit();
+				tmp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
+				tmp.Date = item.CommitChangeDate.ToString("yyyy-MM-dd")+"  "+ item.CommitChangeDate.ToShortTimeString();
+				tmp.Content = item.CommitText;
+				tmp.Num = i;
+				cmt.Add(tmp);
+				i++;
+			}
+			ViewBag.CmtList = cmt;
             return View(model);
         }
 

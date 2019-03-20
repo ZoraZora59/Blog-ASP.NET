@@ -10,54 +10,74 @@
 <div id="main">
     <div id="mainContent">
         <div class="forFlow"> 
-
             <div id="post_detail">
                 <!--done-->
                 <div id="topics">
                     <div class="post">
                         <h1 class="postTitle">
-                            <a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/jackchensir/p/7732035.html">@Model.TextTitle</a>
+                            <a id="cb_post_title_url" class="postTitle2" href="/home/blog/@Model.TextID">@Model.TextTitle</a>
                         </h1>
                         <div class="clear"></div>
                         @Html.Raw(Model.Text)
-                        <div class="postDesc">posted @@ <span id="post-date">@Model.TextChangeDate</span> <a href="https://www.cnblogs.com/jackchensir/">NewBeeBlog</a> 阅读(<span id="post_view_count">@Model.Hot</span>) 评论(<span id="post_comment_count"></span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7732035" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(7732035);return false;">收藏</a></div>
+                        <div class="postDesc">posted @@ <span id="post-date">@Model.TextChangeDate</span> <a href="/home">NewBeeBlog</a> 阅读(<span id="post_view_count">@Model.Hot</span>) 评论(<span id="post_comment_count">@ViewBag.CmtList.Count</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7732035" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(7732035);return false;">收藏</a></div>
                     </div>
-                    <script type="text/javascript">var allowComments = true, cb_blogId = 373006, cb_entryId = 7732035, cb_blogApp = currentBlogApp, cb_blogUserGuid = '3ff15543-f10c-4db9-6b2d-08d49c352df3', cb_entryCreatedDate = '2017/10/25 20:05:00'; loadViewCount(cb_entryId); var cb_postType = 1; var isMarkdown = false;</script>
+                    @*<script type="text/javascript">var allowComments = true, cb_blogId = 373006, cb_entryId = 7732035, cb_blogApp = currentBlogApp, cb_blogUserGuid = '3ff15543-f10c-4db9-6b2d-08d49c352df3', cb_entryCreatedDate = '2017/10/25 20:05:00'; loadViewCount(cb_entryId); var cb_postType = 1; var isMarkdown = false;</script>*@
 
                 </div><!--end: topics 文章、评论容器-->
             </div>
             <a name="!comments"></a><div id="blog-comments-placeholder">
-                <div id="comments_pager_top"></div>
-                <br>
-                <div class="feedback_area_title">评论列表</div>
-                <div class="feedbackNoItems"></div>
-
-                <div class="feedbackItem">
-                    <div class="feedbackListSubtitle">
-                        <div class="feedbackManage">
-                            &nbsp;&nbsp;<span class="comment_actions"></span>
-                        </div>
-                        <a href="#3822567" class="layer">#1楼</a><a name="3822567" id="comment_anchor_3822567"></a><span id="comment-maxId" style="display:none;">3822567</span><span id="comment-maxDate" style="display:none;">2017/10/26 18:01:50</span>  <span class="comment_date">2017-10-26 18:01</span> <a id="a_comment_author_3822567" href="https://www.cnblogs.com/xhyo/" target="_blank">遮不住半世琉璃的伤</a> <a href="http://msg.cnblogs.com/send/%E9%81%AE%E4%B8%8D%E4%BD%8F%E5%8D%8A%E4%B8%96%E7%90%89%E7%92%83%E7%9A%84%E4%BC%A4" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
-                    </div>
-                    <div class="feedbackCon">
-                        <div id="comment_body_3822567" class="blog_comment_body">嗯，不错，再接再厉！！！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3822567,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3822567,'Bury',this)">反对(0)</a></div><span id="comment_3822567_avatar" style="display:none;">http://pic.cnblogs.com/face/1187962/20171026110535.png</span>
-                    </div>
+    <div id="comments_pager_top"></div>
+    <br>
+    <div class="feedback_area_title">评论列表</div>
+    <div class="feedbackNoItems"></div>
+    @if (ViewBag.CmtList.Count == 0)
+    {
+        <div class="feedbackItem">
+            <div class="feedbackListSubtitle">
+                <div class="feedbackManage">
+                    &nbsp;&nbsp;<span class="comment_actions"></span>
                 </div>
-                <div id="comments_pager_bottom"></div>
+                <div>此文章目前暂无评论</div>
             </div>
+        </div>
+    }
+    else
+    {
+        foreach (var item in ViewBag.CmtList)
+        {
+            <div class="feedbackItem">
+                <div class="feedbackListSubtitle">
+                    <div class="feedbackManage">
+                        &nbsp;&nbsp;<span class="comment_actions"></span>
+                    </div>
+                    <div>#@item.Num楼</div> <span class="comment_date">@item.Date.ToString</span> <span target="_blank">@item.Account</span>
+                </div>
+                <div class="feedbackCon">
+                    <div id="comment_body_3822567" class="blog_comment_body">@item.Content</div>
+                </div>
+            </div>
+        }
+    }
+
+
+    <div id="comments_pager_bottom"></div>
+</div>
             <script type="text/">var commentManager = new blogCommentManager(); commentManager.renderComments(0);</script>
             @if (currentLoginInfo == null)
             {
-            <div id="comment_form" class="commentform">
-                <a name="commentform"></a>
-                <div id="divCommentShow"></div>
-                <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
-                <div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
-                <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
-                <div id="opt_under_post"></div>
-                <script async="async" src="Blog_files/gpt.js"></script>
-
-            </div>
+                <div id="comment_form" class="commentform">
+                    <a name="commentform"></a>
+                    <div id="divCommentShow"></div>
+                    <div id="comment_nav"><a href="#top">返回顶部</a></div>
+                    <div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0)" class="bold" onclick="log()">登录</a> 或 <a rel="nofollow" href="javascript:void(0)" class="underline" onclick="register()">注册</a>，<a href="~/home">访问</a>博客主页。</div></div>
+                    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+                    <div id="opt_under_post"></div>
+                    <script async="async" src="Blog_files/gpt.js"></script>
+                </div>
+            }
+            else
+            {
+                //TODO:新增评论功能
             }
 
 
@@ -65,3 +85,11 @@
     </div><!--end: mainContent 主体内容容器-->
     <div class="clear"></div>
 </div><!--end: main -->
+<script>
+    function log() {
+        window.location.href = "/Manage/Login";
+    }
+    function register() {
+        window.location.href = "/Manage/Register";
+    }
+</script>
