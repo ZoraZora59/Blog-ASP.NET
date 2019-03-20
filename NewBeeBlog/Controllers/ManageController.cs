@@ -105,7 +105,7 @@ namespace NewBeeBlog.Controllers
 			}
 			
 			return View();
-		}
+		}//分类更名
 		public JsonResult JSRenameCategory()
 		{//TODO:修改返回值，增加异常处理
 			try
@@ -114,14 +114,31 @@ namespace NewBeeBlog.Controllers
 				string[] NameChange = NameString.Split(new char[] { ','});
 				string oldOne = NameChange[0];
 				string newOne = NameChange[1];
-				while (db.TextLists.FirstOrDefault(c => c.CategoryName == oldOne) != null)
+				if (newOne == "")
+					newOne = null;
+				if (oldOne == "未分类")
 				{
-					//1.先查询要修改的原数据
-					TextList modelNew = db.TextLists.Where(a => a.CategoryName == oldOne).FirstOrDefault();
+					while (db.TextLists.FirstOrDefault(c => c.CategoryName == null) != null)
+					{
+						//1.先查询要修改的原数据
+						TextList modelNew = db.TextLists.Where(a => a.CategoryName == null).FirstOrDefault();
 
-					//2.设置修改后的值
-					modelNew.CategoryName = newOne;
-					db.SaveChanges();
+						//2.设置修改后的值
+						modelNew.CategoryName = newOne;
+						db.SaveChanges();
+					}
+				}
+				else
+				{
+					while (db.TextLists.FirstOrDefault(c => c.CategoryName == oldOne) != null)
+					{
+						//1.先查询要修改的原数据
+						TextList modelNew = db.TextLists.Where(a => a.CategoryName == oldOne).FirstOrDefault();
+
+						//2.设置修改后的值
+						modelNew.CategoryName = newOne;
+						db.SaveChanges();
+					}
 				}
 			}
 			catch
@@ -199,6 +216,8 @@ namespace NewBeeBlog.Controllers
 			try
 			{
 				var cname = Request["CategoryName"].ToString();
+				if (cname == "未分类")
+					cname = null;
 				List<TextList> Tmod = db.TextLists.Where(c => c.CategoryName == cname).ToList();
 				List<CategoryText> Cmod = new List<CategoryText>();
 				foreach(var item in Tmod)
@@ -212,6 +231,8 @@ namespace NewBeeBlog.Controllers
 				}
 				ViewBag.CategoryTextList = Cmod;
 				mod.TextCount = Tmod.Count(c => c.CategoryName == cname);
+				if (cname == null)
+					cname = "未分类";
 				mod.CategoryName = cname;
 				foreach(var item in Cmod)
 				{
