@@ -76,7 +76,6 @@ namespace NewBeeBlog.Controllers
 			}
 			catch (NullReferenceException)
 			{
-				//TODO：异常处理
 			}
 			catch (Exception)
 			{
@@ -106,21 +105,40 @@ namespace NewBeeBlog.Controllers
 			}
 			
 			return View();
-		}
+		}//分类更名
 		public JsonResult JSRenameCategory()
 		{//TODO:修改返回值，增加异常处理
 			try
 			{
-				var OldName = Request["OldName"].ToString();
-				var NewName = Request["NewName"].ToString();
-				while (db.TextLists.FirstOrDefault(c => c.CategoryName ==OldName) != null)
+				var NameString = Request["NameChanging"].ToString();
+				string[] NameChange = NameString.Split(new char[] { ','});
+				string oldOne = NameChange[0];
+				string newOne = NameChange[1];
+				if (newOne == "")
+					newOne = null;
+				if (oldOne == "未分类")
 				{
-					//1.先查询要修改的原数据
-					TextList modelNew = db.TextLists.Where(a => a.CategoryName == OldName).FirstOrDefault();
+					while (db.TextLists.FirstOrDefault(c => c.CategoryName == null) != null)
+					{
+						//1.先查询要修改的原数据
+						TextList modelNew = db.TextLists.Where(a => a.CategoryName == null).FirstOrDefault();
 
-					//2.设置修改后的值
-					modelNew.CategoryName = NewName;
-					db.SaveChanges();
+						//2.设置修改后的值
+						modelNew.CategoryName = newOne;
+						db.SaveChanges();
+					}
+				}
+				else
+				{
+					while (db.TextLists.FirstOrDefault(c => c.CategoryName == oldOne) != null)
+					{
+						//1.先查询要修改的原数据
+						TextList modelNew = db.TextLists.Where(a => a.CategoryName == oldOne).FirstOrDefault();
+
+						//2.设置修改后的值
+						modelNew.CategoryName = newOne;
+						db.SaveChanges();
+					}
 				}
 			}
 			catch
@@ -198,6 +216,8 @@ namespace NewBeeBlog.Controllers
 			try
 			{
 				var cname = Request["CategoryName"].ToString();
+				if (cname == "未分类")
+					cname = null;
 				List<TextList> Tmod = db.TextLists.Where(c => c.CategoryName == cname).ToList();
 				List<CategoryText> Cmod = new List<CategoryText>();
 				foreach(var item in Tmod)
@@ -211,11 +231,17 @@ namespace NewBeeBlog.Controllers
 				}
 				ViewBag.CategoryTextList = Cmod;
 				mod.TextCount = Tmod.Count(c => c.CategoryName == cname);
+				if (cname == null)
+					cname = "未分类";
 				mod.CategoryName = cname;
 				foreach(var item in Cmod)
 				{
 					mod.CategoryHot += item.Hot;
 				}
+			}
+			catch (NullReferenceException)
+			{
+				return Redirect("/manage/CategoryList");
 			}
 			catch (Exception)
 			{
@@ -725,20 +751,41 @@ namespace NewBeeBlog.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Update([Bind(Include = "Title,Category,Text")] UpdateText BlogText)
+        public ActionResult Update([Bind(Include = "Id,Title,Category,Text")] UpdateText BlogText)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
-                    db.SaveChanges();
-                }
-                catch (Exception)//TODO:添加异常处理信息
-                {
+				if(BlogText.Id!=0)
+				{
+					if (db.TextLists.FirstOrDefault(c => c.TextID == BlogText.Id) != null)
+					{
+						//1.先查询要修改的原数据
+						TextList modelNew = db.TextLists.Where(a => a.TextID == BlogText.Id).FirstOrDefault();
 
-                    throw;
-                }
+						//2.设置修改后的值
+						modelNew.TextTitle = BlogText.Title;
+						modelNew.CategoryName = BlogText.Category;
+						modelNew.Text = BlogText.Text;
+						db.SaveChanges();
+					}
+					else
+					{
+						return Content("更新失败，请确认需要更新的文章是否存在。如需重试请刷新页面......");
+					}
+				}
+				else
+				{
+					try
+					{
+						db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
+						db.SaveChanges();
+					}
+					catch (Exception)//TODO:添加异常处理信息
+					{
+
+						throw;
+					}
+				}
             }
 
             return View(BlogText);
