@@ -447,15 +447,16 @@ namespace NewBeeBlog.Controllers
             //    }
             //}
 			List<ManageUser> manageUsers = new List<ManageUser>();
-			var trans = db.Users.Select(m => new { m.Account, m.Name }).ToList();			
+			var trans = db.Users.Select(m => new { m.Account, m.Name }).ToList();
+			trans.Remove(trans.Find(a => a.Account == "admin123"));
 			foreach (var item in trans)
 			{
 				ManageUser temp = new ManageUser();
-				if (item.Account == "admin123")
-				{
-					trans.Remove(item);
-					continue;
-				}
+				//if (item.Account == "admin123")
+				//{
+				//	trans.Remove(item);
+				//	continue;
+				//}
 				temp.Account = item.Account;
 				temp.Name = item.Name;
 				temp.CommitCount = 0;
