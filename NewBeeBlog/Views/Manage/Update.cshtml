@@ -45,13 +45,14 @@
 </div>
     <div>
         <button type="button" class="easyui-linkbutton" plain="true" onclick="backToList()">返回列表</button>
-        
-
     </div>
 }
 
 
 <script>
+    function backToList() {
+        window.location.href = "/Manage/TextList";
+    }
     var editor;
     KindEditor.ready(function (K) {
         editor = K.create('textarea[id="content"]', {
