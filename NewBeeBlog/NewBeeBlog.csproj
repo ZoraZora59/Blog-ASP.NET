@@ -1301,6 +1301,7 @@
     <Content Include="Views\Manage\CategoryDetail.cshtml" />
     <Content Include="Views\Manage\RenameCategory.cshtml" />
     <Content Include="Views\Home\SearchResult.cshtml" />
+    <Content Include="Views\Home\CategroyBlog.cshtml" />
     <Content Include="Views\Manage\ManageCommit.cshtml" />
   </ItemGroup>
   <ItemGroup>

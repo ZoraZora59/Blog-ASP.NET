@@ -9,6 +9,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace NewBeeBlog.Controllers
 {
@@ -23,8 +24,13 @@ namespace NewBeeBlog.Controllers
 			ViewBag.Config = model;
         }
 
-        public ActionResult Index()
+
+
+
+        //page分页Num
+        public ActionResult Index(int? page)
         {
+           
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
             ViewBag.currentLoginInfo = currentLoginUser;
 			var models = new List<TextIndex>();
@@ -44,7 +50,10 @@ namespace NewBeeBlog.Controllers
 				temp.Hot = item.Hot;
 				models.Add(temp);
 			}
-            return View(models);
+            models.Reverse();
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(models.ToPagedList(pageNumber,pageSize));
         }
 
         
@@ -68,7 +77,8 @@ namespace NewBeeBlog.Controllers
                     if (item.CategoryName == null)
                         item.CategoryName = "未分类";
                     temp.CategoryName = item.CategoryName;
-                    temp.TextTitle = item.TextTitle;
+                    
+                    temp.TextTitle = item.TextTitle.Replace(searchthing, "<font color='red'>" + searchthing + "</font>");
                     temp.TextChangeDate = item.TextChangeDate;
                     temp.Hot = item.Hot;
                     search_list.Add(temp);
@@ -158,6 +168,36 @@ namespace NewBeeBlog.Controllers
             }
             return Redirect("/");
         }
+        
+        public ActionResult CategroyBlog(string categroyname)
+        {
+            var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
+            ViewBag.currentLoginInfo = currentLoginUser;
+            var blog = from m in db.TextLists
+                       select m;
+            //搜索
+            var search_list = new List<TextIndex>();
+            if (!string.IsNullOrEmpty(categroyname))
+            {
+                var c_blogs = blog.Where(m => m.CategoryName.Equals(categroyname)).ToList();
+                foreach (var item in c_blogs)
+                {
+                    var temp = new TextIndex();
+                    temp.TextID = item.TextID;
+                    temp.CommitCount = db.CommitLists.Count(c => c.TextID == item.TextID);
+                    temp.Text = item.Text;
+                    if (item.CategoryName == null)
+                        item.CategoryName = "未分类";
+                    temp.CategoryName = item.CategoryName;
+                    temp.TextChangeDate = item.TextChangeDate;
+                    temp.Hot = item.Hot;
+                    search_list.Add(temp);
+                }
+                ViewBag.searchRes = search_list;
+            }
+            return View(search_list);
+        }
+
 		[HttpGet]
         public ActionResult Blog(int id)
         {
