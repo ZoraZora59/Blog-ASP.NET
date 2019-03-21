@@ -98,16 +98,21 @@ namespace NewBeeBlog.Controllers
 		public List<TopCmtLst> GetTopCmtLst(int n)
 		{
 			var lTxt = db.TextLists.ToList();
+			if (lTxt.Count == 0)
+				return null;
 			List<TopCmtLst> TCL = new List<TopCmtLst>();
 			foreach (var item in lTxt)
 			{
 				TCL.Add(new TopCmtLst { TextID = item.TextID, TextTitle = item.TextTitle, CmtCount = db.CommitLists.Where(c => c.TextID == item.TextID).Count() });
 			}
+			if (TCL.Count == 0)
+				return null;
 			TCL.OrderByDescending(c => c.CmtCount);
 			for (int i = 0; i < n; i++)
 			{
 				TCL[i].Num = i + 1;
 			}
+			
 			return TCL.Take(n).ToList();
 		}
 

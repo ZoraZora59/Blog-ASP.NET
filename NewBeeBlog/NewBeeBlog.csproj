@@ -168,10 +168,6 @@
     <Compile Include="ViewModels\UpdateText.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\NewBeeBlogContext.mdf" />
-    <Content Include="App_Data\NewBeeBlogContext_log.ldf">
-      <DependentUpon>NewBeeBlogContext.mdf</DependentUpon>
-    </Content>
     <Content Include="bin\LitJSON.dll" />
     <Content Include="config\blogconfig.xml" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -1269,7 +1265,6 @@
     <Content Include="Views\Manage\Register.cshtml" />
     <Content Include="Views\Manage\Login.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_SlidebarManage.cshtml" />
     <Content Include="Views\Manage\TextList.cshtml" />
     <Content Include="Views\Manage\ManageUser.cshtml" />
     <Content Include="Views\Manage\Config.cshtml" />
@@ -1349,6 +1344,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="attached\" />
     <Folder Include="Views\Side\" />
   </ItemGroup>

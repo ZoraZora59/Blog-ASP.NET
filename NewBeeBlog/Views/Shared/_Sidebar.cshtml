@@ -152,9 +152,16 @@
                     <div id="topfeedback_posts_wrap">
                         <div class="catListFeedback">
                             <h3 class="catListTitle">评论排行榜</h3>
-                            @foreach (var item in ViewBag.TopComList)
+                            @if (ViewBag.TopComList != null)
                             {
-                                <div id="TopFeedbackPostsBlock"><ul><li><a href="/home/blog/@item.TextID">@item.Num . @item.TextTitle</a></li></ul></div>
+                                foreach (var item in ViewBag.TopComList)
+                                {
+                                    <div id="TopFeedbackPostsBlock"><ul><li><a href="/home/blog/@item.TextID">@item.Num . @item.TextTitle</a></li></ul></div>
+                                }
+                            }
+                            else
+                            {
+                                <div id="TopFeedbackPostsBlock"><ul><li>小站新建，目前暂无文章，致歉</li></ul></div>
                             }
                         </div>
                     </div>
