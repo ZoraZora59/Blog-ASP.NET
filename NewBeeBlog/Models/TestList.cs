@@ -22,6 +22,11 @@ namespace NewBeeBlog.Models
         [DisplayName("文章正文")]
         public string Text { get; set; }//内容
 
+		[Required]
+		[DisplayName("文章预览")]
+		[MaxLength(101)]
+		public string FirstView { get; set; }
+
         [DisplayName("点击量")]
         public int Hot { get; set; }//点击量
 
@@ -31,9 +36,7 @@ namespace NewBeeBlog.Models
         
 		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 		public DateTime TextChangeDate { get; set; }//更新时间
-
-        //关联表
-        //public ICollection<User> Users { get; set; }
+		
         public ICollection<CommitList> CommitLists { get; set; }
     }
 

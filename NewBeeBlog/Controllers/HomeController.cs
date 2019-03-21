@@ -53,7 +53,7 @@ namespace NewBeeBlog.Controllers
 				models.Add(temp);
 			}
             models.Reverse();
-            int pageSize = 3;
+            int pageSize = 3;//每页显示的文章数
             int pageNumber = (page ?? 1);
             return View(models.ToPagedList(pageNumber,pageSize));
         }
@@ -250,19 +250,6 @@ namespace NewBeeBlog.Controllers
 			}
 		}//新增评论
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         public FileResult ValidateCode()
         {
             ValidateCode vc = new ValidateCode();

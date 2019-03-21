@@ -83,7 +83,8 @@
                             <ul></ul>
                         </div>
                     </div>
-                </div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+                </div><div id="sidebar_toptags" class="sidebar-block"></div>
+                <div id="sidebar_categories">
                     <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
                         <h3 class="catListTitle">分类查找</h3>
 
@@ -99,7 +100,8 @@
 
                     </div>
 
-                </div><div id="sidebar_recentcomments" class="sidebar-block">
+                </div>
+                <div id="sidebar_recentcomments" class="sidebar-block">
                     <div id="recent_comments_wrap">
                         <div class="catListComment">
                             <h3 class="catListTitle">最新评论</h3>
@@ -150,23 +152,14 @@
                     <div id="topfeedback_posts_wrap">
                         <div class="catListFeedback">
                             <h3 class="catListTitle">评论排行榜</h3>
-                            @*TODO:此处为评论排行榜的循环*@
-                            @*@foreach (var item in ViewBag.TopComList)
+                            @foreach (var item in ViewBag.TopComList)
                             {
-                                <div id="TopFeedbackPostsBlock"><ul><li><a href="/home/blog/@item.TextID">@item.Num . @item.Title</a></li></ul></div>
-                            }*@
-                            @*<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/jackchensir/p/7732035.html">1. ps知识集锦(1)</a></li></ul></div>*@
+                                <div id="TopFeedbackPostsBlock"><ul><li><a href="/home/blog/@item.TextID">@item.Num . @item.TextTitle</a></li></ul></div>
+                            }
                         </div>
                     </div>
                 </div>
-                @*<div id="sidebar_topdiggedposts" class="sidebar-block">
-                    <div id="topdigg_posts_wrap">
-                        <div class="catListView">
-                            <h3 class="catListTitle">推荐排行榜</h3>
-                            <div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/jackchensir/p/8306448.html">1. 利用git提交代码(2)</a></li><li><a href="https://www.cnblogs.com/jackchensir/p/7732035.html">2. ps知识集锦(1)</a></li></ul></div>
-                        </div>
-                    </div>
-                </div>*@
+                
             </div>
             
             <script async='async' src='https://www.baidutagservices.com/tag/js/gpt.js'></script>
