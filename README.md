@@ -27,6 +27,7 @@
   - 首页分部视图 - 文章摘要总览
   - 对应文章分部视图 - 文章详情/评论详情/评论增删
   - 用户注册/用户登录
+![前台](https://raw.githubusercontent.com/ZoraZora59/Blog-ASP.NET/master/%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7.jpg)
 - 后台
   - 管理主页 - 数据统计（用户数/文章数/评论数）
   - 文章管理 - 文章 增/删/改
@@ -34,3 +35,4 @@
   - 用户管理 - 用户 删
   - 分类管理 - 分类 增/删/改
   - 配置管理 - 博客站标题、欢迎语、公告栏 改
+![后台](https://raw.githubusercontent.com/ZoraZora59/Blog-ASP.NET/master/%E7%AE%A1%E7%90%86%E5%91%98.jpg)
