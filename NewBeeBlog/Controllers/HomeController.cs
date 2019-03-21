@@ -142,7 +142,6 @@ namespace NewBeeBlog.Controllers
             }
             return Redirect("/");
         }
-
 		[HttpGet]
         public ActionResult Blog(int id)
         {
@@ -157,7 +156,7 @@ namespace NewBeeBlog.Controllers
 			//评论模块
 			var temp = db.CommitLists.Where(c => c.TextID == id).ToList();
 			var cmt = new List<ShowCommit>();
-			int i = 0;
+			int i = 1;
 			foreach(var item in temp)
 			{
 				var tmp = new ShowCommit();
@@ -178,20 +177,16 @@ namespace NewBeeBlog.Controllers
 		{
 			try
 			{
-				int TextID = int.Parse(Request["TextID"]);
-				string Account = Request["Account"].ToString();
-				string Content = Request["Content"].ToString();
-				var cmt = new CommitList();
-				cmt.CommitText = Content;
-				cmt.Account = Account;
-				cmt.TextID = TextID;
-				db.CommitLists.Add(cmt);
+				int sTextID = int.Parse(Request["TextID"]);
+				string sAccount = Request["Account"].ToString();
+				string sContent = Request["Content"].ToString();
+				db.CommitLists.Add(new CommitList { TextID=sTextID ,Account=sAccount,CommitText=sContent});
 				db.SaveChanges();
-				return Json(0);
+				return Json(null);
 			}
 			catch (Exception)
 			{
-				return Json(null);
+				return Json(0);
 			}
 		}
 
