@@ -36,11 +36,26 @@ namespace NewBeeBlog.Controllers
                 hots.Add(temp);
             }
 
-            //时间排序
+            //最新博文，时间排序
             var time_lists = new List<TextListsHot>();
-            var time_list = blog.OrderByDescending(m => m.TextChangeDate).ToList();
-            var templist = new List<string>();
+            var time_list = blog.OrderByDescending(m => m.TextChangeDate).Take(2).ToList();
             foreach(var item in time_list)
+            {
+                var temp = new TextListsHot();
+                temp.TextID = item.TextID;
+                temp.TextTitle = item.TextTitle;
+                temp.Hot = item.Hot;
+                temp.CategoryName = item.CategoryName;
+                temp.Datemouth = item.TextChangeDate.ToString().Substring(0, 6);
+                time_lists.Add(temp);
+            }
+            ViewBag.timesort = time_lists;
+            
+            //分类查找
+            
+            var cate_list = blog.ToList();
+            var templist = new List<string>();
+            foreach (var item in cate_list)
             {
                 var temp = new TextListsHot();
                 temp.TextID = item.TextID;
@@ -51,13 +66,29 @@ namespace NewBeeBlog.Controllers
                     templist.Add(item.CategoryName);
                 }
                 temp.Datemouth = item.TextChangeDate.ToString().Substring(0, 6);
-                time_lists.Add(temp);
             }
-            ViewBag.timesort = time_lists;
             ViewBag.categroyList = templist;
+            
+            //最新评论
+            var commit = from c in db.CommitLists
+                         select c;
+            var Ctime_list = commit.OrderByDescending(m => m.CommitChangeDate).Take(1).ToList();
+            var tempC = new ShowCommit();
+            var users = from u in db.Users
+                        select u;
+            foreach (var item in Ctime_list)
+            {
+                var textT = blog.Where(m => m.TextID == item.TextID).ToList();
+                var NameC = users.Where(m => m.Account == item.Account).ToList();
+                tempC.Content = item.CommitText;
+                tempC.TextTitle = textT[0].TextTitle;
+                tempC.Name = NameC[0].Name;
+                tempC.Date = item.CommitChangeDate.ToString();
+            }
+            //最热评论
+            ViewBag.newestCom= tempC;
 
-            
-            
+
 
             return View("~/Views/Shared/_Sidebar.cshtml", hots);
             
