@@ -53,7 +53,7 @@ namespace NewBeeBlog.Controllers
 				models.Add(temp);
 			}
             models.Reverse();
-            int pageSize = 3;
+            int pageSize = 8;//每页显示的文章数
             int pageNumber = (page ?? 1);
             return View(models.ToPagedList(pageNumber,pageSize));
         }
