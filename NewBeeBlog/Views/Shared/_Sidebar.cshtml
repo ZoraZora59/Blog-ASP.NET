@@ -55,11 +55,20 @@
                                 <input type="submit" value="搜搜看" id="btnZzk" class="btn_my_zzk" />
                             </div>
                             }
-                                <div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+                            <div id="widget_my_google" class="div_my_zzk">
+                                <input type="text" name="google_q" id="baidu_q"  class="input_my_zzk">
+                                <input onclick="baidu_go()" type="button" value="百度搜索" class="btn_my_zzk">
                             </div>
+                            <script>
+                                function baidu_go() {
+                                    var keyword = document.getElementById("baidu_q").value;
+                                    window.location.href = "https://www.baidu.com/s?ie=UTF-8&wd=" + keyword;
+                                }
+                            </script>
                         </div>
-
-                </div><div id="sidebar_shortcut" class="sidebar-block">
+                    </div>
+                </div>
+                <div id="sidebar_shortcut" class="sidebar-block">
                     <div class="catListLink">
                         <h3 class="catListTitle">常用链接</h3>
                         <ul>
@@ -150,20 +159,8 @@
                     </div>
                 </div>
             </div>
-            <script type="text/javascript">loadBlogSideColumn();</script>
-            <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
-            <script>
-                var googletag = googletag || {};
-                googletag.cmd = googletag.cmd || [];
-            </script>
-            <script>
-                googletag.cmd.push(function () {
-                    googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
-                    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
-                    googletag.pubads().enableSingleRequest();
-                    googletag.enableServices();
-                });
-            </script>
+            
+            <script async='async' src='https://www.baidutagservices.com/tag/js/gpt.js'></script>
 
         </div>
 
