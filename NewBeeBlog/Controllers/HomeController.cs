@@ -97,8 +97,24 @@ namespace NewBeeBlog.Controllers
             
         }
 
+		[HttpPost]
+		public JsonResult DeleteCommit()//删除评论
+		{
+			try
+			{
+				int cmtId = int.Parse(Request["CommitID"]);
+				db.CommitLists.Remove(db.CommitLists.FirstOrDefault(c => c.CommitID == cmtId));
+				db.SaveChanges();
+			}
+			catch (Exception)
+			{
 
-        [HttpPost]
+				throw;
+			}
+			return Json(null);
+		}
+
+		[HttpPost]
         public ActionResult ChangeInfo(ChangeUserInfo model)
         {
             if (ModelState.IsValid)
@@ -162,6 +178,7 @@ namespace NewBeeBlog.Controllers
 				var tmp = new ShowCommit();
 				tmp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
 				tmp.Date = item.CommitChangeDate.ToString("yyyy-MM-dd")+"  "+ item.CommitChangeDate.ToShortTimeString();
+				tmp.Account = item.Account;
 				tmp.Content = item.CommitText;
 				tmp.Id = item.CommitID;
 				tmp.Num = i;
@@ -188,7 +205,7 @@ namespace NewBeeBlog.Controllers
 			{
 				return Json(0);
 			}
-		}
+		}//新增评论
 
         public ActionResult About()
         {
