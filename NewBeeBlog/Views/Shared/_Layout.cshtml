@@ -54,28 +54,22 @@
                     {
                         if (name == "admin123")//如果是管理员
                         {
-                            <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/index">管理</a></li>
+                            <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Manage/index">管理中心</a></li>
                         }
-                        else//非管理员
+                        else//非管理员,普通用户
                         {
+                            <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Home/ExitLogin">登出</a></li>
                             <li><a id="blog_nav_admin" class="menu" rel="nofollow" href="/Home/ChangeInfo">信息修改</a></li>
                         }
 
-
+                        
                     }
 
 
 
 
                 </ul>
-                <div class="blogStats">
-                    <div id="blog_stats">
-                        <span id="stats_post_count">随笔 - 6&nbsp; </span>
-                        <span id="stats_article_count">文章 - 0&nbsp; </span>
-                        <span id="stats-comment_count">评论 - 1</span>
-                    </div>
-
-                </div><!--end: blogStats -->
+                <!--end: blogStats -->
             </div><!--end: navigator 博客导航栏 -->
         </div><!--end: header 头部 -->
         <div id="main">

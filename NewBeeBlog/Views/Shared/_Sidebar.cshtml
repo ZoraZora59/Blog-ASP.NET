@@ -105,13 +105,17 @@
                             <h3 class="catListTitle">最新评论</h3>
 
                             <div id="RecentCommentsBlock">
-                                <ul>
+                                @if (newestCom != null)
+                                {
+                                    <ul>
                                     
-                                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/jackchensir/p/7732035.html#3822567">1. Re:@newestCom.TextTitle</a></li>
+                                    <li class="recent_comment_title"><a href="/home/blog/@newestCom.TextId">1. Re:@newestCom.TextTitle</a></li>
                                     <li class="recent_comment_body">@newestCom.Content</li>
                                     <li class="recent_comment_author">--@newestCom.Name</li>
                                     
-                                </ul>
+                                    </ul>
+                                }
+                                
                             </div>
                         </div>
                     </div>

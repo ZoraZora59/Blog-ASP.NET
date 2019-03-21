@@ -81,6 +81,7 @@ namespace NewBeeBlog.Controllers
             {
                 var textT = blog.Where(m => m.TextID == item.TextID).ToList();
                 var NameC = users.Where(m => m.Account == item.Account).ToList();
+                tempC.TextId = item.TextID;
                 tempC.Content = item.CommitText;
                 tempC.TextTitle = textT[0].TextTitle;
                 tempC.Name = NameC[0].Name;

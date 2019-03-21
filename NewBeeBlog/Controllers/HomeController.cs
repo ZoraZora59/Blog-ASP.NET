@@ -250,19 +250,18 @@ namespace NewBeeBlog.Controllers
 			}
 		}//新增评论
 
-        public ActionResult About()
+
+        /// <summary>
+        /// 退出登陆
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ExitLogin()
         {
-            ViewBag.Message = "Your application description page.";
+            Session["loginuser"] = null;
 
-            return View();
-        }
+            return Redirect("/");
+        } 
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         public FileResult ValidateCode()
         {
             ValidateCode vc = new ValidateCode();
