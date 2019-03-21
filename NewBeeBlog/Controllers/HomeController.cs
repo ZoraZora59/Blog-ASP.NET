@@ -107,8 +107,24 @@ namespace NewBeeBlog.Controllers
             
         }
 
+		[HttpPost]
+		public JsonResult DeleteCommit()//删除评论
+		{
+			try
+			{
+				int cmtId = int.Parse(Request["CommitID"]);
+				db.CommitLists.Remove(db.CommitLists.FirstOrDefault(c => c.CommitID == cmtId));
+				db.SaveChanges();
+			}
+			catch (Exception)
+			{
 
-        [HttpPost]
+				throw;
+			}
+			return Json(null);
+		}
+
+		[HttpPost]
         public ActionResult ChangeInfo(ChangeUserInfo model)
         {
             if (ModelState.IsValid)
@@ -152,7 +168,6 @@ namespace NewBeeBlog.Controllers
             }
             return Redirect("/");
         }
-
         
         public ActionResult CategroyBlog(string categroyname)
         {
@@ -197,12 +212,13 @@ namespace NewBeeBlog.Controllers
 			//评论模块
 			var temp = db.CommitLists.Where(c => c.TextID == id).ToList();
 			var cmt = new List<ShowCommit>();
-			int i = 0;
+			int i = 1;
 			foreach(var item in temp)
 			{
 				var tmp = new ShowCommit();
 				tmp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
 				tmp.Date = item.CommitChangeDate.ToString("yyyy-MM-dd")+"  "+ item.CommitChangeDate.ToShortTimeString();
+				tmp.Account = item.Account;
 				tmp.Content = item.CommitText;
 				tmp.Id = item.CommitID;
 				tmp.Num = i;
@@ -218,22 +234,18 @@ namespace NewBeeBlog.Controllers
 		{
 			try
 			{
-				int TextID = int.Parse(Request["TextID"]);
-				string Account = Request["Account"].ToString();
-				string Content = Request["Content"].ToString();
-				var cmt = new CommitList();
-				cmt.CommitText = Content;
-				cmt.Account = Account;
-				cmt.TextID = TextID;
-				db.CommitLists.Add(cmt);
+				int sTextID = int.Parse(Request["TextID"]);
+				string sAccount = Request["Account"].ToString();
+				string sContent = Request["Content"].ToString();
+				db.CommitLists.Add(new CommitList { TextID=sTextID ,Account=sAccount,CommitText=sContent});
 				db.SaveChanges();
-				return Json(0);
+				return Json(null);
 			}
 			catch (Exception)
 			{
-				return Json(null);
+				return Json(0);
 			}
-		}
+		}//新增评论
 
         public ActionResult About()
         {

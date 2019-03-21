@@ -4,7 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var currentLoginInfo = ViewBag.currentLoginInfo == null ? null : ViewBag.currentLoginInfo;
 }
-
+<script src="~/front/EasyUi/jquery.min.js"></script>
+<script src="~/front/EasyUi/jquery.easyui.min.js"></script>
+<!--先引用jquery.min再引用jquery-->
+<script type="text/javascript"></script>
 <!DOCTYPE html>
 <div id="main">
     <div id="mainContent">
@@ -18,7 +21,7 @@
                         </h1>
                         <div class="clear"></div>
                         @Html.Raw(Model.Text)
-                        <div class="postDesc">posted @@ <span id="post-date">@Model.TextChangeDate</span> <a href="/home">NewBeeBlog</a> 阅读(<span id="post_view_count">@Model.Hot</span>) 评论(<span id="post_comment_count">@ViewBag.CmtList.Count</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7732035" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(7732035);return false;">收藏</a></div>
+                        <div class="postDesc">posted @@ <span id="post-date">@Model.TextChangeDate</span> <a href="/home">NewBeeBlog</a> 阅读(<span id="post_view_count">@Model.Hot</span>) 评论(<span id="post_comment_count">@ViewBag.CmtList.Count</span>)
                     </div>
                     @*<script type="text/javascript">var allowComments = true, cb_blogId = 373006, cb_entryId = 7732035, cb_blogApp = currentBlogApp, cb_blogUserGuid = '3ff15543-f10c-4db9-6b2d-08d49c352df3', cb_entryCreatedDate = '2017/10/25 20:05:00'; loadViewCount(cb_entryId); var cb_postType = 1; var isMarkdown = false;</script>*@
 
@@ -47,17 +50,19 @@
                         <div class="feedbackItem">
                             <div class="feedbackListSubtitle">
                                 <div class="feedbackManage">
-                                    &nbsp;&nbsp;
                                     <span class="comment_actions">
-                                        @if (item.Account == currentLoginInfo.Account)
+                                        @if (@currentLoginInfo != null)
                                         {
-                                            <span style="display:none">@item.Account</span>
-                                            <a>删除此评论</a>//TODO:添加删除评论的实现方法
+                                            if (@item.Account == @currentLoginInfo.Account)
+                                            {
+                                                <span style="display:none">@item.Account</span>
+                                                <button class="button_blue" onclick="deleteCommit('@Model.TextID','@item.Id')">删除此评论</button>
+                                            }
                                         }
                                     </span>
                                 </div>
                                 <div style="display:none">@item.Id</div>
-                                <div>#@item.Num楼</div> <span class="comment_date">@item.Date.ToString</span> <span target="_blank">@item.Name</span>
+                                <div>#@item.Num 楼</div> <span class="comment_date">@item.Date.ToString()</span> <span target="_blank">@item.Name</span>
                             </div>
                             <div class="feedbackCon">
                                 <div id="comment_body_3822567" class="blog_comment_body">@item.Content</div>
@@ -65,13 +70,8 @@
                         </div>
                     }
                 }
-
-
                 <div id="comments_pager_bottom"></div>
             </div>
-            <script type="text/">
-                var commentManager = new blogCommentManager(); commentManager.renderComments(0);
-            </script>
             <div id="comment_form" class="commentform">
                 <a name="commentform"></a>
                 <div id="divCommentShow"></div>
@@ -81,12 +81,12 @@
                     {
 
                         <div class="login_tips">
-                            注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0)" class="bold" onclick="log()">登录</a>或 <a rel="nofollow" href="javascript:void(0)" class="underline" onclick="register()">注册</a>，<a href="~/home">访问</a>博客主页。
+                            注册用户登录后才能发表评论，请 <a rel="nofollow" href="~/manage/login" class="bold">登录</a>或 <a rel="nofollow" href="~/manage/register" class="bold">注册</a>，<a href="~/home" class="bold">访问</a>博客主页。
                         </div>
 
                     }
                     else
-                    {//TODO:新增评论功能
+                    {
                         <form>
 
                             <div id="comment_form_container">
@@ -101,7 +101,7 @@
                                 <p></p>
                                 <div class="commentbox_main">
                                     <div>评论内容：</div>
-                                    <textarea id="Content" style="width:80%;height:200px;resize:vertical"></textarea>
+                                    <textarea id="txt" style="width:80%;height:200px;resize:vertical"></textarea>
                                 </div>
                                 <p id="commentbox_opt">
                                     <input type="button" name="button" class="btn-primary" onclick="submitCommit('@Model.TextID','@currentLoginInfo.Account')" value="提交评论">
@@ -120,37 +120,39 @@
                 </div>
                 <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
                 <div id="opt_under_post"></div>
-                <script async="async" src="Blog_files/gpt.js"></script>
             </div>
-
-
-
-
         </div><!--end: forFlow -->
     </div><!--end: mainContent 主体内容容器-->
     <div class="clear"></div>
 </div><!--end: main -->
-<script>//TODO:评论提交问题修改
+<script>
     function submitCommit(tid, act) {
-        var txt = document.getElementsById('Content').values;
+        var txt = document.getElementById('txt').value;
+        alert(txt);
         $.ajax({
-            ajax=false,
-            'type': 'post',
-            'url': '/Home/AddCommit',
-            'data': { TextID: tid, Account: act, Content: txt },
-            success: function (data) {
-                alert('评论成功');
-                window.location.href = "/Home/Blog/" + tid;
-            },
-            error: function () {
-                alert('评论失败');
+            ajax: false,
+            type: 'POST',
+            url: "/Home/AddCommit",
+            data: { TextID: tid, Account: act, Content: txt },
+            datatype: 'html',
+            success: function () {
+                alert('评论失败，可能是字数过长，试着分成几段评论吧');
             }
         });
+        window.location.href = "/home/blog/" + tid;
     }
-    function log() {
-        window.location.href = "/Manage/Login";
-    }
-    function register() {
-        window.location.href = "/Manage/Register";
+    function deleteCommit(tid, cid) {//TODO:添加删除评论的实现方法
+        alert('成功进入');
+        $.ajax({
+            ajax: false,
+            type: "POST",//FromMethod
+            url: "/Home/DeleteCommit",//"/Controller/Action"
+            data: { CommitID: cid },//参数 "参数名："参数值""
+            datatype: 'html',
+            error: function () {
+                alert('删除成功');
+            }
+        });
+        window.location.href = "/home/blog/" + tid;
     }
 </script>
