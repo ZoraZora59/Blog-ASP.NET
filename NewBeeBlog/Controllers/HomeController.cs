@@ -250,19 +250,6 @@ namespace NewBeeBlog.Controllers
 			}
 		}//新增评论
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         public FileResult ValidateCode()
         {
             ValidateCode vc = new ValidateCode();
