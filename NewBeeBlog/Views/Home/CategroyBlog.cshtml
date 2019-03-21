@@ -1,12 +1,9 @@
-﻿
-@using PagedList.Mvc;
-@model PagedList.IPagedList<NewBeeBlog.ViewModels.TextIndex>
-
+﻿@model IEnumerable<NewBeeBlog.ViewModels.TextIndex>
 @{
-    ViewBag.Title = "博客主页";
+    ViewBag.Title = "CategroyBlog";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @foreach (var item in Model)
 {
     <div class="day">
@@ -16,7 +13,7 @@
 
 
         <div class="postTitle">
-            <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" class="postTitle2" href="/home/blog/@item.TextID">@item.TextTitle</a>
+            <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" class="postTitle2" href="/home/blog/@item.TextID">@Html.Raw(@item.TextTitle)</a>
         </div>
         <div class="postCon">
             <div class="c_b_p_desc">
@@ -37,8 +34,4 @@
 
     </div>
 }
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 

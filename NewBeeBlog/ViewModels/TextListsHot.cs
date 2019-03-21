@@ -21,6 +21,9 @@ namespace NewBeeBlog.ViewModels
         [DisplayName("点击量")]
         public int Hot { get; set; }//点击量
 
+
+        public string CategoryName { get; set; }//分类
+        
         public string Datemouth { get; set; }//月份（字符串）
     }
 }

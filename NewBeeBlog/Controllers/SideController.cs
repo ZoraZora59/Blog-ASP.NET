@@ -31,6 +31,7 @@ namespace NewBeeBlog.Controllers
                 temp.TextID = item.TextID;
                 temp.TextTitle = item.TextTitle;
                 temp.Hot = item.Hot;
+                
                 temp.Datemouth = item.TextChangeDate.ToString().Substring(0,6);
                 hots.Add(temp);
             }
@@ -38,16 +39,22 @@ namespace NewBeeBlog.Controllers
             //时间排序
             var time_lists = new List<TextListsHot>();
             var time_list = blog.OrderByDescending(m => m.TextChangeDate).ToList();
+            var templist = new List<string>();
             foreach(var item in time_list)
             {
                 var temp = new TextListsHot();
                 temp.TextID = item.TextID;
                 temp.TextTitle = item.TextTitle;
                 temp.Hot = item.Hot;
+                if (!templist.Contains(item.CategoryName))
+                {
+                    templist.Add(item.CategoryName);
+                }
                 temp.Datemouth = item.TextChangeDate.ToString().Substring(0, 6);
                 time_lists.Add(temp);
             }
             ViewBag.timesort = time_lists;
+            ViewBag.categroyList = templist;
 
             
             
