@@ -78,6 +78,14 @@ namespace NewBeeBlog.Controllers
         }
 
 		[HttpGet]
+		public ActionResult ManageCommit()
+		{
+			var cmtList = new List<CommitList>();
+			cmtList = db.CommitLists.ToList();
+			return View(cmtList);
+		}
+
+		[HttpGet]
 		public ActionResult RenameCategory()
 		{
 			try
