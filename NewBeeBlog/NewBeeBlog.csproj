@@ -165,6 +165,7 @@
     <Compile Include="ViewModels\ShowCommit.cs" />
     <Compile Include="ViewModels\TextIndex.cs" />
     <Compile Include="ViewModels\TextListsHot.cs" />
+    <Compile Include="ViewModels\TopCmtLst.cs" />
     <Compile Include="ViewModels\UpdateText.cs" />
   </ItemGroup>
   <ItemGroup>

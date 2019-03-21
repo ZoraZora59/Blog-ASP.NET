@@ -53,15 +53,34 @@ namespace NewBeeBlog.Controllers
                 temp.Datemouth = item.TextChangeDate.ToString().Substring(0, 6);
                 time_lists.Add(temp);
             }
+			
             ViewBag.timesort = time_lists;
             ViewBag.categroyList = templist;
+			//评论排序
+			ViewBag.TopComList = GetTopCmtLst(5);//设定评论排行榜的文章数量
 
-            
-            
-
-            return View("~/Views/Shared/_Sidebar.cshtml", hots);
+			return View("~/Views/Shared/_Sidebar.cshtml", hots);
             
         }
+		
+		public List<TopCmtLst> GetTopCmtLst(int n)
+		{
+			//var TCL = new List<TopCmtLst>();
+			//var tIDlst = db.TextLists.Select(c => c.TextID).ToList();
+			//var txtCommitCount = new Dictionary<int, int>();
+			//foreach (var item in tIDlst)
+			//{
+			//	txtCommitCount.Add(item, db.CommitLists.Count(c => c.TextID == item));
+			//}
+			//txtCommitCount = txtCommitCount.OrderByDescending(p => p.Value).ToDictionary(p => p.Key, o => o.Value);
+			for (int i=0;i<n;i++)
+			{
+				
+				TCL.Add(txtCommitCount.);
+			}
+			return TCL;
+		}
+
         protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
