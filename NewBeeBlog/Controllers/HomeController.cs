@@ -38,10 +38,12 @@ namespace NewBeeBlog.Controllers
 			TextList = db.TextLists.ToList();
 			foreach(var item in TextList)
 			{
-				var temp = new TextIndex();
-				temp.TextID = item.TextID;
-				temp.CommitCount=db.CommitLists.Count(c => c.TextID == item.TextID);
-				temp.Text = item.Text;
+				var temp = new TextIndex
+				{
+					TextID = item.TextID,
+					CommitCount = db.CommitLists.Count(c => c.TextID == item.TextID),
+					Text = item.Text
+				};
 				if (item.CategoryName == null)
 					item.CategoryName = "未分类";
 				temp.CategoryName = item.CategoryName;
@@ -166,6 +168,7 @@ namespace NewBeeBlog.Controllers
                     throw;
                 }
             }
+			//TODO：注册完毕后记录登录信息
             return Redirect("/");
         }
         
