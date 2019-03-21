@@ -3,6 +3,7 @@
     var configinfo = ViewBag.Config as NewBeeBlog.ViewModels.BlogConfig;
     var timesort = ViewBag.timesort as IEnumerable<NewBeeBlog.ViewModels.TextListsHot>;
     var categroyList = ViewBag.categroyList;
+    var newestCom = ViewBag.newestCom;
 }
 
 <div id="sideBar">
@@ -105,9 +106,11 @@
 
                             <div id="RecentCommentsBlock">
                                 <ul>
-                                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/jackchensir/p/7732035.html#3822567">1. Re:ps知识集锦</a></li>
-                                    <li class="recent_comment_body">嗯，不错，再接再厉！！！</li>
-                                    <li class="recent_comment_author">--遮不住半世琉璃的伤</li>
+                                    
+                                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/jackchensir/p/7732035.html#3822567">1. Re:@newestCom.TextTitle</a></li>
+                                    <li class="recent_comment_body">@newestCom.Content</li>
+                                    <li class="recent_comment_author">--@newestCom.Name</li>
+                                    
                                 </ul>
                             </div>
                         </div>
