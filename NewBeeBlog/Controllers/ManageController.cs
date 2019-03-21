@@ -239,6 +239,7 @@ namespace NewBeeBlog.Controllers
 			}
 			catch (Exception)
 			{
+				return Redirect("/manage/CategoryList");
 				return Content("查询分类异常");
 			}
 			return View(mod);

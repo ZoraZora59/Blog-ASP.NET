@@ -166,6 +166,7 @@ namespace NewBeeBlog.Controllers
                     throw;
                 }
             }
+			//TODO：注册完毕后记录登录信息
             return Redirect("/");
         }
         
