@@ -158,7 +158,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CommitList.cs" />
-    <Compile Include="Models\LikeOrDis.cs" />
     <Compile Include="Models\NewBeeBlogContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

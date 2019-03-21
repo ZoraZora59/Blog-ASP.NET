@@ -67,7 +67,7 @@ namespace NewBeeBlog.Controllers
                 }
                 temp.Datemouth = item.TextChangeDate.ToString().Substring(0, 6);
             }
-            //ViewBag.TopComList = GetTopCmtLst(5);//设定评论排行榜的文章数量
+            ViewBag.TopComList = GetTopCmtLst(5);//设定评论排行榜的文章数量
             ViewBag.categroyList = templist;
             
             //最新评论
@@ -95,26 +95,24 @@ namespace NewBeeBlog.Controllers
             return View("~/Views/Shared/_Sidebar.cshtml", hots);
             
         }
-		
-		//public List<TopCmtLst> GetTopCmtLst(int n)
-		//{
-			//var TCL = new List<TopCmtLst>();
-			//var tIDlst = db.TextLists.Select(c => c.TextID).ToList();
-			//var txtCommitCount = new Dictionary<int, int>();
-			//foreach (var item in tIDlst)
-			//{
-			//	txtCommitCount.Add(item, db.CommitLists.Count(c => c.TextID == item));
-			//}
-			//txtCommitCount = txtCommitCount.OrderByDescending(p => p.Value).ToDictionary(p => p.Key, o => o.Value);
-			//for (int i=0;i<n;i++)
-			//{
-				
-			//	TCL.Add(txtCommitCount.);
-			//}
-			//return TCL;
-		//}
 
-        protected override void Dispose(bool disposing)//数据连接释放
+		public List<TopCmtLst> GetTopCmtLst(int n)
+		{
+			var lTxt = db.TextLists.ToList();
+			List<TopCmtLst> TCL = new List<TopCmtLst>();
+			foreach (var item in lTxt)
+			{
+				TCL.Add(new TopCmtLst { TextID = item.TextID, TextTitle = item.TextTitle, CmtCount = db.CommitLists.Where(c => c.TextID == item.TextID).Count() });
+			}
+			TCL.OrderByDescending(c => c.CmtCount);
+			for (int i = 0; i < n; i++)
+			{
+				TCL[i].Num = i + 1;
+			}
+			return TCL.Take(n).ToList();
+		}
+
+		protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
             {

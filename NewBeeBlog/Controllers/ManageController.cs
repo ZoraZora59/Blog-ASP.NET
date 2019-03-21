@@ -254,7 +254,12 @@ namespace NewBeeBlog.Controllers
                 string tID = Request["TextID"].ToString();
                 int TextID = int.Parse(tID);
                 TextList target = db.TextLists.Find(TextID);
-                db.TextLists.Remove(target);
+				while (db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault() != null)
+				{
+					db.CommitLists.Remove(db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault());
+					db.SaveChanges();
+				}
+				db.TextLists.Remove(target);
                 db.SaveChanges();
             }
             catch (ArgumentNullException)
@@ -481,34 +486,19 @@ namespace NewBeeBlog.Controllers
 
         public ActionResult DelUsers(string Account)
         {
-
-            //var odlModel = db.Users.FirstOrDefault(m => m.Account == Account);
-            //Console.WriteLine(Account);
-            //if (odlModel!=null)
-            //{
-            //    DbEntityEntry entry = db.Entry(odlModel);
-            //    entry.State = EntityState.Deleted;
-            //    int res = db.SaveChanges();
-            //    if (res > 0)
-            //    {
-            //        return Content("删除成功");
-            //    }
-            //    else
-            //    {
-            //        return Content("删除失败");
-            //    }
-            //}
-            //return Content("删除失败");
-            Console.WriteLine(Account);
             var odlModel = db.Users.Find(Account);
             if (odlModel == null)
             {
                 return HttpNotFound();
             }
+			while(db.CommitLists.Where(c=>c.Account==Account).FirstOrDefault()!=null)//同时删除用户的评论
+			{
+				db.CommitLists.Remove(db.CommitLists.Where(c => c.Account == Account).FirstOrDefault());
+				db.SaveChanges();
+			}
             db.Users.Remove(odlModel);
             db.SaveChanges();
             return Content("删除成功");
-
         }
 
 
