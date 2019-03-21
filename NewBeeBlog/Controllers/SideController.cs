@@ -70,9 +70,25 @@ namespace NewBeeBlog.Controllers
             ViewBag.categroyList = templist;
             
             //最新评论
+            var commit = from c in db.CommitLists
+                         select c;
+            var Ctime_list = commit.OrderByDescending(m => m.CommitChangeDate).Take(1).ToList();
+            var tempC = new ShowCommit();
+            var users = from u in db.Users
+                        select u;
+            foreach (var item in Ctime_list)
+            {
+                var textT = blog.Where(m => m.TextID == item.TextID).ToList();
+                var NameC = users.Where(m => m.Account == item.Account).ToList();
+                tempC.Content = item.CommitText;
+                tempC.TextTitle = textT[0].TextTitle;
+                tempC.Name = NameC[0].Name;
+                tempC.Date = item.CommitChangeDate.ToString();
+            }
             //最热评论
-            
-            
+            ViewBag.newestCom= tempC;
+
+
 
             return View("~/Views/Shared/_Sidebar.cshtml", hots);
             
