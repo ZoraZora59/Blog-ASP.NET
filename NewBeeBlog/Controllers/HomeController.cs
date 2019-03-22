@@ -42,7 +42,8 @@ namespace NewBeeBlog.Controllers
 				{
 					TextID = item.TextID,
 					CommitCount = db.CommitLists.Count(c => c.TextID == item.TextID),
-					Text = item.Text
+					Text = item.Text,
+					FirstView = item.FirstView
 				};
 				if (item.CategoryName == null)
 					item.CategoryName = "未分类";
