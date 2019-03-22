@@ -22,7 +22,7 @@
 </div>
 <script type="text/javascript">
     function formatOper(val, row, index) {
-        return '<button class="button_blue" onclick="deleteCommit() location=\'/manage/DelUsers?Account=' + row.Account + '\'>删除此评论</button>';
+        return '<button class="button_blue" onclick=\'deleteCommit(' + row.Id + ')\' >删除此评论</button>';
     }
     
     function deleteCommit(cid) {//TODO:添加删除评论的实现方法
