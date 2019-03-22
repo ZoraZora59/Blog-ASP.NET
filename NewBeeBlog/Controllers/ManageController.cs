@@ -88,12 +88,13 @@ namespace NewBeeBlog.Controllers
         public JsonResult LoadCommit()
         {
             List<ShowCommit> manageCommits = new List<ShowCommit>();
-            var trans = db.CommitLists.Select(m => new { m.Account, m.TextID,m.CommitText,m.CommitChangeDate }).ToList();
+            var trans = db.CommitLists.Select(m => new { m.CommitID,m.Account, m.TextID,m.CommitText,m.CommitChangeDate }).ToList();
             
             foreach (var item in trans)
             {
                 ShowCommit temp = new ShowCommit();
                 temp.Account = item.Account;
+				temp.Id = item.CommitID;
                 temp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
                 temp.TextId = item.TextID;
                 temp.Content = item.CommitText;
