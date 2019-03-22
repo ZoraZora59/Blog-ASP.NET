@@ -754,6 +754,16 @@ namespace NewBeeBlog.Controllers
         // POST: Blogs/Create
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
+
+		public string GetFirstView(string Content)//截取文章预览片段
+		{
+			if (Content.Length < 105)
+				return Content;
+			else
+				Content = Content.Substring(0,100);
+			return Content;
+		}
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -767,7 +777,7 @@ namespace NewBeeBlog.Controllers
 					{
 						//1.先查询要修改的原数据
 						TextList modelNew = db.TextLists.Where(a => a.TextID == BlogText.Id).FirstOrDefault();
-
+						modelNew.FirstView = GetFirstView(BlogText.Text);
 						//2.设置修改后的值
 						modelNew.TextTitle = BlogText.Title;
 						modelNew.CategoryName = BlogText.Category;
@@ -783,7 +793,7 @@ namespace NewBeeBlog.Controllers
 				{
 					try
 					{
-						db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text });
+						db.TextLists.Add(new TextList { TextTitle = BlogText.Title, CategoryName = BlogText.Category, Text = BlogText.Text, FirstView=GetFirstView(BlogText.Text) });
 						db.SaveChanges();
 					}
 					catch (Exception)//TODO:添加异常处理信息
