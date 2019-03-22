@@ -67,7 +67,6 @@ namespace NewBeeBlog.Controllers
                 }
                 temp.Datemouth = item.TextChangeDate.ToString().Substring(0, 6);
             }
-            
             ViewBag.categroyList = templist;
             
             //最新评论
@@ -96,7 +95,7 @@ namespace NewBeeBlog.Controllers
             
         }
 
-		public List<TopCmtLst> GetTopCmtLst(int n)
+		public List<TopCmtLst> GetTopCmtLst(int n)//获取评论排行榜
 		{
 			var lTxt = db.TextLists.ToList();
 			if (lTxt.Count == 0)
