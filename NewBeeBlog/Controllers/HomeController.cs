@@ -42,7 +42,8 @@ namespace NewBeeBlog.Controllers
 				{
 					TextID = item.TextID,
 					CommitCount = db.CommitLists.Count(c => c.TextID == item.TextID),
-					Text = item.Text
+					Text = item.Text,
+					FirstView = item.FirstView
 				};
 				if (item.CategoryName == null)
 					item.CategoryName = "未分类";
@@ -234,11 +235,11 @@ namespace NewBeeBlog.Controllers
             return View(model);
         }
 
-		[HttpGet]
-		public ActionResult CommitFresh(int id)
-		{
-			return PartialView("Blog",id);
-		}
+		//[HttpGet]
+		//public ActionResult CommitFresh(int id)
+		//{
+		//	return PartialView();
+		//}
 
 		[HttpPost]
 		public JsonResult AddCommit()

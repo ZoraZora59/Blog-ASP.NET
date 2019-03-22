@@ -18,14 +18,14 @@
         </div>
         <div class="postCon">
             <div class="c_b_p_desc">
-                @if (item.Text.Length < 100)
+                @if (item.FirstView.Length < 100)
                 {
-                    @Html.Raw(@item.Text)
+                    @item.FirstView
                 }
                 else
                 {
-                    @Html.Raw(@item.Text.Substring(0, 50))
-                    <a href="/home/blog/@item.TextID">阅读全文</a>
+                    @item.FirstView
+                  <a href="/home/blog/@item.TextID">阅读全文</a>
                 }
             </div>
         </div>

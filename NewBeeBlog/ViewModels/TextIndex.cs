@@ -15,6 +15,8 @@ namespace NewBeeBlog.ViewModels
 		
 		public string TextTitle { get; set; }//标题
 
+		public string FirstView { get; set; }//摘要
+
 		[DisplayName("文章正文")]
 		public string Text { get; set; }//内容
 
