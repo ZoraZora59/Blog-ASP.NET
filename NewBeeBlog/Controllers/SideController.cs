@@ -108,7 +108,7 @@ namespace NewBeeBlog.Controllers
 			}
 			if (TCL.Count == 0)
 				return null;
-			TCL.OrderByDescending(c => c.CmtCount);
+			TCL=TCL.OrderByDescending(c => c.CmtCount).ToList();
 			n = n > TCL.Count ? TCL.Count : n;
 			for (int i = 0; i < n ; i++)
 			{
