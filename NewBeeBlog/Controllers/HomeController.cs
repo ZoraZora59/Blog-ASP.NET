@@ -235,11 +235,11 @@ namespace NewBeeBlog.Controllers
             return View(model);
         }
 
-		[HttpGet]
-		public ActionResult CommitFresh(int id)
-		{
-			return PartialView("Blog",id);
-		}
+		//[HttpGet]
+		//public ActionResult CommitFresh(int id)
+		//{
+		//	return PartialView();
+		//}
 
 		[HttpPost]
 		public JsonResult AddCommit()
