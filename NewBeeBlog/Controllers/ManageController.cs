@@ -894,5 +894,10 @@ namespace NewBeeBlog.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+		protected override void HandleUnknownAction(string actionName)//自定义404ERROR
+		{
+			Response.Redirect("/home");
+		}
+	}
 }
