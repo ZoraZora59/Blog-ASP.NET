@@ -34,10 +34,8 @@ namespace NewBeeBlog.Controllers
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
             ViewBag.currentLoginInfo = currentLoginUser;
 			var models = new List<TextIndex>();
-            var blog = from m in db.TextLists
-                       select m;
             var TextList = new List<TextList>();
-            TextList = blog.ToList();
+            TextList = db.TextLists.ToList();
 			foreach(var item in TextList)
 			{
 				var temp = new TextIndex
