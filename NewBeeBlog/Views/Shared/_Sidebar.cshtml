@@ -160,7 +160,7 @@
                             {
                                 foreach (var item in ViewBag.TopComList)
                                 {
-                                    <div id="TopFeedbackPostsBlock"><ul><li><a href="/home/blog/@item.TextID">@item.Num . @item.TextTitle</a></li></ul></div>
+                                    <div id="TopFeedbackPostsBlock"><ul><li><a href="/home/blog/@item.TextID">@item.Num . @item.TextTitle (@item.CmtCount)</a></li></ul></div>
                                 }
                             }
                             else
