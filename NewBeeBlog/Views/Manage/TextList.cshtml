@@ -1,56 +1,30 @@
 ﻿@model IEnumerable<NewBeeBlog.ViewModels.ManageText>
 @{
-    ViewBag.Title = "博文管理";
+    ViewBag.Title = "ManageText";
+    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
-<script src="~/front/EasyUi/jquery.min.js"></script>
-<script src="~/front/EasyUi/jquery.easyui.min.js"></script>
-<!--先引用jquery.min再引用jquery-->
-<script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
-<link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
-<link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
-<script type="text/javascript"></script>
-
-<table id="dg" title="@ViewBag.Title" style="vertical-align:middle ; text-align:center ; width:98% ; height:98%"
-       rownumbers="true" fitColumns="true" singleSelect="true">
-    <thead>
-        <tr>
-            @*TODO：隐藏TextID列*@
-            <th style="width:5%;height:20px">@Html.DisplayNameFor(model => model.TextID)</th>
-            <th style="width:40%;height:20px">@Html.DisplayNameFor(model => model.TextTitle)</th>
-            <th style="width:15%;height:20px">@Html.DisplayNameFor(model => model.CategoryName)</th>
-            <th style="width:5%;height:20px">@Html.DisplayNameFor(model => model.Hot)</th>
-            <th style="width:20%;height:20px">@Html.DisplayNameFor(model => model.TextChangeDate)</th>
-            <th style="width:15%;height:20px"></th>
-        </tr>
-        @foreach (var item in Model)
-        {
+<div data-options="region:'center'" id="tt">
+    <table id="dg" class="easyui-datagrid" style="width:98%;height:80%"
+           url="/manage/LoadTextList"
+           toolbar="#toolbar" pagination="true"
+           rownumbers="true" fitColumns="true" singleSelect="true">
+        <thead>
             <tr>
-                <td id="@item.TextID">
-                    @Html.DisplayFor(modelItem => item.TextID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TextTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hot)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TextChangeDate)
-                </td>
-                <td field="Button">
-                    <button class="easyui-linkbutton" plain="true" onclick="editText(@item.TextID)">编辑</button>
-                    |<button class="easyui-linkbutton" plain="true" onclick="showText(@item.TextID)">详情</button>
-                    |<button class="easyui-linkbutton" plain="true" onclick="destroyText(@item.TextID)">删除</button>
-                </td>
+                <th field="TextID" width="50">文章索引</th>
+                <th field="TextTitle" width="50">文章标题</th>
+                <th field="CategoryName" width="50">分类</th>
+                <th field="Hot" width="50">热度</th>
+                <th field="Date" width="50">修改时间</th>
+                <th data-options="field:'_operate',width:80,align:'center',formatter:formatOper">操作</th>
             </tr>
-        }
-    </thead>
-</table>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript">
+    function formatOper(val, row, index) {
+        return '<button class="easyui-linkbutton" plain="true" onclick=\'editText(' + row.TextID + ')\'>编辑</button>| <button class="easyui-linkbutton" plain="true" onclick= \'showText(' + row.TextID + ')\'>详情</button>| <button class="easyui-linkbutton" plain="true" onclick= \'destroyText(' + row.TextID + ')\'>删除</button>';
+    }
 
-<script>
     function editText(tid) {
         window.location.href = "/Manage/Update?TextID=" + tid;
     }
@@ -62,7 +36,7 @@
         $.messager.confirm('删除确认', '确定要删除这篇博文吗?', function (r) {
             if (r) {
                 $.ajax({
-                    ajax:false,
+                    ajax: false,
                     type: "POST",//FromMethod
                     url: "/Manage/DeleteText",//"/Controller/Action"
                     data: { TextID: tid },//参数 "参数名："参数值""
@@ -75,7 +49,8 @@
                         alert('删除失败');
                     }
                 });
-                }
-            });
+            }
+        });
     }
+
 </script>
