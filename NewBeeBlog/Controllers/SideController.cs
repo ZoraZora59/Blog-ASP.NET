@@ -67,7 +67,7 @@ namespace NewBeeBlog.Controllers
                 }
                 temp.Datemouth = item.TextChangeDate.ToString().Substring(0, 6);
             }
-            ViewBag.TopComList = GetTopCmtLst(5);//设定评论排行榜的文章数量
+            ViewBag.TopComList = GetTopCmtLst(3);//设定评论排行榜的文章数量
             ViewBag.categroyList = templist;
             
             //最新评论
@@ -108,7 +108,7 @@ namespace NewBeeBlog.Controllers
 			}
 			if (TCL.Count == 0)
 				return null;
-			TCL.OrderByDescending(c => c.CmtCount);
+			TCL=TCL.OrderByDescending(c => c.CmtCount).ToList();
 			n = n > TCL.Count ? TCL.Count : n;
 			for (int i = 0; i < n ; i++)
 			{
