@@ -20,6 +20,6 @@
 </div>
 <script type="text/javascript">
     function formatOper(val, row, index) {
-        return  '<a href="javascript:if(confirm(\'确实要删除吗?\'))location=\'/manage/DelUsers?Account=' + row.Account + '\'" class="easyui-linkbutton" plain="true"><font color="black">删除</font></a>';
+        return   '<button class="button_blue" onclick="deleteCommit('+ row.CommitID +')">删除此评论</button>'
     }
 </script>

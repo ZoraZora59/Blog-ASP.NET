@@ -80,12 +80,30 @@ namespace NewBeeBlog.Controllers
 		[HttpGet]
 		public ActionResult ManageCommit()
 		{
-			var cmtList = new List<CommitList>();
-			cmtList = db.CommitLists.ToList();
-			return View(cmtList);
+			//var cmtList = new List<CommitList>();
+			//cmtList = db.CommitLists.ToList();
+			return View();
 		}
 
-		[HttpGet]
+        public JsonResult LoadCommit()
+        {
+            List<ShowCommit> manageCommits = new List<ShowCommit>();
+            var trans = db.CommitLists.Select(m => new { m.Account, m.TextID,m.CommitText,m.CommitChangeDate }).ToList();
+            
+            foreach (var item in trans)
+            {
+                ShowCommit temp = new ShowCommit();
+                temp.Account = item.Account;
+                temp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
+                temp.TextId = item.TextID;
+                temp.Content = item.CommitText;
+                temp.Date = item.CommitChangeDate.ToString();
+                manageCommits.Add(temp);
+            }
+            return Json(manageCommits);
+        }
+
+        [HttpGet]
 		public ActionResult RenameCategory()
 		{
 			try
@@ -451,26 +469,12 @@ namespace NewBeeBlog.Controllers
         }
         public JsonResult LoadUsers()
         {
-            //var list = db.Users.ToList().Select(m => new { Account = m.Account, Name = m.Name }).ToList();
-            //foreach (var li in list)
-            //{
-            //    if (li.Account == "admin123")
-            //    {
-            //        list.Remove(li);
-            //        break;
-            //    }
-            //}
 			List<ManageUser> manageUsers = new List<ManageUser>();
 			var trans = db.Users.Select(m => new { m.Account, m.Name }).ToList();
 			trans.Remove(trans.Find(a => a.Account == "admin123"));
 			foreach (var item in trans)
 			{
 				ManageUser temp = new ManageUser();
-				//if (item.Account == "admin123")
-				//{
-				//	trans.Remove(item);
-				//	continue;
-				//}
 				temp.Account = item.Account;
 				temp.Name = item.Name;
 				temp.CommitCount = 0;
