@@ -757,14 +757,15 @@ namespace NewBeeBlog.Controllers
 
 		public string GetFirstView(string Content)//截取文章预览片段
 		{
+			Content=Regex.Replace(Content, "<[^>]+>", "");
+			Content = Regex.Replace(Content, "&[^;]+;", "");
 			if (Content.Length < 105)
 				return Content;
 			else
 				Content = Content.Substring(0,100);
 			return Content;
 		}
-
-        [HttpPost]
+		[HttpPost]
         //[ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult Update([Bind(Include = "Id,Title,Category,Text")] UpdateText BlogText)
