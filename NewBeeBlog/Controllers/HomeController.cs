@@ -250,6 +250,18 @@ namespace NewBeeBlog.Controllers
 			}
 		}//新增评论
 
+
+        /// <summary>
+        /// 退出登陆
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ExitLogin()
+        {
+            Session["loginuser"] = null;
+
+            return Redirect("/");
+        } 
+
         public FileResult ValidateCode()
         {
             ValidateCode vc = new ValidateCode();

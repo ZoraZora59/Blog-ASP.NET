@@ -1296,6 +1296,7 @@
     <Content Include="Views\Home\SearchResult.cshtml" />
     <Content Include="Views\Home\CategroyBlog.cshtml" />
     <Content Include="Views\Manage\ManageCommit.cshtml" />
+    <Content Include="Views\Home\ExitLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
