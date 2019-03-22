@@ -207,6 +207,8 @@ namespace NewBeeBlog.Controllers
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
             ViewBag.currentLoginInfo = currentLoginUser;
             var model = db.TextLists.FirstOrDefault(m => m.TextID == id);
+			if (model == null)
+				return Redirect("/home");
             model.Hot += 1;
             DbEntityEntry entry = db.Entry(model);
             entry.State = EntityState.Modified;
@@ -231,6 +233,12 @@ namespace NewBeeBlog.Controllers
 			ViewBag.CmtList = cmt;
             return View(model);
         }
+
+		[HttpGet]
+		public ActionResult CommitFresh(int id)
+		{
+			return PartialView("Blog",id);
+		}
 
 		[HttpPost]
 		public JsonResult AddCommit()
@@ -278,5 +286,10 @@ namespace NewBeeBlog.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+		protected override void HandleUnknownAction(string actionName)//自定义404ERROR
+		{
+			Response.Redirect("/home");
+		}
+	}
 }
