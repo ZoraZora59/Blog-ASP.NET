@@ -258,7 +258,6 @@ namespace NewBeeBlog.Controllers
 			}
 			catch (Exception)
 			{
-				return Redirect("/manage/CategoryList");
 				return Content("查询分类异常");
 			}
 			return View(mod);
@@ -291,6 +290,27 @@ namespace NewBeeBlog.Controllers
             }
             return Json("success");
         }
+        
+        public JsonResult LoadTextList()
+        {
+            List<ManageText> manageTexts = new List<ManageText>();
+            var trans = db.TextLists.ToList();
+
+            foreach (var item in trans)
+            {
+                ManageText temp = new ManageText();
+                temp.TextID = item.TextID;
+                temp.TextTitle = item.TextTitle;
+                temp.CategoryName = item.CategoryName;
+                temp.Date = item.CategoryName.ToString();
+                temp.Hot = item.Hot;
+                manageTexts.Add(temp);
+            }
+            return Json(manageTexts);
+        }
+
+
+
         // Get:Update
         [HttpGet]
         public ActionResult TextList()//博文管理的列表页
@@ -427,6 +447,35 @@ namespace NewBeeBlog.Controllers
         public ActionResult AddCategroy()
         {
             return View();
+        }
+
+        public JsonResult LoadCategoryList()
+        {
+            
+            List<TextList> temp = new List<TextList>();
+            List<CategoryList> CategoryLists = new List<CategoryList>();
+            temp = db.TextLists.ToList();
+            foreach (var item in temp)
+            {
+                var categoryItem = new CategoryList();//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
+                categoryItem.CategoryName = item.CategoryName;
+                if (categoryItem.CategoryName == null)
+                {
+                    categoryItem.CategoryName = "未分类";
+                }
+                if (!CategoryLists.Exists(T => T.CategoryName == categoryItem.CategoryName))//若不存在于已生成列表则添加进列表
+                {
+                    categoryItem.CategoryHot += item.Hot;
+                    categoryItem.TextCount++;
+                    CategoryLists.Add(categoryItem);
+                }
+                else//否则对指定项进行修改
+                {
+                    CategoryLists.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).CategoryHot += item.Hot;
+                    CategoryLists.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).TextCount++;
+                }
+            }
+            return Json(CategoryLists);
         }
 
         [HttpGet]

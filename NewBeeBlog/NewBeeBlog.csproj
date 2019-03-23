@@ -633,6 +633,7 @@
     <Content Include="front\EasyUi\themes\react.css" />
     <Content Include="front\EasyUi\themes\vue.css" />
     <Content Include="front\images\1.jpg" />
+    <Content Include="front\js\calendar.js" />
     <Content Include="front\js\login.js" />
     <Content Include="front\js\jquery-1.9.0.min.js" />
     <Content Include="front\index_files\128442.css" />

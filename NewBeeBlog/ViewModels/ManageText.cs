@@ -21,5 +21,7 @@ namespace NewBeeBlog.ViewModels
         [DisplayName("修改时间")]
         public DateTime TextChangeDate { get; set; }
 
+        public string Date { get; set; }//字符串版的时间
+
     }
 }

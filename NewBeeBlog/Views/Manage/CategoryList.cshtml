@@ -1,50 +1,28 @@
 ﻿@model IEnumerable<NewBeeBlog.ViewModels.CategoryList>
-<script src="~/front/EasyUi/jquery.min.js"></script>
-<script src="~/front/EasyUi/jquery.easyui.min.js"></script>
-<!--先引用jquery.min再引用jquery-->
-<script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
-<link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
-<link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
-<script type="text/javascript"></script>
-<h2>
-    @ViewBag.title
-</h2>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TextCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoryHot)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td id="@item.CategoryName">
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TextCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryHot)
-            </td>
-            <td field="Button">
-                <button class="easyui-linkbutton" plain="true" onclick="editCategory('@item.CategoryName')">修改分类名</button>
-               |<button class="easyui-linkbutton" plain="true" onclick="showCategory('@item.CategoryName')">分类详情</button>
-               |<button class="easyui-linkbutton" plain="true" onclick="deleteCategory('@item.CategoryName')">删除此分类</button>
-            </td>
-        </tr>
+@{
+    ViewBag.Title = "CategoryList";
+    Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
+}
+<div data-options="region:'center'" id="tt">
+    <table id="dg" class="easyui-datagrid" style="width:98%;height:80%"
+           url="/manage/LoadCategoryList"
+           toolbar="#toolbar" pagination="true"
+           rownumbers="true" fitColumns="true" singleSelect="true">
+        <thead>
+            <tr>
+                <th field="CategoryName" width="50">分类名称</th>
+                <th field="TextCount" width="50">文章数</th>
+                <th field="CategoryHot" width="50">总热度</th>
+                <th data-options="field:'_operate',width:80,align:'center',formatter:formatOper">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript">
+    function formatOper(val, row, index) {
+        return '<button class="easyui-linkbutton" plain="true" onclick=\'editCategory(\"' + row.CategoryName + '\")\'>修改分类名</button>|<button class="easyui-linkbutton" plain="true" onclick=\'showCategory(\"' + row.CategoryName + '\")\'>分类详情</button>|<button class="easyui-linkbutton" plain="true" onclick=\'deleteCategory(\"' + row.CategoryName + '\")\'>删除此分类</button>';
     }
 
-</table>
-<script>
     function editCategory(c) {
         window.location.href = "/Manage/RenameCategory?CategoryName=" + c;
     }
@@ -53,10 +31,8 @@
     }
     function deleteCategory(c) {
         //alert(c);
-        $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r)
-        {
-            if (r)
-            {
+        $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r) {
+            if (r) {
                 //$.ajax({
                 //    ajax: false,
                 //    type: "POST",//FromMethod
@@ -72,19 +48,18 @@
                 //    }
                 //});
 
-                $.post("/Manage/DeleteCategory", { CategoryName: c }, function (data)
-                {
+                $.post("/Manage/DeleteCategory", { CategoryName: c }, function (data) {
                     if (data == 0) {
                         document.getElementById(c).parentElement.remove();
                         alert("删除成功");
                     }
-                    else
-                    {
+                    else {
                         alert("删除失败");
                     }
                 }
                 )
             }
         }
-    )}
+        )
+    }
 </script>
