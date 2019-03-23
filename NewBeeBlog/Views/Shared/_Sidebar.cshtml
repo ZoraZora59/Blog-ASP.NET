@@ -18,30 +18,13 @@
                 </div>
             </div>
         </div>
+        <script src="~/front/js/calendar.js"></script>
+        <div id='calen'></div>
+        <script>
+            //只需实例化calendar实例即可，传入的参数为html对象的id，举个例子如下
+            new calendar('calen');
+        </script>
 
-        <div id="blog-calendar" style="">
-            <table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
-                <tbody>
-                    <tr>
-                        <td colspan="7">
-                            <table class="CalTitle" cellspacing="0">
-                                <tbody>
-                                    <tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/02/01');return false;">&lt;</a></td><td align="center">2019年3月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2019/04/01');return false;">&gt;</a></td></tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr>
-                    <tr><td class="CalOtherMonthDay" align="center">24</td><td class="CalOtherMonthDay" align="center">25</td><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr>
-                    <tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalTodayDay" align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr>
-                    <tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr>
-                    <tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr>
-                    <tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr>
-                    <tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <script type="text/javascript">loadBlogDefaultCalendar();</script>
 
         <div id="leftcontentcontainer">
             <div id="blog-sidecolumn">
@@ -51,13 +34,13 @@
                         <div id="sidebar_search_box">
                             @using (Html.BeginForm("SearchResult", "Home", FormMethod.Post))
                             {
-                            <div id="widget_my_zzk" class="div_my_zzk">
-                                @Html.TextBox("searchthing", "", new { @class = "input_my_zzk", @id = "q" })
-                                <input type="submit" value="搜搜看" id="btnZzk" class="btn_my_zzk" />
-                            </div>
+                                <div id="widget_my_zzk" class="div_my_zzk">
+                                    @Html.TextBox("searchthing", "", new { @class = "input_my_zzk", @id = "q" })
+                                    <input type="submit" value="搜搜看" id="btnZzk" class="btn_my_zzk" />
+                                </div>
                             }
                             <div id="widget_my_google" class="div_my_zzk">
-                                <input type="text" name="google_q" id="baidu_q"  class="input_my_zzk">
+                                <input type="text" name="google_q" id="baidu_q" class="input_my_zzk">
                                 <input onclick="baidu_go()" type="button" value="百度搜索" class="btn_my_zzk">
                             </div>
                             <script>
@@ -89,7 +72,7 @@
                         <h3 class="catListTitle">分类查找</h3>
 
                         <ul>
-                            
+
                             @for (int i = 0; i < @categroyList.Count; i++)
                             {
                                 <li><a id="CatList_LinkList_0_Link_0" href="/home/CategroyBlog?categroyname=@categroyList[i]">@categroyList[i]</a> </li>
@@ -110,14 +93,14 @@
                                 @if (newestCom != null)
                                 {
                                     <ul>
-                                    
-                                    <li class="recent_comment_title"><a href="/home/blog/@newestCom.TextId">1. Re:@newestCom.TextTitle</a></li>
-                                    <li class="recent_comment_body">@newestCom.Content</li>
-                                    <li class="recent_comment_author">--@newestCom.Name</li>
-                                    
+
+                                        <li class="recent_comment_title"><a href="/home/blog/@newestCom.TextId">1. Re:@newestCom.TextTitle</a></li>
+                                        <li class="recent_comment_body">@newestCom.Content</li>
+                                        <li class="recent_comment_author">--@newestCom.Name</li>
+
                                     </ul>
                                 }
-                                
+
                             </div>
                         </div>
                     </div>
@@ -170,9 +153,9 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
-            
+
             <script async='async' src='https://www.baidutagservices.com/tag/js/gpt.js'></script>
 
         </div>
