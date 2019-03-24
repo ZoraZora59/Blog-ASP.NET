@@ -80,7 +80,7 @@ namespace NewBeeBlog.Controllers
                     if (item.CategoryName == null)
                         item.CategoryName = "未分类";
                     temp.CategoryName = item.CategoryName;
-                    
+                    temp.FirstView = item.FirstView;
                     temp.TextTitle = item.TextTitle.Replace(searchthing, "<font color='red'>" + searchthing + "</font>");
                     temp.TextChangeDate = item.TextChangeDate;
                     temp.Hot = item.Hot;
@@ -190,10 +190,12 @@ namespace NewBeeBlog.Controllers
                     temp.TextID = item.TextID;
                     temp.CommitCount = db.CommitLists.Count(c => c.TextID == item.TextID);
                     temp.Text = item.Text;
+                    temp.TextTitle = item.TextTitle;
                     if (item.CategoryName == null)
                         item.CategoryName = "未分类";
                     temp.CategoryName = item.CategoryName;
                     temp.TextChangeDate = item.TextChangeDate;
+                    temp.FirstView = item.FirstView;
                     temp.Hot = item.Hot;
                     search_list.Add(temp);
                 }
