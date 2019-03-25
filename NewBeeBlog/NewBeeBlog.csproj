@@ -136,6 +136,8 @@
     <Compile Include="App_Code\SerializeTool.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SideController.cs" />
+    <Compile Include="DataFlush\DataAlter.cs" />
+    <Compile Include="DataFlush\DataFlush.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TestList.cs" />
     <Compile Include="ViewModels\BlogConfig.cs" />

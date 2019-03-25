@@ -23,10 +23,7 @@ namespace NewBeeBlog.Controllers
             var model = new SerializeTool().DeSerialize<BlogConfig>();
 			ViewBag.Config = model;
         }
-
-
-
-
+		
         //page分页Num
         public ActionResult Index(int? page)
         {
@@ -58,7 +55,6 @@ namespace NewBeeBlog.Controllers
             int pageNumber = (page ?? 1);
             return View(models.ToPagedList(pageNumber,pageSize));
         }
-
         
         public ActionResult SearchResult(string searchthing)
         {
@@ -90,7 +86,6 @@ namespace NewBeeBlog.Controllers
             }
             return View(search_list);
         }
-
 
         [HttpGet]
         public ActionResult ChangeInfo()
@@ -237,12 +232,6 @@ namespace NewBeeBlog.Controllers
             return View(model);
         }
 
-		//[HttpGet]
-		//public ActionResult CommitFresh(int id)
-		//{
-		//	return PartialView();
-		//}
-
 		[HttpPost]
 		public JsonResult AddCommit()
 		{
@@ -261,11 +250,7 @@ namespace NewBeeBlog.Controllers
 			}
 		}//新增评论
 
-
-        /// <summary>
-        /// 退出登陆
-        /// </summary>
-        /// <returns></returns>
+        // 退出登陆
         public ActionResult ExitLogin()
         {
             Session["loginuser"] = null;
