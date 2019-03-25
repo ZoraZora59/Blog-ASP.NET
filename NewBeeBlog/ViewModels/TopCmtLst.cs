@@ -9,7 +9,7 @@ namespace NewBeeBlog.ViewModels
 	{
 		public string TextTitle { get; set; }
 		public int TextID { get; set; }
-		public int Num { get; set; }
+		public int Num { get; set; }//评论排名
 		public int CmtCount { get; set; }
 	}
 }

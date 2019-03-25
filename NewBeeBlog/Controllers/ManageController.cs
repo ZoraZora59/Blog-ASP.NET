@@ -1,6 +1,7 @@
 ﻿using NewBeeBlog.App_Code;
 using NewBeeBlog.Models;
 using NewBeeBlog.ViewModels;
+using NewBeeBlog.DataFlush;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,34 +17,20 @@ using System.Web.Mvc;
 
 namespace NewBeeBlog.Controllers
 {
+	[HandleError]
     public class ManageController : Controller
     {
         private NewBeeBlogContext db = new NewBeeBlogContext();
-        // GET: Manage
-        // Post:Index
+
         public ActionResult Index()//生成页面时加载Model数据
         {
-            try
-            {
-                ManageMain model = new ManageMain();
-                model.UserCount = db.Users.Count();
-                model.TextCount = db.TextLists.Count();
-                model.CommitCount = db.CommitLists.Count();
-                return View(model);
-            }
-            catch (Exception)
-            {
-                //TODO:异常判断
-                throw;
-            }
+			return View(new GetManage().Mmain);//可能需要异常处理
         }
-        //Get:ManageUser
         [HttpGet]
         public ActionResult ManageUser()
         {
             return View();
         }
-		//Get:Update
 		[HttpGet]
 		public ActionResult Update()//文章更新
 		{
@@ -53,11 +40,8 @@ namespace NewBeeBlog.Controllers
 				if (jstID != null)
 				{
 					int tID = int.Parse(jstID);
-					var text = new TextList();
-					text = GetTextContent(tID);
 					ViewBag.title = "文章更新";
-					UpdateText Utext = new UpdateText { Id = text.TextID, Title = text.TextTitle, Category = text.CategoryName, Text = text.Text };
-					return View(Utext);
+					return View(new GetText(tID).Utext);
 				}
 			}
 			catch (NullReferenceException)
@@ -70,38 +54,16 @@ namespace NewBeeBlog.Controllers
 			ViewBag.Title = "创建文章";
 			return View(new UpdateText());
 		}
-		public TextList GetTextContent(int tID)
-        {
-            var text = new TextList();
-            text = db.TextLists.Find(tID);
-            return text;
-        }
 
 		[HttpGet]
 		public ActionResult ManageCommit()
 		{
-			//var cmtList = new List<CommitList>();
-			//cmtList = db.CommitLists.ToList();
 			return View();
 		}
 
-        public JsonResult LoadCommit()
+        public JsonResult LoadCommit()//加载评论管理界面的数据
         {
-            List<ShowCommit> manageCommits = new List<ShowCommit>();
-            var trans = db.CommitLists.Select(m => new { m.CommitID,m.Account, m.TextID,m.CommitText,m.CommitChangeDate }).ToList();
-            
-            foreach (var item in trans)
-            {
-                ShowCommit temp = new ShowCommit();
-                temp.Account = item.Account;
-				temp.Id = item.CommitID;
-                temp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
-                temp.TextId = item.TextID;
-                temp.Content = item.CommitText;
-                temp.Date = item.CommitChangeDate.ToString();
-                manageCommits.Add(temp);
-            }
-            return Json(manageCommits);
+            return Json(new GetCommitManage().SCommits);
         }
 
         [HttpGet]
@@ -120,44 +82,10 @@ namespace NewBeeBlog.Controllers
 			return View();
 		}//分类更名
 		public JsonResult JSRenameCategory()
-		{//TODO:修改返回值
-			try
-			{
-				var NameString = Request["NameChanging"].ToString();
-				string[] NameChange = NameString.Split(new char[] { ','});
-				string oldOne = NameChange[0];
-				string newOne = NameChange[1];
-				if (newOne == "")
-					newOne = null;
-				if (oldOne == "未分类")
-				{
-					while (db.TextLists.FirstOrDefault(c => c.CategoryName == null) != null)
-					{
-						//1.先查询要修改的原数据
-						TextList modelNew = db.TextLists.Where(a => a.CategoryName == null).FirstOrDefault();
-
-						//2.设置修改后的值
-						modelNew.CategoryName = newOne;
-						db.SaveChanges();
-					}
-				}
-				else
-				{
-					while (db.TextLists.FirstOrDefault(c => c.CategoryName == oldOne) != null)
-					{
-						//1.先查询要修改的原数据
-						TextList modelNew = db.TextLists.Where(a => a.CategoryName == oldOne).FirstOrDefault();
-
-						//2.设置修改后的值
-						modelNew.CategoryName = newOne;
-						db.SaveChanges();
-					}
-				}
-			}
-			catch
-			{
-				throw;
-			}
+		{
+			//TODO:修改返回值
+			var NameString = Request["NameChanging"].ToString();
+			DataFlush.DataAlter.RenamaCategory(NameString);
 			return Json(0);
 		}
 
@@ -169,19 +97,25 @@ namespace NewBeeBlog.Controllers
 			temp = db.TextLists.ToList();
 			foreach(var item in temp)
 			{
-				var categoryItem = new CategoryList();//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
-				categoryItem.CategoryName = item.CategoryName;
-				if(categoryItem.CategoryName==null)
+				//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
+				var categoryItem = new CategoryList
+				{
+					CategoryName = item.CategoryName
+				};
+				//统一命名
+				if (categoryItem.CategoryName==null)
 				{
 					categoryItem.CategoryName = "未分类";
 				}
-				if(!mod.Exists(T=>T.CategoryName==categoryItem.CategoryName))//若不存在于已生成列表则添加进列表
+				//若不存在于已生成列表则新添此项
+				if (!mod.Exists(T=>T.CategoryName==categoryItem.CategoryName))
 				{
 					categoryItem.CategoryHot += item.Hot;
 					categoryItem.TextCount ++;
 					mod.Add(categoryItem);
 				}
-				else//否则对指定项进行修改
+				//否则对已有项进行更新
+				else
 				{
 					mod.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).CategoryHot += item.Hot;
 					mod.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).TextCount ++;
@@ -201,19 +135,13 @@ namespace NewBeeBlog.Controllers
 				name = Request["CategoryName"].ToString();
 				if (name == "未分类")
 					return Json(1);
+				//删除分类即分类名置null
 				while (db.TextLists.FirstOrDefault(c => c.CategoryName == name) != null)
 				{
-					//1.先查询要修改的原数据
 					TextList modelNew = db.TextLists.Where(a => a.CategoryName == name).FirstOrDefault();
-
-					//2.设置修改后的值
 					modelNew.CategoryName = null;
 					db.SaveChanges();
 				}
-			}
-			catch (ArgumentNullException)
-			{
-				throw;
 			}
 			catch (Exception)
 			{
@@ -231,28 +159,33 @@ namespace NewBeeBlog.Controllers
 				var cname = Request["CategoryName"].ToString();
 				if (cname == "未分类")
 					cname = null;
-				List<TextList> Tmod = db.TextLists.Where(c => c.CategoryName == cname).ToList();
+				List<TextList> Tmod = db.TextLists.Where(c => c.CategoryName == cname).ToList();//获取分类下属的文章表
 				List<CategoryText> Cmod = new List<CategoryText>();
-				foreach(var item in Tmod)
+				//清洗数据
+				foreach (var item in Tmod)
 				{
-					var temp = new CategoryText();
-					temp.TextTitle = item.TextTitle;
-					temp.TextID = item.TextID;
-					temp.Hot = item.Hot;
-					temp.ChangeTime = item.TextChangeDate;
+					var temp = new CategoryText
+					{
+						TextTitle = item.TextTitle,
+						TextID = item.TextID,
+						Hot = item.Hot,
+						ChangeTime = item.TextChangeDate
+					};
 					Cmod.Add(temp);
 				}
 				ViewBag.CategoryTextList = Cmod;
+				
 				mod.TextCount = Tmod.Count(c => c.CategoryName == cname);
+
 				if (cname == null)
-					cname = "未分类";
-				mod.CategoryName = cname;
+					mod.CategoryName = "未分类";
+
 				foreach(var item in Cmod)
 				{
 					mod.CategoryHot += item.Hot;
 				}
 			}
-			catch (NullReferenceException)
+			catch (NullReferenceException)//路由地址异常
 			{
 				return Redirect("/manage/CategoryList");
 			}
@@ -268,15 +201,16 @@ namespace NewBeeBlog.Controllers
         {
             try
             {
-
                 string tID = Request["TextID"].ToString();
                 int TextID = int.Parse(tID);
                 TextList target = db.TextLists.Find(TextID);
+				//删除文章所属的所有评论
 				while (db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault() != null)
 				{
 					db.CommitLists.Remove(db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault());
 					db.SaveChanges();
 				}
+				//评论删除后再删除文章，以免后续异常
 				db.TextLists.Remove(target);
                 db.SaveChanges();
             }
@@ -295,23 +229,22 @@ namespace NewBeeBlog.Controllers
         {
             List<ManageText> manageTexts = new List<ManageText>();
             var trans = db.TextLists.ToList();
-
+			//清洗数据
             foreach (var item in trans)
             {
-                ManageText temp = new ManageText();
-                temp.TextID = item.TextID;
-                temp.TextTitle = item.TextTitle;
-                temp.CategoryName = item.CategoryName;
-                temp.Date = item.CategoryName.ToString();
-                temp.Hot = item.Hot;
-                manageTexts.Add(temp);
+				ManageText temp = new ManageText
+				{
+					TextID = item.TextID,
+					TextTitle = item.TextTitle,
+					CategoryName = item.CategoryName,
+					Date = item.CategoryName.ToString(),
+					Hot = item.Hot
+				};
+				manageTexts.Add(temp);
             }
             return Json(manageTexts);
         }
 
-
-
-        // Get:Update
         [HttpGet]
         public ActionResult TextList()//博文管理的列表页
         {
@@ -319,23 +252,25 @@ namespace NewBeeBlog.Controllers
             List<TextList> trans = db.TextLists.ToList();
             foreach (var t in trans)
             {
-                ManageText temp = new ManageText();
-                temp.TextID = t.TextID;
-                temp.TextTitle = t.TextTitle;
-                temp.CategoryName = t.CategoryName;
-                temp.Hot = t.Hot;
-                temp.TextChangeDate = t.TextChangeDate;
-                ManageTexts.Add(temp);
+				ManageText temp = new ManageText
+				{
+					TextID = t.TextID,
+					TextTitle = t.TextTitle,
+					CategoryName = t.CategoryName,
+					Hot = t.Hot,
+					TextChangeDate = t.TextChangeDate
+				};
+				ManageTexts.Add(temp);
             }
             return View(ManageTexts);
         }
-        // GET: Register
+
         [HttpGet]
         public ActionResult Register()
         {
             return View();
         }
-        // Post: Register
+
         [HttpPost]
         public ActionResult Register(RegisterUser model)
         {
@@ -359,28 +294,13 @@ namespace NewBeeBlog.Controllers
                     db.SaveChanges();
                     //保存数据库 
                 }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException)
-                {
-                    return Content("数据库更新出错");
-                }
-                catch (System.ObjectDisposedException)
-                {
-                    return Content("数据上下文连接已过期");
-                }
-                catch (System.InvalidOperationException)
-                {
-                    return Content("数据实体处理异常");
-                }
                 catch (Exception)
                 {
-                    //TODO:异常报告
-                    return Content("数据库异常");
-                    throw;
                 }
             }
             return Redirect("/");
         }
-        // GET: Manage
+
         [HttpGet]
         public ActionResult Login()
         {
@@ -457,9 +377,11 @@ namespace NewBeeBlog.Controllers
             temp = db.TextLists.ToList();
             foreach (var item in temp)
             {
-                var categoryItem = new CategoryList();//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
-                categoryItem.CategoryName = item.CategoryName;
-                if (categoryItem.CategoryName == null)
+				var categoryItem = new CategoryList
+				{
+					CategoryName = item.CategoryName
+				};//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
+				if (categoryItem.CategoryName == null)
                 {
                     categoryItem.CategoryName = "未分类";
                 }
@@ -490,11 +412,13 @@ namespace NewBeeBlog.Controllers
 			trans.Remove(trans.Find(a => a.Account == "admin123"));
 			foreach (var item in trans)
 			{
-				ManageUser temp = new ManageUser();
-				temp.Account = item.Account;
-				temp.Name = item.Name;
-				temp.CommitCount = 0;
-				var cmtlist = db.CommitLists.Where<CommitList>(cmt => cmt.Account == temp.Account);
+				ManageUser temp = new ManageUser
+				{
+					Account = item.Account,
+					Name = item.Name,
+					CommitCount = 0
+				};
+				var cmtlist = db.CommitLists.Where(cmt => cmt.Account == temp.Account);
 				foreach (var cmt in cmtlist)
 				{
 					temp.CommitCount++;
@@ -533,7 +457,6 @@ namespace NewBeeBlog.Controllers
 			return Content;
 		}
 		[HttpPost]
-        //[ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult Update([Bind(Include = "Id,Title,Category,Text")] UpdateText BlogText)
         {
@@ -604,14 +527,16 @@ namespace NewBeeBlog.Controllers
             String savePath = "/attached/";
             //文件保存目录URL
             String saveUrl = "/attached/";
-            //定义允许上传的文件扩展名
-            Hashtable extTable = new Hashtable();
-            extTable.Add("image", "gif,jpg,jpeg,png,bmp");
-            extTable.Add("flash", "swf,flv");
-            extTable.Add("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
-            extTable.Add("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2");
-            //最大文件大小
-            int maxSize = 1000000;
+			//定义允许上传的文件扩展名
+			Hashtable extTable = new Hashtable
+			{
+				{ "image", "gif,jpg,jpeg,png,bmp" },
+				{ "flash", "swf,flv" },
+				{ "media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb" },
+				{ "file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2" }
+			};
+			//最大文件大小
+			int maxSize = 1000000;
             HttpPostedFileBase imgFile = Request.Files["imgFile"];
             if (imgFile == null)
             {
@@ -659,10 +584,12 @@ namespace NewBeeBlog.Controllers
             String filePath = dirPath + newFileName;
             imgFile.SaveAs(filePath);
             String fileUrl = saveUrl + newFileName;
-            Hashtable hash = new Hashtable();
-            hash["error"] = 0;
-            hash["url"] = fileUrl;
-            return Json(hash);
+			Hashtable hash = new Hashtable
+			{
+				["error"] = 0,
+				["url"] = fileUrl
+			};
+			return Json(hash);
         }
         protected override void Dispose(bool disposing)//数据连接释放
         {

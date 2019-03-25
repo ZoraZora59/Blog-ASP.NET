@@ -7,7 +7,7 @@ namespace NewBeeBlog.ViewModels
 {
 	public class ShowCommit
 	{
-		public int Id { get; set; }
+		public int Id { get; set; }//评论的ID号
         public int TextId { get; set; }//评论文章的ID
         public int TextTotalCommit { get; set; }//评论文章的评论数量
         public string TextTitle { get; set; }//评论文章的标题
