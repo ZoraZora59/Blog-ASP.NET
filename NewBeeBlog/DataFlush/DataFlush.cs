@@ -219,7 +219,9 @@ namespace NewBeeBlog.DataFlush
 	#region 获取登录信息
 	class Login
 	{
+#pragma warning disable CS0649 // 从未对字段“Login.IsLogin”赋值，字段将一直保持其默认值 false
 		public bool IsLogin;
+#pragma warning restore CS0649 // 从未对字段“Login.IsLogin”赋值，字段将一直保持其默认值 false
 		NewBeeBlogContext db = new NewBeeBlogContext();
 		public Login(LoginUser log)
 		{
