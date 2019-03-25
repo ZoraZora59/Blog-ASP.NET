@@ -237,7 +237,7 @@ namespace NewBeeBlog.Controllers
 					TextID = item.TextID,
 					TextTitle = item.TextTitle,
 					CategoryName = item.CategoryName,
-					Date = item.CategoryName.ToString(),
+					Date = item.TextChangeDate.ToString(),
 					Hot = item.Hot
 				};
 				manageTexts.Add(temp);

@@ -22,6 +22,8 @@
 </head>
 
 <body>
+    <script src="~/front/js/canvas-nest.js"></script>
+    <canvas id="c_n1"></canvas>
     <h1><font color="#0081c1">个人信息修改</font></h1>
 
     <div class="login" style="margin-top:50px;">
@@ -50,7 +52,7 @@
 
                         <label for="user" class="input-tips2">昵称：</label>
                         <div class="inputOuter2">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "inputstyle2", placeholder = "请输入你可爱的昵称" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "inputstyle2", placeholder = "请输入你要更换的昵称" })
                             @Html.ValidationMessageFor(m => m.Name)
                         </div>
 
@@ -59,7 +61,7 @@
                     <li>
                         <label for="passwd" class="input-tips2">密码：</label>
                         <div class="inputOuter2">
-                            @Html.PasswordFor(m => m.Password, new { @class = "inputstyle2", placeholder = "请输入密码" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "inputstyle2", placeholder = "请输入你要更换的密码" })
                             @Html.ValidationMessageFor(m => m.Password)
                         </div>
 
@@ -67,7 +69,7 @@
                     <li>
                         <label for="passwd2" class="input-tips2">确认密码：</label>
                         <div class="inputOuter2">
-                            @Html.PasswordFor(m => m.Cpassword, new { @class = "inputstyle2", placeholder = "请确认密码" })
+                            @Html.PasswordFor(m => m.Cpassword, new { @class = "inputstyle2", placeholder = "请输入你要更换的密码" })
                             @Html.ValidationMessageFor(m => m.Cpassword)
                         </div>
 
@@ -82,11 +84,9 @@
                         <img src="/home/ValidateCode/" style="position:relative;left:150px;">
                     </li>
 
-
                     <li>
-                        <div class="inputArea">
-                            <button type="submit" id="regUser" style="margin-top:10px;margin-left:120px;width:150px;height:40px;" class="button_blue">注    册</button>
-
+                        <div style="padding-left:85px;margin-top:20px;">
+                            <input type="submit" value="确    认" style="width:200px;" class="button_blue" />
                         </div>
                     </li>
 

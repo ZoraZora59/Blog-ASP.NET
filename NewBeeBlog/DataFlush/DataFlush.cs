@@ -20,39 +20,41 @@ namespace NewBeeBlog.DataFlush
 		public List<User> DFUser { get; set; }
 	}
 
-	#region 获取评论管理界面信息
-	internal class GetCommitManage
-	{
-		NewBeeBlogContext db = new NewBeeBlogContext();
-		public List<ShowCommit> SCommits;
-		public GetCommitManage()
-		{
-			getAllCommits();
-			db.Dispose();
-		}
-		private void getAllCommits()
-		{
-			List<ShowCommit> SCommits = new List<ShowCommit>();
-			var trans = db.CommitLists.Select(m => new { m.CommitID, m.Account, m.TextID, m.CommitText, m.CommitChangeDate }).ToList();
-			foreach (var item in trans)
-			{
-				ShowCommit temp = new ShowCommit
-				{
-					Account = item.Account,
-					Id = item.CommitID,
-					Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name,
-					TextId = item.TextID,
-					Content = item.CommitText,
-					Date = item.CommitChangeDate.ToString()
-				};
-				SCommits.Add(temp);
-			}
-		}
-	}
-	#endregion
 
-	#region 获取管理主界面数据
-	internal class GetManage
+
+    #region 获取评论管理界面信息
+    internal class GetCommitManage
+    {
+        NewBeeBlogContext db = new NewBeeBlogContext();
+        public List<ShowCommit> SCommits;
+        public GetCommitManage()
+        {
+            getAllCommits();
+            db.Dispose();
+        }
+        private void getAllCommits()
+        {
+            this.SCommits = new List<ShowCommit>();
+            var trans = db.CommitLists.Select(m => new { m.CommitID, m.Account, m.TextID, m.CommitText, m.CommitChangeDate }).ToList();
+            foreach (var item in trans)
+            {
+                ShowCommit temp = new ShowCommit
+                {
+                    Account = item.Account,
+                    Id = item.CommitID,
+                    Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name,
+                    TextId = item.TextID,
+                    Content = item.CommitText,
+                    Date = item.CommitChangeDate.ToString()
+                };
+                this.SCommits.Add(temp);
+            }
+        }
+    }
+    #endregion
+
+    #region 获取管理主界面数据
+    internal class GetManage
 	{
 		NewBeeBlogContext db = new NewBeeBlogContext();
 		public ManageMain Mmain;
@@ -98,4 +100,5 @@ namespace NewBeeBlog.DataFlush
 		}
 	}
 	#endregion
+
 }
