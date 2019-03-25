@@ -3,24 +3,25 @@
     ViewBag.Title = "CategoryList";
     Layout = "~/Views/Shared/_LayoutPageManage.cshtml";
 }
+<link href="~/front/css/bootstrap.min.css" rel="stylesheet" />
 <div data-options="region:'center'" id="tt">
-    <table id="dg" class="easyui-datagrid" style="width:98%;height:80%"
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:80%"
            url="/manage/LoadCategoryList"
            toolbar="#toolbar" pagination="true"
            rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
             <tr>
-                <th field="CategoryName" width="50">分类名称</th>
-                <th field="TextCount" width="50">文章数</th>
-                <th field="CategoryHot" width="50">总热度</th>
-                <th data-options="field:'_operate',width:80,align:'center',formatter:formatOper">操作</th>
+                <th field="CategoryName" width="50" >分类名称</th>
+                <th field="TextCount" width="50" align="center">文章数</th>
+                <th field="CategoryHot" width="50" align="center">总热度</th>
+                <th data-options="field:'_operate',width:90,align:'center',formatter:formatOper">操作</th>
             </tr>
         </thead>
     </table>
 </div>
 <script type="text/javascript">
     function formatOper(val, row, index) {
-        return '<button class="easyui-linkbutton" plain="true" onclick=\'editCategory(\"' + row.CategoryName + '\")\'>修改分类名</button>|<button class="easyui-linkbutton" plain="true" onclick=\'showCategory(\"' + row.CategoryName + '\")\'>分类详情</button>|<button class="easyui-linkbutton" plain="true" onclick=\'deleteCategory(\"' + row.CategoryName + '\")\'>删除此分类</button>';
+        return '<button class="btn btn-outline-primary" plain="true" onclick=\'editCategory(\"' + row.CategoryName + '\")\'>修改分类名</button> <button class="btn btn-outline-primary" plain="true" onclick=\'showCategory(\"' + row.CategoryName + '\")\'>分类详情</button> <button class="btn btn-outline-danger" plain="true" onclick=\'deleteCategory(\"' + row.CategoryName + '\")\'>删除此分类</button>';
     }
 
     function editCategory(c) {

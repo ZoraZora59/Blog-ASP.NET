@@ -18,6 +18,10 @@
     <script src="~/front/EasyUi/jquery.easyui.min.js"></script>
     <!--先引用jquery.min再引用jquery-->>
     <script src="~/front/EasyUi/locale/easyui-lang-zh_CN.js"></script>
+
+    <link href="~/front/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/front/assets/css/ready.css" rel="stylesheet" />
+    <link href="~/front/assets/css/demo.css" rel="stylesheet" />
     <link href="~/front/EasyUi/themes/gray/easyui.css" rel="stylesheet" />
     <link href="~/front/EasyUi/themes/icon.css" rel="stylesheet" />
     <script type="text/javascript">
@@ -49,37 +53,37 @@
                 <li class="first">
                     <div class="d-firstNav s-firstNav">
                         <i class="fa fa-bars"></i>
-                        <a href="#" onclick="AddTab('博客配置', '/Manage/Config');">博客配置</a>
+                        <a href="#" onclick="AddTab('博客配置', '/Manage/Config');"><font color="white">博客配置</font></a>
                     </div>
                 </li>
                 <li class="first">
                     <div class="d-firstNav s-firstNav">
                         <i class="fa fa-bars"></i>
-                        <a href="#" onclick="AddTab('分类管理', '/Manage/CategoryList');">分类管理</a>
+                        <a href="#" onclick="AddTab('分类管理', '/Manage/CategoryList');"><font color="white">分类管理</font></a>
                     </div>
                 </li>
                 <li class="first">
                     <div class="d-firstNav s-firstNav">
                         <i class="fa fa-bars"></i>
-                        <a href="#" onclick="AddTab('博文管理', '/Manage/TextList');">博文管理</a>
+                        <a href="#" onclick="AddTab('博文管理', '/Manage/TextList');"><font color="white">博文管理</font></a>
                     </div>
                 </li>
                 <li class="first">
                     <div class="d-firstNav s-firstNav">
                         <i class="fa fa-bars"></i>
-                        <a href="#" onclick="AddTab('新增博文', '/Manage/Update');">新增博文</a>
+                        <a href="#" onclick="AddTab('新增博文', '/Manage/Update');"><font color="white">新增博文</font></a>
                     </div>
                 </li>
                 <li class="first">
                     <div class="d-firstNav s-firstNav">
                         <i class="fa fa-bars"></i>
-                        <a href="#" onclick="AddTab('评论管理', '/Manage/ManageCommit');">评论管理</a>
+                        <a href="#" onclick="AddTab('评论管理', '/Manage/ManageCommit');"><font color="white">评论管理</font></a>
                     </div>
                 </li>
                 <li class="first">
                     <div class="d-firstNav s-firstNav">
                         <i class="fa fa-bars"></i>
-                        <a href="#" onclick="AddTab('用户管理', '/Manage/ManageUser');">用户管理</a>
+                        <a href="#" onclick="AddTab('用户管理', '/Manage/ManageUser');"><font color="white">用户管理</font></a>
                     </div>
                 </li>
 
@@ -95,32 +99,85 @@
 
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div>
-                        截止页面刷新为止，本站数据统计如下：
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <span class="text-">
-                            用户数量为&emsp;
-                            @Html.Encode(Model.UserCount)
-                        </span>
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <span>
-                            文章数量为&emsp;
-                            @Html.Encode(Model.TextCount)
-                        </span>
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <span>
-                            评论数量为&emsp;
-                            @Html.Encode(Model.CommitCount)
-                        </span>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card card-stats card-warning">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-users"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">用户数量为</p>
+                                                <h4 class="card-title"> @Html.Encode(Model.UserCount)</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-stats card-success">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-bar-chart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">文章数量为</p>
+                                                <h4 class="card-title">@Html.Encode(Model.TextCount)</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-stats card-danger">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-newspaper-o"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">评论数量为</p>
+                                                <h4 class="card-title">@Html.Encode(Model.CommitCount)</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card card-stats card-primary">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="icon-big text-center">
+                                                <i class="la la-check-circle"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 d-flex align-items-center">
+                                            <div class="numbers">
+                                                <p class="card-category">本站热度为</p>
+                                                <h4 class="card-title">Html.Encode(Model.HotCount)</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 
