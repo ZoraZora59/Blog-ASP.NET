@@ -258,3 +258,10 @@ a.zcxy {text-decoration: underline;line-height:58px;margin-left:15px;color: #959
 height: 60px;}
 .header .switch{left:70px;}
 
+.text-foot {
+    text-align: center;
+    padding: 10px;
+    font-weight: 700;
+    margin-top: 20px;
+    color: var(--color-semidark);
+}

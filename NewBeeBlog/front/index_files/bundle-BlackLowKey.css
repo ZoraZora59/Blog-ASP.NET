@@ -265,9 +265,16 @@ a:active {
     clear: both;
     padding: 10px 0;
 }
+.posttop {
+    float: right;
+    border: 1px solid #00F;
+    width: 100px;
+}
+
+
 
 .postDesc {
-    float: none;
+    float: right;
     clear: both;
     text-align: right;
     padding-right: 5px;

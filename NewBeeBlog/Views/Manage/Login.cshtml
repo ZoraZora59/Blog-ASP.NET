@@ -40,9 +40,9 @@
 
 
                     <div class="login_form">
-                        @using(Html.BeginForm("Login", "Manage", FormMethod.Post))
+                        @using (Html.BeginForm("Login", "Manage", FormMethod.Post))
                         {
-                       
+
                             <div class="uinArea" id="uinArea">
                                 <label class="input-tips" for="u">帐号：</label>
                                 <div class="inputOuter" id="uArea">
@@ -68,7 +68,7 @@
                             </li>
 
                             <div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue" /></div>
-                        
+
                         }
                     </div>
 
@@ -76,6 +76,9 @@
 
             </div>
             <!--登录end-->
+            <div class="text-foot">
+                还没有注册账号? <a href="~/Manage/Register">点击注册</a>
+            </div>
         </div>
     </div>
     <div class="jianyi">*推荐使用ie8或以上版本ie浏览器或Chrome内核浏览器访问本站</div>
