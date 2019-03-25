@@ -2,32 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using NewBeeBlog.App_Code;
 using NewBeeBlog.Models;
 using NewBeeBlog.ViewModels;
 
-namespace NewBeeBlog.DataFlush
+namespace NewBeeBlog.DataAlter
 {
-	public class DataAlter:IDF
+	#region 分类重命名
+	class RenameCategory
 	{
-		private static NewBeeBlogContext db = new NewBeeBlogContext();
-		public List<TextList> DFTextList { get; set; }
-		public List<CommitList> DFCommitList { get; set; }
-		public List<User> DFUser { get; set; }
-
-		#region 分类重命名
-		public static void RenamaCategory(string NameString)
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		public RenameCategory(string NameString)
 		{
-			try
-			{
-				string[] NameChange = NameString.Split(new char[] { ',' });
-				renameCategoryName(NameChange[0], NameChange[1]);
-			}
-			catch
-			{
-				throw;
-			}
+			string[] NameChange = NameString.Split(new char[] { ',' });
+			renameCategoryName(NameChange[0], NameChange[1]);
+			db.Dispose();
 		}
-		private static void renameCategoryName(string OldName,string NewName)
+		private void renameCategoryName(string OldName, string NewName)
 		{
 			if (NewName == "")
 				NewName = null;
@@ -49,8 +40,83 @@ namespace NewBeeBlog.DataFlush
 					db.SaveChanges();
 				}
 			}
+		}
+	}
+	#endregion
+
+	#region 删除分类
+	class RemoveCategory
+	{
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		public RemoveCategory(string Name)
+		{
+			removeCategory(Name);
 			db.Dispose();
 		}
-		#endregion
+		private void removeCategory(string name)
+		{
+			if (name == "未分类")
+				return;//TODO:若分类本来就为空导致无法删除的异常处理
+					   //删除分类即分类名置null
+			while (db.TextLists.FirstOrDefault(c => c.CategoryName == name) != null)
+			{
+				TextList modelNew = db.TextLists.Where(a => a.CategoryName == name).FirstOrDefault(); modelNew.CategoryName = null;
+				db.SaveChanges();
+			}
+		}
 	}
+	#endregion
+
+	#region 删除博文
+	class RemoveText
+	{
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		public RemoveText(int tID)
+		{
+			remove(tID);
+		}
+		private void remove(int tID)
+		{
+			int TextID = tID;
+			TextList target = db.TextLists.Find(TextID);
+			//删除文章所属的所有评论
+			while (db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault() != null)
+			{
+				db.CommitLists.Remove(db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault());
+				db.SaveChanges();
+			}
+			//评论删除后再删除文章，以免后续异常
+			db.TextLists.Remove(target);
+			db.SaveChanges();
+		}
+	}
+	#endregion
+
+	#region 用户注册
+	class RegistUser
+	{
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		private User user;
+		public RegistUser(RegisterUser Ruser)
+		{
+			flush(Ruser);
+			regist();
+			db.Dispose();
+		}
+		private void flush(RegisterUser Ruser)
+		{
+			this.user = new User
+			{
+				Account = Ruser.Account,
+				Password = md5tool.GetMD5(Ruser.Password),
+				Name = Ruser.Name
+			};
+		}
+		private void regist()
+		{
+			db.Users.Add(user);
+			db.SaveChanges();
+		}
+	}
+	#endregion
 }
