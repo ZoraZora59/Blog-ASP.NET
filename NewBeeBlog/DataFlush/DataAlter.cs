@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using NewBeeBlog.App_Code;
 using NewBeeBlog.Models;
 using NewBeeBlog.ViewModels;
 
@@ -86,6 +87,34 @@ namespace NewBeeBlog.DataAlter
 			}
 			//评论删除后再删除文章，以免后续异常
 			db.TextLists.Remove(target);
+			db.SaveChanges();
+		}
+	}
+	#endregion
+
+	#region 用户注册
+	class RegistUser
+	{
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		private User user;
+		public RegistUser(RegisterUser Ruser)
+		{
+			flush(Ruser);
+			regist();
+			db.Dispose();
+		}
+		private void flush(RegisterUser Ruser)
+		{
+			this.user = new User
+			{
+				Account = Ruser.Account,
+				Password = md5tool.GetMD5(Ruser.Password),
+				Name = Ruser.Name
+			};
+		}
+		private void regist()
+		{
+			db.Users.Add(user);
 			db.SaveChanges();
 		}
 	}

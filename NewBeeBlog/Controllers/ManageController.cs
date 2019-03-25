@@ -23,17 +23,19 @@ namespace NewBeeBlog.Controllers
 	{
 		private NewBeeBlogContext db = new NewBeeBlogContext();
 
-		public ActionResult Index()//主界面							分层完成
+		public ActionResult Index()//主界面									分层完成
 		{
 			return View(new GetManage().Mmain);//可能需要异常处理
 		}
+
 		[HttpGet]
-		public ActionResult ManageUser()            //用户管理		分层完成
+		public ActionResult ManageUser()            //用户管理				分层完成
 		{
 			return View();
 		}
+
 		[HttpGet]
-		public ActionResult Update()//文章更新						分层完成
+		public ActionResult Update()//文章更新								分层完成
 		{
 			try
 			{
@@ -57,18 +59,18 @@ namespace NewBeeBlog.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ManageCommit()      //评论管理			分层完成
+		public ActionResult ManageCommit()      //评论管理					分层完成
 		{
 			return View();
 		}
 
-		public JsonResult LoadCommit()//加载评论管理界面的数据			分层完成
+		public JsonResult LoadCommit()//加载评论管理界面的数据					分层完成
 		{
 			return Json(new GetCommitManage().SCommits);
 		}
 
 		[HttpGet]
-		public ActionResult RenameCategory()//分类更名				分层完成
+		public ActionResult RenameCategory()//分类更名						分层完成
 		{
 			try
 			{
@@ -81,7 +83,8 @@ namespace NewBeeBlog.Controllers
 			}
 			return View();
 		}
-		public JsonResult JSRenameCategory()//分类更名的JS实现		分层完成
+
+		public JsonResult JSRenameCategory()//分类更名的JS实现				分层完成
 		{
 			//TODO:修改返回值
 			var NameString = Request["NameChanging"].ToString();
@@ -90,13 +93,13 @@ namespace NewBeeBlog.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult CategoryList()//分类管理					分层完成
+		public ActionResult CategoryList()//分类管理							分层完成
 		{
 			return View(new GetCategory().mod);
 		}
 
 		[HttpPost]
-		public JsonResult DeleteCategory()//删除指定分类				分层完成
+		public JsonResult DeleteCategory()//删除指定分类						分层完成
 		{
 			try
 			{
@@ -110,7 +113,7 @@ namespace NewBeeBlog.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult CategoryDetail()//分类详情				分层完成
+		public ActionResult CategoryDetail()//分类详情						分层完成
 		{
 			try
 			{
@@ -129,7 +132,7 @@ namespace NewBeeBlog.Controllers
 		}
 
         [HttpPost]
-        public JsonResult DeleteText()//文章删除						分层完成
+        public JsonResult DeleteText()//文章删除								分层完成
         {
             try
             {
@@ -147,59 +150,37 @@ namespace NewBeeBlog.Controllers
 			//TODO:JS在回复成功后应当删除对应标签
         }
         
-        public JsonResult LoadTextList()//文章管理列表的JS实现		分层完成
+        public JsonResult LoadTextList()//文章管理列表的JS实现				分层完成
         {
             return Json(new GetTextList().ManageTexts);
         }
 
         [HttpGet]
-        public ActionResult TextList()//博文管理的列表页
+        public ActionResult TextList()//博文管理的列表页						分层完成
         {
-            List<ManageText> ManageTexts = new List<ManageText>();
-            List<TextList> trans = db.TextLists.ToList();
-            foreach (var t in trans)
-            {
-				ManageText temp = new ManageText
-				{
-					TextID = t.TextID,
-					TextTitle = t.TextTitle,
-					CategoryName = t.CategoryName,
-					Hot = t.Hot,
-					TextChangeDate = t.TextChangeDate
-				};
-				ManageTexts.Add(temp);
-            }
-            return View(ManageTexts);
+            return View(new GetTextList().ManageTexts);
         }
 
         [HttpGet]
-        public ActionResult Register()
+        public ActionResult Register()//注册的页面显示						分层完成
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterUser model)
-        {
+        public ActionResult Register(RegisterUser model)//注册信息提交		分层完成
+		{
             if (ModelState.IsValid)
             //判断是否验证通过
             {
                 string sessionValidCode = Session["validatecode"] == null ? string.Empty : Session["validatecode"].ToString();
                 if (!model.Code.Equals(sessionValidCode))
                 {
-                    return Content("验证码输入错误");
+                    return Content("验证码输入错误,请返回重试");
                 }
-                var user = new User
-                {
-                    Account = model.Account,
-                    Password = md5tool.GetMD5(model.Password),//需要md5加密否则是明文传输
-                    Name = model.Name
-                };
                 try
                 {
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    //保存数据库 
+					new RegistUser(model);
                 }
                 catch (Exception)
                 {
@@ -209,13 +190,14 @@ namespace NewBeeBlog.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login()
-        {
+        public ActionResult Login()//登录的页面显示							分层完成
+		{
             return View();
         }
+
         [HttpPost]
-        public ActionResult Login(LoginUser model)
-        {
+        public ActionResult Login(LoginUser model)//登录信息提交				分层完成
+		{
             if (ModelState.IsValid)
             {
                 string sessionValidCode = Session["validatecode"] == null ? string.Empty : Session["validatecode"].ToString();
@@ -240,7 +222,6 @@ namespace NewBeeBlog.Controllers
                     {
                         if (user.Password == nameUser.Password)
                         {
-
                             Session["loginuser"] = nameUser;
                             return Redirect("/");
                         }
@@ -249,13 +230,10 @@ namespace NewBeeBlog.Controllers
                             return Content("账号或密码不正确");
                         }
                     }
-
-
                 }
             }
             return View();
         }
-
 
         [HttpGet]
         public ActionResult Config()
@@ -263,6 +241,7 @@ namespace NewBeeBlog.Controllers
             var model = new SerializeTool().DeSerialize<BlogConfig>();
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Config(BlogConfig model)
         {
@@ -270,6 +249,7 @@ namespace NewBeeBlog.Controllers
             return View();
 
         }
+
         [HttpGet]
         public ActionResult AddCategroy()
         {
@@ -312,6 +292,7 @@ namespace NewBeeBlog.Controllers
         {
             return View();
         }
+
         public JsonResult LoadUsers()
         {
 			List<ManageUser> manageUsers = new List<ManageUser>();
@@ -363,6 +344,7 @@ namespace NewBeeBlog.Controllers
 				Content = Content.Substring(0,100);
 			return Content;
 		}
+
 		[HttpPost]
         [ValidateInput(false)]
         public ActionResult Update([Bind(Include =

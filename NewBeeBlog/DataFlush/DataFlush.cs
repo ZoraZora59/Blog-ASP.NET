@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using NewBeeBlog.App_Code;
 using NewBeeBlog.Models;
 using NewBeeBlog.ViewModels;
 
@@ -192,6 +193,7 @@ namespace NewBeeBlog.DataFlush
 		NewBeeBlogContext db = new NewBeeBlogContext();
 		public GetTextList()
 		{
+			getList();
 			db.Dispose();
 		}
 		private void getList()
@@ -210,6 +212,22 @@ namespace NewBeeBlog.DataFlush
 				};
 				ManageTexts.Add(temp);
 			}
+		}
+	}
+	#endregion
+
+	#region 获取登录信息
+	class Login
+	{
+		public bool IsLogin;
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		public Login(LoginUser log)
+		{
+			flush(log);
+		}
+		private void flush(LoginUser log)
+		{
+			log.Password = md5tool.GetMD5(log.Password);
 		}
 	}
 	#endregion
