@@ -248,7 +248,7 @@ namespace NewBeeBlog.Controllers
 			{
 				return Json(0);
 			}
-		}//新增评论
+		}//新增评论   TODO:添加评论内容超长判断
 
         // 退出登陆
         public ActionResult ExitLogin()

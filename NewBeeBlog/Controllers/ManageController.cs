@@ -2,6 +2,7 @@
 using NewBeeBlog.Models;
 using NewBeeBlog.ViewModels;
 using NewBeeBlog.DataFlush;
+using NewBeeBlog.DataAlter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,21 +19,21 @@ using System.Web.Mvc;
 namespace NewBeeBlog.Controllers
 {
 	[HandleError]
-    public class ManageController : Controller
-    {
-        private NewBeeBlogContext db = new NewBeeBlogContext();
+	public class ManageController : Controller
+	{
+		private NewBeeBlogContext db = new NewBeeBlogContext();
 
-        public ActionResult Index()//生成页面时加载Model数据
-        {
+		public ActionResult Index()//主界面							分层完成
+		{
 			return View(new GetManage().Mmain);//可能需要异常处理
-        }
-        [HttpGet]
-        public ActionResult ManageUser()
-        {
-            return View();
-        }
+		}
 		[HttpGet]
-		public ActionResult Update()//文章更新
+		public ActionResult ManageUser()            //用户管理		分层完成
+		{
+			return View();
+		}
+		[HttpGet]
+		public ActionResult Update()//文章更新						分层完成
 		{
 			try
 			{
@@ -56,18 +57,18 @@ namespace NewBeeBlog.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ManageCommit()
+		public ActionResult ManageCommit()      //评论管理			分层完成
 		{
 			return View();
 		}
 
-        public JsonResult LoadCommit()//加载评论管理界面的数据
-        {
-            return Json(new GetCommitManage().SCommits);
-        }
+		public JsonResult LoadCommit()//加载评论管理界面的数据			分层完成
+		{
+			return Json(new GetCommitManage().SCommits);
+		}
 
-        [HttpGet]
-		public ActionResult RenameCategory()
+		[HttpGet]
+		public ActionResult RenameCategory()//分类更名				分层完成
 		{
 			try
 			{
@@ -78,70 +79,28 @@ namespace NewBeeBlog.Controllers
 			{
 				return Redirect("/manage/CategoryList");
 			}
-			
 			return View();
-		}//分类更名
-		public JsonResult JSRenameCategory()
+		}
+		public JsonResult JSRenameCategory()//分类更名的JS实现		分层完成
 		{
 			//TODO:修改返回值
 			var NameString = Request["NameChanging"].ToString();
-			DataFlush.DataAlter.RenamaCategory(NameString);
+			new RenameCategory(NameString);
 			return Json(0);
 		}
 
 		[HttpGet]
-        public ActionResult CategoryList()//分类管理
-        {
-			List<CategoryList> mod = new List<CategoryList>();
-			List<TextList> temp = new List<TextList>();
-			temp = db.TextLists.ToList();
-			foreach(var item in temp)
-			{
-				//这里的categoryItem应当在每次循环时new，以避免重复对同一项进行修改
-				var categoryItem = new CategoryList
-				{
-					CategoryName = item.CategoryName
-				};
-				//统一命名
-				if (categoryItem.CategoryName==null)
-				{
-					categoryItem.CategoryName = "未分类";
-				}
-				//若不存在于已生成列表则新添此项
-				if (!mod.Exists(T=>T.CategoryName==categoryItem.CategoryName))
-				{
-					categoryItem.CategoryHot += item.Hot;
-					categoryItem.TextCount ++;
-					mod.Add(categoryItem);
-				}
-				//否则对已有项进行更新
-				else
-				{
-					mod.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).CategoryHot += item.Hot;
-					mod.Find(CategoryList => CategoryList.CategoryName == categoryItem.CategoryName).TextCount ++;
-				}
-			}
-			mod=mod.OrderByDescending(T=>T.CategoryHot).ToList();
-			ViewBag.title = "分类管理";
-            return View(mod);
-        }
+		public ActionResult CategoryList()//分类管理					分层完成
+		{
+			return View(new GetCategory().mod);
+		}
 
 		[HttpPost]
-		public JsonResult DeleteCategory()//删除指定分类
+		public JsonResult DeleteCategory()//删除指定分类				分层完成
 		{
-			string name;
 			try
 			{
-				name = Request["CategoryName"].ToString();
-				if (name == "未分类")
-					return Json(1);
-				//删除分类即分类名置null
-				while (db.TextLists.FirstOrDefault(c => c.CategoryName == name) != null)
-				{
-					TextList modelNew = db.TextLists.Where(a => a.CategoryName == name).FirstOrDefault();
-					modelNew.CategoryName = null;
-					db.SaveChanges();
-				}
+				new RemoveCategory(Request["CategoryName"].ToString());
 			}
 			catch (Exception)
 			{
@@ -151,39 +110,13 @@ namespace NewBeeBlog.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult CategoryDetail()//分类详情
+		public ActionResult CategoryDetail()//分类详情				分层完成
 		{
-			var mod = new CategoryList();
 			try
 			{
-				var cname = Request["CategoryName"].ToString();
-				if (cname == "未分类")
-					cname = null;
-				List<TextList> Tmod = db.TextLists.Where(c => c.CategoryName == cname).ToList();//获取分类下属的文章表
-				List<CategoryText> Cmod = new List<CategoryText>();
-				//清洗数据
-				foreach (var item in Tmod)
-				{
-					var temp = new CategoryText
-					{
-						TextTitle = item.TextTitle,
-						TextID = item.TextID,
-						Hot = item.Hot,
-						ChangeTime = item.TextChangeDate
-					};
-					Cmod.Add(temp);
-				}
-				ViewBag.CategoryTextList = Cmod;
-				
-				mod.TextCount = Tmod.Count(c => c.CategoryName == cname);
-
-				if (cname == null)
-					mod.CategoryName = "未分类";
-
-				foreach(var item in Cmod)
-				{
-					mod.CategoryHot += item.Hot;
-				}
+				var detail = new GetCategoryDetail(Request["CategoryName"].ToString());
+				ViewBag.CategoryTextList = detail.CTList;
+				return View(detail.CList);
 			}
 			catch (NullReferenceException)//路由地址异常
 			{
@@ -191,28 +124,16 @@ namespace NewBeeBlog.Controllers
 			}
 			catch (Exception)
 			{
-				return Content("查询分类异常");
+				return Redirect("/manage/");
 			}
-			return View(mod);
 		}
 
         [HttpPost]
-        public JsonResult DeleteText()//文章删除
+        public JsonResult DeleteText()//文章删除						分层完成
         {
             try
             {
-                string tID = Request["TextID"].ToString();
-                int TextID = int.Parse(tID);
-                TextList target = db.TextLists.Find(TextID);
-				//删除文章所属的所有评论
-				while (db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault() != null)
-				{
-					db.CommitLists.Remove(db.CommitLists.Where(c => c.TextID == TextID).FirstOrDefault());
-					db.SaveChanges();
-				}
-				//评论删除后再删除文章，以免后续异常
-				db.TextLists.Remove(target);
-                db.SaveChanges();
+				new RemoveText(int.Parse(Request["TextID"].ToString()));
             }
             catch (ArgumentNullException)
             {
@@ -223,26 +144,12 @@ namespace NewBeeBlog.Controllers
                 throw;
             }
             return Json("success");
+			//TODO:JS在回复成功后应当删除对应标签
         }
         
-        public JsonResult LoadTextList()
+        public JsonResult LoadTextList()//文章管理列表的JS实现		分层完成
         {
-            List<ManageText> manageTexts = new List<ManageText>();
-            var trans = db.TextLists.ToList();
-			//清洗数据
-            foreach (var item in trans)
-            {
-				ManageText temp = new ManageText
-				{
-					TextID = item.TextID,
-					TextTitle = item.TextTitle,
-					CategoryName = item.CategoryName,
-					Date = item.CategoryName.ToString(),
-					Hot = item.Hot
-				};
-				manageTexts.Add(temp);
-            }
-            return Json(manageTexts);
+            return Json(new GetTextList().ManageTexts);
         }
 
         [HttpGet]
@@ -458,7 +365,8 @@ namespace NewBeeBlog.Controllers
 		}
 		[HttpPost]
         [ValidateInput(false)]
-        public ActionResult Update([Bind(Include = "Id,Title,Category,Text")] UpdateText BlogText)
+        public ActionResult Update([Bind(Include =
+			"Id,Title,Category,Text")] UpdateText BlogText)
         {
             if (ModelState.IsValid)
             {
@@ -591,7 +499,9 @@ namespace NewBeeBlog.Controllers
 			};
 			return Json(hash);
         }
-        protected override void Dispose(bool disposing)//数据连接释放
+
+		#region 全局方法
+		protected override void Dispose(bool disposing)//数据连接释放
         {
             if (disposing)
             {
@@ -604,5 +514,6 @@ namespace NewBeeBlog.Controllers
 		{
 			Response.Redirect("/home");
 		}
+		#endregion
 	}
 }

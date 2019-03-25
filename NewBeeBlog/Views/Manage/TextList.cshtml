@@ -43,7 +43,7 @@
                     datatype: 'html',
                     success: function () {
                         alert('删除成功');
-                        document.getElementById(tid).parentElement.remove();
+                        document.getElementById(tid).parentElement.remove();//TODO:此行代码无效
                     },
                     error: function () {
                         alert('删除失败');
