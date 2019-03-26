@@ -30,24 +30,26 @@
         window.location.href = "/Manage/CategoryDetail?CategoryName=" + c;
     }
     function deleteCategory(c) {
-        //alert(c);
+       
         $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r) {
+            
             if (r) {
-                $.post("/Manage/DeleteCategory", {
-                    CategoryName: c
-                },
-                    function (data) {
-                        if (data == 0) {
-                            document.getElementById(c).parentElement.remove();
-                            alert("删除成功");
-                        }
-                        else {
-                        alert("删除失败");
-                        }
+                $.ajax({
+                    ajax: false,
+                    type: "POST",//FromMetho
+                    url: "/Manage/DeleteCategory",//"/Controller/Action"
+                    data: { CategoryName: c },//参数 "参数名："参数值""
+                    datatype: 'html',
+                    error: function (data) {
+                        alert('删除失败');
+                        window.location.href = "/Manage/CategoryList";
+                    },
+                    success: function () {
+                        alert('删除成功');
+                        window.location.href = "/Manage/CategoryList";
                     }
-                )
+                });
             }
-        }
-        )
+        });
     }
 </script>

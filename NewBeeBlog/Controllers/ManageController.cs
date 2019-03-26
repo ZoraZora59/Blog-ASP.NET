@@ -253,14 +253,14 @@ namespace NewBeeBlog.Controllers
 			return Json(new GetUserList().ManageUsers);
         }
 
-        public ActionResult DelUsers(string Account)//删除用户 TODO:JS化
+        public JsonResult DelUsers(string Account)//删除用户 TODO:JS化
         {
 			try
 			{
 				var IsDel = new DelUser(Account);
 				if(IsDel.IsSuccess==false)
 				{
-					return HttpNotFound();//删除失败的反馈
+					return Json(null);//删除失败的反馈
 				}
 			}
 			catch (Exception)
@@ -268,7 +268,7 @@ namespace NewBeeBlog.Controllers
 				//TODO:删除失败的反馈
 				throw;
 			}
-            return Content("删除成功,请刷新页面");//页面更新
+            return Json(null);//页面更新
         }
 		
 		[HttpPost]
