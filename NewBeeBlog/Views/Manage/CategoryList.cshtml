@@ -34,21 +34,6 @@
         //alert(c);
         $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r) {
             if (r) {
-                //$.ajax({
-                //    ajax: false,
-                //    type: "POST",//FromMethod
-                //    url: "/Manage/DeleteCategory",//"/Controller/Action"
-                //    data: { CategoryName: c},//参数 "参数名："参数值""
-                //    datatype: 'html',
-                //    success: function () {
-                //        alert('删除成功');
-                //        document.getElementById(c).parentElement.remove();
-                //    },
-                //    error: function (data) {
-                //        alert('删除失败');
-                //    }
-                //});
-
                 $.post("/Manage/DeleteCategory", { CategoryName: c }, function (data) {
                     if (data == 0) {
                         document.getElementById(c).parentElement.remove();

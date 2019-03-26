@@ -21,6 +21,25 @@
 </div>
 <script type="text/javascript">
     function formatOper(val, row, index) {
-        return '<a href="javascript:if(confirm(\'确实要删除吗?\'))location=\'/manage/DelUsers?Account=' + row.Account + '\'" class="easyui-linkbutton" plain="true"><font color="black">删除</font></a>';
+        return '<button class="btn btn-outline-danger" onclick=\'deleteUser(' + row.Account + ')\' >删除此用户</button>';
     }
+    function deleteUser(u) {
+        alert(u);
+        $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r) {
+            if (r) {
+                $.post("/Manage/DelUsers", { Account: u }, function (data) {
+                    if (data == 0) {
+                        document.getElementById(u).parentElement.remove();
+                        alert("删除成功");
+                    }
+                    else {
+                        alert("删除失败");
+                    }
+                }
+                )
+            }
+        }
+        )
+    }
+    
 </script>

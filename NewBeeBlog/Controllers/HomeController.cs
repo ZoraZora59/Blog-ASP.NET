@@ -59,6 +59,7 @@ namespace NewBeeBlog.Controllers
         public ActionResult SearchResult(string searchthing)
         {
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
+            ViewBag.searching = searchthing;
             ViewBag.currentLoginInfo = currentLoginUser;
             var blog = from m in db.TextLists
                        select m;

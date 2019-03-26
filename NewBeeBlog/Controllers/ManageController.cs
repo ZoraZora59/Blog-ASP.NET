@@ -316,21 +316,31 @@ namespace NewBeeBlog.Controllers
 			return Json(manageUsers);
         }
 
-        public ActionResult DelUsers(string Account)
+
+        [HttpPost]
+        public JsonResult DelUsers(string Account)
         {
             var odlModel = db.Users.Find(Account);
             if (odlModel == null)
             {
-                return HttpNotFound();
+                return Json(null);
             }
-			while(db.CommitLists.Where(c=>c.Account==Account).FirstOrDefault()!=null)//同时删除用户的评论
-			{
-				db.CommitLists.Remove(db.CommitLists.Where(c => c.Account == Account).FirstOrDefault());
-				db.SaveChanges();
-			}
-            db.Users.Remove(odlModel);
-            db.SaveChanges();
-            return Content("删除成功");
+            try
+            {
+                while (db.CommitLists.Where(c => c.Account == Account).FirstOrDefault() != null)//同时删除用户的评论
+                {
+                    db.CommitLists.Remove(db.CommitLists.Where(c => c.Account == Account).FirstOrDefault());
+                    db.SaveChanges();
+                }
+                db.Users.Remove(odlModel);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Json(null);
         }
 
 		

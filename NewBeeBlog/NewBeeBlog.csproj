@@ -220,6 +220,8 @@
     <Content Include="front\assets\js\ready.js" />
     <Content Include="front\assets\js\ready.min.js" />
     <Content Include="front\css\bootstrap.min.css" />
+    <Content Include="front\css\common.css" />
+    <Content Include="front\css\main.css" />
     <Content Include="front\css\side.css" />
     <Content Include="front\css\login2.css" />
     <Content Include="front\EasyUi\jquery.easyui.min.js" />
@@ -697,6 +699,13 @@
     <Content Include="front\index_files\j_0059.gif" />
     <Content Include="front\index_files\logo.gif" />
     <Content Include="front\index_files\multiPlayer.html" />
+    <Content Include="front\搜索找不到_files\20555969.jpg" />
+    <Content Include="front\搜索找不到_files\frameworks-48768965.js" />
+    <Content Include="front\搜索找不到_files\frameworks-abba74d6e28a6842788159fec056bf26.css" />
+    <Content Include="front\搜索找不到_files\github-52cbcc40dcd4c1570226a72b3df60ecf.css" />
+    <Content Include="front\搜索找不到_files\github-bootstrap-b99717b5.js" />
+    <Content Include="front\搜索找不到_files\octocat-spinner-128.gif" />
+    <Content Include="front\搜索找不到_files\search-key-slash.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="front\Scripts\bootstrap.js" />
