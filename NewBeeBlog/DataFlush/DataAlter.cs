@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using NewBeeBlog.App_Code;
 using NewBeeBlog.Models;
@@ -116,6 +117,83 @@ namespace NewBeeBlog.DataAlter
 		{
 			db.Users.Add(user);
 			db.SaveChanges();
+		}
+	}
+	#endregion
+
+	#region 删除用户
+	class DelUser
+	{
+		public bool IsSuccess = false;
+		private string account;
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		public DelUser(string Account)
+		{
+			this.account = Account;
+			del();
+			db.Dispose();
+		}
+		private void del()
+		{
+			var theUser = db.Users.Find(account);
+			if (theUser != null)
+			{
+				while (db.CommitLists.Where(c => c.Account == account).FirstOrDefault() != null)//删除用户的评论
+				{
+					db.CommitLists.Remove(db.CommitLists.Where(c => c.Account == account).FirstOrDefault());
+					db.SaveChanges();
+				}
+			}
+			db.Users.Remove(theUser);
+			db.SaveChanges();
+			IsSuccess = true;
+		}
+	}
+	#endregion
+
+	#region 更新博文
+	class UpdateBlog
+	{
+		public bool IsSuccess = false;
+		private UpdateText blog;
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		public UpdateBlog(UpdateText Blog)
+		{
+			this.blog = Blog;
+			update();
+			db.Dispose();
+		}
+		private void update()
+		{
+			if (blog.Id != 0)
+			{
+				if (db.TextLists.FirstOrDefault(c => c.TextID == blog.Id) != null)
+				{
+					TextList modelNew = db.TextLists.Where(a => a.TextID == blog.Id).FirstOrDefault();
+					modelNew.FirstView = GetFirstView(blog.Text);
+					modelNew.TextTitle = blog.Title;
+					modelNew.CategoryName = blog.Category;
+					modelNew.Text = blog.Text;
+					db.SaveChanges();
+					IsSuccess = true;
+				}
+			}
+			else
+			{
+				db.TextLists.Add(new TextList { TextTitle = blog.Title, CategoryName = blog.Category, Text = blog.Text, FirstView = GetFirstView(blog.Text) });
+				db.SaveChanges();
+				IsSuccess = true;
+			}
+		}
+		private string GetFirstView(string Content)//截取文章预览片段
+		{
+			Content = Regex.Replace(Content, "<[^>]+>", "");
+			Content = Regex.Replace(Content, "&[^;]+;", "");
+			if (Content.Length < 105)
+				return Content;
+			else
+				Content = Content.Substring(0, 100);
+			return Content;
 		}
 	}
 	#endregion

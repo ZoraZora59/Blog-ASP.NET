@@ -9,11 +9,11 @@ using NewBeeBlog.ViewModels;
 namespace NewBeeBlog.DataFlush
 {
 	// 尝试接口的实现方式
-	//public interface IDF {
-	//	List<TextList> DFTextList { get; set; }
-	//	List<CommitList> DFCommitList { get; set; }
-	//	List<User> DFUser { get; set; }
-	//}
+	public interface IDF// Interface of Data Flush
+	{
+		bool IsSuccess { get; set; }
+	}
+
 	//public class DataFlush:IDF
 	//{
 	//	private static NewBeeBlogContext db = new NewBeeBlogContext();
@@ -23,11 +23,11 @@ namespace NewBeeBlog.DataFlush
 	//}
 
 	#region 获取评论管理界面信息
-	class GetCommitManage
+	class GetCommitList
 	{
 		NewBeeBlogContext db = new NewBeeBlogContext();
 		public List<ShowCommit> SCommits;
-		public GetCommitManage()
+		public GetCommitList()
 		{
 			getAllCommits();
 			db.Dispose();
@@ -75,13 +75,13 @@ namespace NewBeeBlog.DataFlush
 	}
 	#endregion
 
-	#region 获取文章详情
-	class GetText
+	#region 获取文章详情 IN 编辑界面
+	class GetTextInUpdate
 	{
 		NewBeeBlogContext db = new NewBeeBlogContext();
 		private int tID;
 		public UpdateText Utext;
-		public GetText(int tID)
+		public GetTextInUpdate(int tID)
 		{
 			this.tID = tID;
 			getTextContent(tID);
@@ -102,11 +102,11 @@ namespace NewBeeBlog.DataFlush
 	#endregion
 
 	#region 获取分类管理界面信息
-	class GetCategory
+	class GetCategoryList
 	{
 		public List<CategoryList> mod;
 		NewBeeBlogContext db = new NewBeeBlogContext();
-		public GetCategory()
+		public GetCategoryList()
 		{
 			getCategoryData();
 			db.Dispose();
@@ -219,17 +219,91 @@ namespace NewBeeBlog.DataFlush
 	#region 获取登录信息
 	class Login
 	{
-#pragma warning disable CS0649 // 从未对字段“Login.IsLogin”赋值，字段将一直保持其默认值 false
-		public bool IsLogin;
-#pragma warning restore CS0649 // 从未对字段“Login.IsLogin”赋值，字段将一直保持其默认值 false
+		public User LoginData;
+		public bool IsLogin=false;
 		NewBeeBlogContext db = new NewBeeBlogContext();
 		public Login(LoginUser log)
 		{
 			flush(log);
+			checkLog(log);
+			db.Dispose();
 		}
 		private void flush(LoginUser log)
 		{
 			log.Password = md5tool.GetMD5(log.Password);
+		}
+		private void checkLog(LoginUser log)
+		{
+			this.LoginData = db.Users.FirstOrDefault(m => m.Account == log.Account);
+			if (LoginData != null)
+			{
+				if(LoginData.Password==log.Password)
+				{
+					IsLogin = true;
+				}
+			}
+		}
+	}
+	#endregion
+
+	#region 获取用户管理界面信息
+	class GetUserList
+	{
+		public List<ManageUser> ManageUsers;
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		public GetUserList()
+		{
+			getUserData();
+			db.Dispose();
+		}
+		private void getUserData()
+		{
+			this.ManageUsers = new List<ManageUser>();
+			var trans = db.Users.Select(m => new { m.Account, m.Name }).ToList();
+			trans.Remove(trans.Find(a => a.Account == "admin123"));//管理员不能删自己
+			foreach (var item in trans)
+			{
+				ManageUser temp = new ManageUser
+				{
+					Account = item.Account,
+					Name = item.Name,
+					CommitCount = 0
+				};
+				var cmtlist = db.CommitLists.Where(cmt => cmt.Account == temp.Account);
+				foreach (var cmt in cmtlist)
+				{
+					temp.CommitCount++;
+				}
+				this.ManageUsers.Add(temp);
+			}
+		}
+	}
+	#endregion
+
+	#region 获取文章详情 IN 管理界面
+	class GetTextInManageDetail
+	{
+		public bool IsSuccess;
+		public TextList Text;
+		NewBeeBlogContext db = new NewBeeBlogContext();
+		private int tid;
+		public GetTextInManageDetail(int tID)
+		{
+			this.tid = tID;
+			getText();
+			db.Dispose();
+		}
+		private void getText()
+		{
+			this.Text=db.TextLists.Find(tid);
+			if(Text==null)
+			{
+				IsSuccess = false;
+			}
+			else
+			{
+				IsSuccess = true;
+			}
 		}
 	}
 	#endregion
