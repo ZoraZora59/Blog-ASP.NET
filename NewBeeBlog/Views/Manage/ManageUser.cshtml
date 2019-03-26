@@ -21,25 +21,28 @@
 </div>
 <script type="text/javascript">
     function formatOper(val, row, index) {
-        return '<button class="btn btn-outline-danger" onclick=\'deleteUser(' + row.Account + ')\' >删除此用户</button>';
+        return '<button class="btn btn-outline-danger" onclick=\'deleteUser(\"' + row.Account + '\")\' >删除此用户</button>';
     }
     function deleteUser(u) {
         alert(u);
         $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r) {
             if (r) {
-                $.post("/Manage/DelUsers", { Account: u }, function (data) {
-                    if (data == 0) {
-                        document.getElementById(u).parentElement.remove();
-                        alert("删除成功");
+                $.ajax({
+                    ajax: false,
+                    type: "POST",//FromMetho
+                    url: "/Manage/DelUsers",//"/Controller/Action"
+                    data: { Account: u },//参数 "参数名："参数值""
+                    datatype: 'html',
+                    success: function (data) {
+                        alert('删除失败');
+                        window.location.href = "/Manage/ManageUser";
+                    },
+                    error: function () {
+                        alert('删除成功');
+                        window.location.href = "/Manage/ManageUser";
                     }
-                    else {
-                        alert("删除失败");
-                    }
-                }
-                )
+                });
             }
-        }
-        )
+        });
     }
-    
 </script>
