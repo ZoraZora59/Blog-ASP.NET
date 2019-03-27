@@ -1393,7 +1393,7 @@
     <Content Include="Views\Home\CategroyBlog.cshtml" />
     <Content Include="Views\Manage\ManageCommit.cshtml" />
     <Content Include="Views\Home\ExitLogin.cshtml" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />

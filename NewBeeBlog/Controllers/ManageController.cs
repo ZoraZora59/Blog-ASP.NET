@@ -132,18 +132,18 @@ namespace NewBeeBlog.Controllers
         [HttpPost]
         public JsonResult DeleteText()//文章删除
         {
-            try
-            {
+            //try
+            //{
 				new RemoveText(int.Parse(Request["TextID"].ToString()));
-            }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //}
+            //catch (ArgumentNullException)
+            //{
+            //    throw;
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
             return Json("success");
 			//TODO:JS在回复成功后应当删除对应标签
         }
