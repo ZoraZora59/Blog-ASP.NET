@@ -65,11 +65,17 @@ namespace NewBeeBlog.DataFlush
 		}
 		private void getManageIndex()
 		{
+			int hot = 0;
+			foreach(var item in db.TextLists.ToList())
+			{
+				hot += item.Hot;
+			}
 			this.Mmain = new ManageMain
 			{
 				UserCount = db.Users.Count(),
 				TextCount = db.TextLists.Count(),
-				CommitCount = db.CommitLists.Count()
+				CommitCount = db.CommitLists.Count(),
+				HotCount = hot
 			};
 		}
 	}

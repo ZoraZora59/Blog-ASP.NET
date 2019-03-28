@@ -14,5 +14,7 @@ namespace NewBeeBlog.ViewModels
         public int TextCount { get; set; }
         [DisplayName("当前评论数量")]
         public int CommitCount { get; set; }
+		[DisplayName("当前总点击量")]
+		public int HotCount { get; set; }
     }
 }
