@@ -51,11 +51,39 @@ namespace NewBeeBlog.Controllers
 				models.Add(temp);
 			}
             models.Reverse();
-            int pageSize = 3;//每页显示的文章数
+            int pageSize = 4;//每页显示的文章数
             int pageNumber = (page ?? 1);
             return View(models.ToPagedList(pageNumber,pageSize));
         }
-        
+        public ActionResult MIndex(int? page)//移动端主页
+		{
+			var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
+			ViewBag.currentLoginInfo = currentLoginUser;
+			var models = new List<TextIndex>();
+			var TextList = new List<TextList>();
+			TextList = db.TextLists.ToList();
+			foreach (var item in TextList)
+			{
+				var temp = new TextIndex
+				{
+					TextID = item.TextID,
+					CommitCount = db.CommitLists.Count(c => c.TextID == item.TextID),
+					Text = item.Text,
+					FirstView = item.FirstView
+				};
+				if (item.CategoryName == null)
+					item.CategoryName = "未分类";
+				temp.CategoryName = item.CategoryName;
+				temp.TextTitle = item.TextTitle;
+				temp.TextChangeDate = item.TextChangeDate;
+				temp.Hot = item.Hot;
+				models.Add(temp);
+			}
+			models.Reverse();
+			int pageSize = 4;//每页显示的文章数
+			int pageNumber = (page ?? 1);
+			return View(models.ToPagedList(pageNumber, pageSize));
+		}
         public ActionResult SearchResult(string searchthing)
         {
             var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
@@ -233,6 +261,38 @@ namespace NewBeeBlog.Controllers
             return View(model);
         }
 
+		[HttpGet]
+		public ActionResult MBlog(int id)
+		{
+			var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
+			ViewBag.currentLoginInfo = currentLoginUser;
+			var model = db.TextLists.FirstOrDefault(m => m.TextID == id);
+			if (model == null)
+				return Redirect("/home");
+			model.Hot += 1;
+			DbEntityEntry entry = db.Entry(model);
+			entry.State = EntityState.Modified;
+			int res = db.SaveChanges();
+
+			//评论模块
+			var temp = db.CommitLists.Where(c => c.TextID == id).ToList();
+			var cmt = new List<ShowCommit>();
+			int i = 1;
+			foreach (var item in temp)
+			{
+				var tmp = new ShowCommit();
+				tmp.Name = db.Users.Where(c => c.Account == item.Account).FirstOrDefault().Name;
+				tmp.Date = item.CommitChangeDate.ToString("yyyy-MM-dd") + "  " + item.CommitChangeDate.ToShortTimeString();
+				tmp.Account = item.Account;
+				tmp.Content = item.CommitText;
+				tmp.Id = item.CommitID;
+				tmp.Num = i;
+				cmt.Add(tmp);
+				i++;
+			}
+			ViewBag.CmtList = cmt;
+			return View(model);
+		}
 		[HttpPost]
 		public JsonResult AddCommit()
 		{
