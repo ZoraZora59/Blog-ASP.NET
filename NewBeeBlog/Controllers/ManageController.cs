@@ -178,6 +178,7 @@ namespace NewBeeBlog.Controllers
                 }
                 try
                 {
+                   
 					var Rmodel =new RegistUser(model);
                     if (Rmodel.IsExist)
                     {
@@ -186,7 +187,7 @@ namespace NewBeeBlog.Controllers
                 }
                 catch (Exception)
                 {
-                    return RedirectToAction("Register", "Manage", new { msg = "注册失败！可能已存在用户" });
+                    return RedirectToAction("Register", "Manage", new { msg = "注册失败!您输入的格式有误" });
                 }
             }
             return RedirectToAction("index","home", new { msg = "注册成功！请登录！" });
