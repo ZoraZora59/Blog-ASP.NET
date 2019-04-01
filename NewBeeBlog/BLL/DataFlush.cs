@@ -213,7 +213,7 @@ namespace NewBeeBlog.DataFlush
 					TextID = item.TextID,
 					TextTitle = item.TextTitle,
 					CategoryName = item.CategoryName,
-					Date = item.TextChangeDate.ToString(),
+					TextChangeDate = item.TextChangeDate.ToString(),
 					Hot = item.Hot
 				};
 				ManageTexts.Add(temp);

@@ -19,9 +19,7 @@ namespace NewBeeBlog.ViewModels
         [DisplayName("热度")]
         public int Hot { get; set; }
         [DisplayName("修改时间")]
-        public DateTime TextChangeDate { get; set; }
-
-        public string Date { get; set; }//字符串版的时间
+        public string TextChangeDate { get; set; }
 
     }
 }
