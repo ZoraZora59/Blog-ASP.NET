@@ -174,17 +174,22 @@ namespace NewBeeBlog.Controllers
                 string sessionValidCode = Session["validatecode"] == null ? string.Empty : Session["validatecode"].ToString();
                 if (!model.Code.Equals(sessionValidCode))
                 {
-                    return Content("验证码输入错误,请返回重试");
+                    return RedirectToAction("Register", "Manage", new { msg = "验证码错误！请重新输入" });
                 }
                 try
                 {
-					new RegistUser(model);
+					var Rmodel =new RegistUser(model);
+                    if (Rmodel.IsExist)
+                    {
+                        return RedirectToAction("Register", "Manage", new { msg = "注册失败！可能已存在用户" });
+                    }
                 }
                 catch (Exception)
                 {
+                    return RedirectToAction("Register", "Manage", new { msg = "注册失败！可能已存在用户" });
                 }
             }
-            return Redirect("/");
+            return RedirectToAction("index","home", new { msg = "注册成功！请登录！" });
         }
 
         [HttpGet]
@@ -192,8 +197,7 @@ namespace NewBeeBlog.Controllers
 		{
             return View();
         }
-
-        [HttpPost]
+         [HttpPost]
         public ActionResult Login(LoginUser model)//登录信息提交
 		{
 			if (ModelState.IsValid)
@@ -201,21 +205,46 @@ namespace NewBeeBlog.Controllers
 				string sessionValidCode = Session["validatecode"] == null ? string.Empty : Session["validatecode"].ToString();
 				if (!model.Code.Equals(sessionValidCode))
 				{
-					return Content("验证码输入错误，请返回上一页重试");
+					return RedirectToAction("Login","Manage", new { msg ="验证码错误！请重新输入"});
 				}
 				var isLog = new Login(model);
 				if (isLog.IsLogin == false)
 				{
-					return Content("账号或密码不正确，请返回上一页重试");
+                    return RedirectToAction("Login", "Manage", new { msg = "账号或密码不正确，是否重新登陆？" });
+                    
 				}
 				else
 				{
 					Session["loginuser"] = isLog.LoginData;
-					return Redirect("/");
-				}
+                    return Redirect("/");
+                }
             }
             return View();
         }
+
+  //      [HttpPost]
+  //      public ActionResult Login(LoginUser model)//登录信息提交
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		string sessionValidCode = Session["validatecode"] == null ? string.Empty : Session["validatecode"].ToString();
+		//		if (!model.Code.Equals(sessionValidCode))
+		//		{
+		//			return Content("<script>if(confirm('验证码输入错误，是否返回界面重新登陆？')){window.location.href='/Manage/Login';}else{window.close();}</script>");
+		//		}
+		//		var isLog = new Login(model);
+		//		if (isLog.IsLogin == false)
+		//		{
+		//			return Content("账号或密码不正确，请返回上一页重试");
+		//		}
+		//		else
+		//		{
+		//			Session["loginuser"] = isLog.LoginData;
+		//			return Redirect("/");
+		//		}
+  //          }
+  //          return View();
+  //      }
 
         [HttpGet]
         public ActionResult Config()//读取博客配置XML文件

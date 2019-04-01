@@ -61,22 +61,25 @@ namespace NewBeeBlog.DataFlush
 		public  GetManage()
 		{
 			getManageIndex();
+
 			db.Dispose();
 		}
 		private void getManageIndex()
 		{
-			int hot = 0;
-			foreach(var item in db.TextLists.ToList())
-			{
-				hot += item.Hot;
-			}
-			this.Mmain = new ManageMain
-			{
-				UserCount = db.Users.Count(),
-				TextCount = db.TextLists.Count(),
-				CommitCount = db.CommitLists.Count(),
-				HotCount = hot
-			};
+            var blog = from m in db.TextLists
+                       select m;
+            int totalhot = 0;
+            foreach(var item in blog)
+            {
+                totalhot += item.Hot;
+            }
+            this.Mmain = new ManageMain
+            {
+                UserCount = db.Users.Count(),
+                TextCount = db.TextLists.Count(),
+                CommitCount = db.CommitLists.Count(),
+                HotCount = totalhot
+            };
 		}
 	}
 	#endregion

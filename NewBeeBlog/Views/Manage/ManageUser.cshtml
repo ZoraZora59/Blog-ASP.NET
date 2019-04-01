@@ -24,7 +24,7 @@
         return '<button class="btn btn-outline-danger" onclick=\'deleteUser(\"' + row.Account + '\")\' >删除此用户</button>';
     }
     function deleteUser(u) {
-        alert(u);
+        //alert(u);
         $.messager.confirm('删除确认', '确定要删除此分类吗?', function (r) {
             if (r) {
                 $.ajax({
