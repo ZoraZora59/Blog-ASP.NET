@@ -97,16 +97,22 @@ namespace NewBeeBlog.DataAlter
 	class RegistUser
 	{
 		NewBeeBlogContext db = new NewBeeBlogContext();
+        public bool IsExist = true;
 		private User user;
 		public RegistUser(RegisterUser Ruser)
 		{
-			flush(Ruser);
-			regist();
+            var theUser = db.Users.Find(Ruser.Account);
+            if (theUser == null)
+            {
+                flush(Ruser);
+                regist();
+                IsExist = false;
+            }
 			db.Dispose();
 		}
 		private void flush(RegisterUser Ruser)
 		{
-			this.user = new User
+            this.user = new User
 			{
 				Account = Ruser.Account,
 				Password = md5tool.GetMD5(Ruser.Password),

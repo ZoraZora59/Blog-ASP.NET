@@ -161,7 +161,7 @@ namespace NewBeeBlog.Controllers
                 var currentLoginUser = Session["loginuser"] == null ? null : (User)Session["loginuser"];
                 if (!model.Code.Equals(sessionValidCode))
                 {
-                    return Content("验证码输入错误");
+                    return RedirectToAction("ChangeInfo", "Home", new { msg = "验证码错误！请重新输入" });
                 }
                 try
                 {
@@ -176,20 +176,20 @@ namespace NewBeeBlog.Controllers
                 }
                 catch (DbUpdateException)
                 {
-                    return Content("数据库更新出错");
+                    return RedirectToAction("ChangeInfo", "Home", new { msg = "数据库更新出错！请重新输入" });
                 }
                 catch (ObjectDisposedException)
                 {
-                    return Content("数据上下文连接已过期");
+                    return RedirectToAction("ChangeInfo", "Home", new { msg = "数据上下文连接已过期！请重新输入" });
                 }
                 catch (InvalidOperationException)
                 {
-                    return Content("数据实体处理异常");
+                    return RedirectToAction("ChangeInfo", "Home", new { msg = "数据实体处理异常！请重新输入" });
                 }
                 catch (Exception)
                 {
                     //TODO:异常报告
-                    return Content("数据库异常");
+                    return RedirectToAction("ChangeInfo", "Home", new { msg = "数据库异常！请重新输入" });
                     throw;
                 }
             }

@@ -18,7 +18,7 @@
 </head>
 
 <body>
-
+    @Html.Hidden("msg",Request.QueryString["msg"],new { @id = "msg"})
     <h1><font color="#0081c1">个人博客后台登录</font></h1>
 
     <div class="login" style="margin-top:30px;">
@@ -92,6 +92,18 @@
     </div>
     <script src="~/front/js/canvas-nest.js"></script>
     <canvas id="c_n1"></canvas>
+    <script>
+        $(function () {
+            var val = $("#msg").val();
+            if (val != "") {
+                if (confirm(val)) {
+                    window.history.go(-1);
+                }
+                
+            }
+        })
+    </script>
+    
 </body>
 </html>
 
