@@ -11,6 +11,7 @@ namespace NewBeeBlog.ViewModels
         
         [Key]
         [StringLength(maximumLength: 16, ErrorMessage = "用户名必须在16位以内")]
+        [RegularExpression("^\\w+$", ErrorMessage ="用户名必须是由数字、字母、下划线的组合")]
         public string Account { set; get; }
 
         [Required]
@@ -19,6 +20,7 @@ namespace NewBeeBlog.ViewModels
 
         [Required]
         [StringLength(maximumLength: 16, MinimumLength = 6,ErrorMessage ="密码必须在6~16位数之间")]
+        [RegularExpression("[\\u4e00-\\u9fa5]", ErrorMessage = "密码别用中文哦")]
         public string Password { set; get; }
 
         [Required]
