@@ -1,5 +1,6 @@
 # 个人博客站实例
 
+## 本项目已经停止维护，新项目通过三层架构开发，访问[Blog三层架构](https://github.com/ZoraZora59/Blog-ASP.NET-MVC-ThreeTier-Architecture)
 
 ### 介绍文档分为如下4个模块
 - 项目总括
